@@ -11,7 +11,6 @@
 #include <windows.h>
 
 #include <QDebug>
-#include <xingapi.h>
 
 #define kor(str) QString::fromLocal8Bit(str)
 class Loginwiget : public QWidget

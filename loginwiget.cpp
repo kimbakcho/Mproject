@@ -24,10 +24,5 @@ Loginwiget::Loginwiget(QWidget *parent) : QWidget(parent)
     setLayout(glay_1);
 }
 void Loginwiget::loginfuntion(){
-    if(result1){
-        qDebug()<<kor("立加");
-        this->setVisible(false);
-    }else {
-        qDebug()<<kor("立加救凳");
-    }
+
 }

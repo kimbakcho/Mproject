@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include <QLibrary>
 #include <grobal.h>
+#include <QDebug>
 //------------------------------------------------------------------------------
 // 메시지 정의
 // 메시지의 ID값은 Connect시에 설정한 nStartMsgID와 더하여 사용하면 된다.
@@ -29,15 +30,16 @@ class xing : public QWidget
 public:
     explicit xing(QWidget *parent = 0);
     bool init();
-    void set_windid();
+    void set_windid(HWND data);
     HWND get_windid();
-    QString htsip = "hts.ebestsec.co.kr";
-    QString demoip = "hts.ebestsec.co.kr";
-    int serverport = 20001;
+    QString htsip;
+    QString demoip;
+    int serverport;
+    bool ETK_Connect(int type);
 
 private:
     //-------------------------library from Xingapi typedef---------------------------------
-    typedef BOOL	(*FP_CONNECT					) ( HWND, char *, int, int, int, int );
+    typedef BOOL	(*FP_CONNECT					) ( HWND,const char *, int, int, int, int );
     typedef BOOL	(*FP_ISCONNECTED				) ( );
     typedef BOOL	(*FP_DISCONNECT				) ( );
     typedef BOOL	(*FP_LOGIN					) ( HWND, char *, char *, char *, int, BOOL );

@@ -2,7 +2,9 @@
 
 xing::xing(QWidget *parent) : QWidget(parent)
 {
-
+    htsip = "hts.ebestsec.co.kr";
+    demoip = "demo.ebestsec.co.kr";
+    serverport = 20001;
 }
 bool xing::init()
 {
@@ -45,7 +47,7 @@ bool xing::ETK_Connect(int type) {
     //type 0 is demo.ebestsec.co.kr connect 모의투자
     QByteArray serverip = htsip.toLocal8Bit();
 
-    if(m_fpConnect(get_windid(),serverip,serverport,WM_USER,10,-1)){
+    if(m_fpConnect(get_windid(),serverip,serverport,WM_USER,10000,-1)){
         return true;
     }else{
         return false;
@@ -61,10 +63,6 @@ bool xing::nativeEvent(const QByteArray & eventType, void * message, long * resu
         break;
     default:
         break;
-    }
-    if( ){
-        QByteArray data = (char *)msg->wParam;
-        qDebug() << QString("message1 %1 wpram1 %2").arg(msg->message).arg(QString::fromLocal8Bit(data));
     }
     return false;
 
