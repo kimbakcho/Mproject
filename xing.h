@@ -35,9 +35,9 @@ public:
     QString htsip;
     QString demoip;
     int serverport;
-    bool ETK_Connect(int type);
-
-private:
+    void eeconnect();
+    QByteArray serverip;
+    QLibrary lib;
     //-------------------------library from Xingapi typedef---------------------------------
     typedef BOOL	(*FP_CONNECT					) ( HWND,const char *, int, int, int, int );
     typedef BOOL	(*FP_ISCONNECTED				) ( );
@@ -90,6 +90,9 @@ private:
 //------------------------------------------------------------------------------
 //-------------------------win id---------------------------------
     HWND xing_winid;
+
+private:
+
     bool nativeEvent(const QByteArray & eventType, void * message, long * result);
 
 signals:

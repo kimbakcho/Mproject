@@ -9,13 +9,10 @@ int main(int argc, char *argv[])
 
     Loginwiget w1;
     w1.show();
-    xing x1;
-    x1.init();
-//    if(x1.ETK_Connect(0)){
-//        qDebug()<<"true";
-//    }else{
-//        qDebug()<<"false";
-//    }
+    xing *x1 = new xing();
+    x1->init();
+    //x1->show();
+
 
 
 
