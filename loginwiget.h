@@ -19,7 +19,6 @@ class Loginwiget : public QWidget
     Q_OBJECT
 public:
     explicit Loginwiget(QWidget *parent = 0);
-
 signals:
 
 public slots:
@@ -33,8 +32,6 @@ private:
     QLineEdit *lepw;
     QLineEdit *leaupw;
     QGridLayout *glay_1;
-    HWND hWnd1;//library main handler from XINGAPI
-    bool nativeEvent(const QByteArray & eventType, void * message, long * result);
 private slots:
     void loginfuntion();
 

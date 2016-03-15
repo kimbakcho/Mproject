@@ -13,11 +13,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     loginwiget.cpp \
-    xingapi.cpp
+    xing.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     loginwiget.h \
     grobal.h \
-    xingapi.h
+    xing.h

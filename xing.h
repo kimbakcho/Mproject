@@ -1,5 +1,7 @@
-#ifndef XINGAPI_H
-#define XINGAPI_H
+#ifndef XING_H
+#define XING_H
+
+#include <QWidget>
 #include <Windows.h>
 #include <QLibrary>
 #include <grobal.h>
@@ -21,13 +23,18 @@
 #define		SYSTEM_ERROR_DATA		3
 #define		RELEASE_DATA			4
 //------------------------------------------------------------------------------
-class Xingapi
+class xing : public QWidget
 {
+    Q_OBJECT
 public:
-    Xingapi();
-    void init();
+    explicit xing(QWidget *parent = 0);
+    bool init();
     void set_windid();
     HWND get_windid();
+    QString htsip = "hts.ebestsec.co.kr";
+    QString demoip = "hts.ebestsec.co.kr";
+    int serverport = 20001;
+
 private:
     //-------------------------library from Xingapi typedef---------------------------------
     typedef BOOL	(*FP_CONNECT					) ( HWND, char *, int, int, int, int );
@@ -81,9 +88,11 @@ private:
 //------------------------------------------------------------------------------
 //-------------------------win id---------------------------------
     HWND xing_winid;
+    bool nativeEvent(const QByteArray & eventType, void * message, long * result);
 
+signals:
 
-
+public slots:
 };
 
-#endif // XINGAPI_H
+#endif // XING_H

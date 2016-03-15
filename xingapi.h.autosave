@@ -1,0 +1,15 @@
+#ifndef XINGAPI_H
+#define XINGAPI_H
+
+class Xingapi
+{
+public:
+   
+private:
+ 
+
+
+
+};
+
+#endif // XINGAPI_H
