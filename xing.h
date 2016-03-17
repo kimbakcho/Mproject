@@ -4,8 +4,8 @@
 #include <QWidget>
 #include <Windows.h>
 #include <QLibrary>
-#include <grobal.h>
 #include <QDebug>
+#define kor(str) QString::fromLocal8Bit(str)
 //------------------------------------------------------------------------------
 // 메시지 정의
 // 메시지의 ID값은 Connect시에 설정한 nStartMsgID와 더하여 사용하면 된다.
@@ -35,14 +35,17 @@ public:
     QString htsip;
     QString demoip;
     int serverport;
-    void eeconnect();
-    QByteArray serverip;
+    bool ETK_Connect(int type);
+    bool ETK_Login(QByteArray Qid,QByteArray Qpasswd,QByteArray Qauthpasswd);
+
+
+
     QLibrary lib;
     //-------------------------library from Xingapi typedef---------------------------------
-    typedef BOOL	(*FP_CONNECT					) ( HWND,const char *, int, int, int, int );
+    typedef BOOL	(*FP_CONNECT					) ( HWND,char *, int, int, int, int );
     typedef BOOL	(*FP_ISCONNECTED				) ( );
     typedef BOOL	(*FP_DISCONNECT				) ( );
-    typedef BOOL	(*FP_LOGIN					) ( HWND, char *, char *, char *, int, BOOL );
+    typedef BOOL	(*FP_LOGIN					) ( HWND,char *,char *,char *, int, BOOL );
     typedef BOOL	(*FP_LOGOUT					) ( HWND );
     typedef int		(*FP_GETLASTERROR			) ( );
     typedef int		(*FP_GETERRORMESSAGE			) ( int, char *, int );
@@ -92,7 +95,7 @@ public:
     HWND xing_winid;
 
 private:
-
+    QByteArray serverip;
     bool nativeEvent(const QByteArray & eventType, void * message, long * result);
 
 signals:

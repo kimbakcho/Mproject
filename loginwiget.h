@@ -8,9 +8,8 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QGridLayout>
-#include <windows.h>
-
 #include <QDebug>
+#include <gherder.h>
 
 #define kor(str) QString::fromLocal8Bit(str)
 class Loginwiget : public QWidget

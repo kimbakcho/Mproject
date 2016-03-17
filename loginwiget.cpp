@@ -24,5 +24,10 @@ Loginwiget::Loginwiget(QWidget *parent) : QWidget(parent)
     setLayout(glay_1);
 }
 void Loginwiget::loginfuntion(){
-
+    bool result_1 = x1->ETK_Login(leid->text().toLocal8Bit(),lepw->text().toLocal8Bit(),leaupw->text().toLocal8Bit());
+    if(result_1){
+        qDebug()<<"join";
+    }else {
+        qDebug()<<"false join";
+    }
 }

@@ -18,5 +18,6 @@ SOURCES += main.cpp\
 
 HEADERS  += \
     loginwiget.h \
-    grobal.h \
-    xing.h
+    xing.h \
+    gherder.h \
+    mainwindow.h
