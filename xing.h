@@ -47,7 +47,7 @@ public:
     bool ETK_Connect(int type);
     bool ETK_Login(QByteArray Qid,QByteArray Qpasswd,QByteArray Qauthpasswd);
     int ETK_Request(char * pszCode,void *lpData,int nDataSize,BOOL bNext,char * pszNextKey,int nTimeOut);
-    void SetPacketData( char * psData, int nSize, char * pszSrc, int nType, int nDotPos);
+    void SetPacketData( char * psData, int nSize, char * pszSrc, int nType, int nDotPos = 0);
     int t1452_Request(BOOL bNext);
 
 

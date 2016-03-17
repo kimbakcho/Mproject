@@ -45,7 +45,10 @@ void Loginwiget::loginfuntion(){
         settings.endGroup();
         //---------------------------------------------------------
         qDebug()<<"join";
+
         mf->show();
+
+
         close();
     }else {
         qDebug()<<"false join";

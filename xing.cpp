@@ -73,7 +73,7 @@ int xing::ETK_Request(char * pszCode,void *lpData,int nDataSize,BOOL bNext,char 
     result_1 = m_fpRequest(get_windid(),pszCode,lpData,nDataSize,bNext,pszNextKey,nTimeOut);
     return result_1;
 }
-void SetPacketData( char * psData, int nSize, char * pszSrc, int nType, int nDotPos ){
+void xing::SetPacketData( char * psData, int nSize, char * pszSrc, int nType, int nDotPos ){
 
     //-----------------------------------------------------------------------
         // 문자열
@@ -220,23 +220,22 @@ int xing::t1452_Request(BOOL bNext){
     int result_1;
     char szTrNo[] = "t1452";
     memset(&pckInBlock,' ',sizeof(pckInBlock));
-    char *test = "0";
-    SetPacketData(pckInBlock.gubun, sizeof(pckInBlock.gubun),test, DATA_TYPE_STRING,0 );	// [string,    1] 구분
-//    SetPacketData( pckInBlock.jnilgubun, sizeof( pckInBlock.jnilgubun ),"0", DATA_TYPE_STRING );	// [string,    1] 전일구분
-//    SetPacketData( pckInBlock.sdiff    , sizeof( pckInBlock.sdiff     ),"0", DATA_TYPE_LONG   );	// [long  ,    3] 시작등락율
-//    SetPacketData( pckInBlock.ediff    , sizeof( pckInBlock.ediff     ),"0", DATA_TYPE_LONG   );	// [long  ,    3] 종료등락율
-//    SetPacketData( pckInBlock.jc_num   , sizeof( pckInBlock.jc_num    ),"0", DATA_TYPE_LONG   );	// [long  ,   12] 대상제외
-//    SetPacketData( pckInBlock.sprice   , sizeof( pckInBlock.sprice    ),"0", DATA_TYPE_LONG   );	// [long  ,    8] 시작가격
-//    SetPacketData( pckInBlock.eprice   , sizeof( pckInBlock.eprice    ),"0", DATA_TYPE_LONG   );	// [long  ,    8] 종료가격
-//    SetPacketData( pckInBlock.volume   , sizeof( pckInBlock.volume    ),"0", DATA_TYPE_LONG   );	// [long  ,   12] 거래량
-//    SetPacketData( pckInBlock.idx      , sizeof( pckInBlock.idx       ),"0", DATA_TYPE_LONG   );	// [long  ,    4] IDX
-//    result_1= xing::ETK_Request(szTrNo,  // TR 번호
-//                &pckInBlock,    	// InBlock 데이터
-//                sizeof( pckInBlock ), // InBlock 데이터 크기
-//                bNext,  // 다음조회 여부
-//                "", // 다음조회 Key
-//                30 // Timeout(초) : 해당 시간(초)동안 데이터가 오지 않으면 Timeout에 발생한다. XM_TIMEOUT_DATA 메시지가 발생한다.
-//             );
+    SetPacketData( pckInBlock.gubun    , sizeof( pckInBlock.gubun     ),"0", DATA_TYPE_STRING );	// [string,    1] 구분
+    SetPacketData( pckInBlock.jnilgubun, sizeof( pckInBlock.jnilgubun ),"0", DATA_TYPE_STRING );	// [string,    1] 전일구분
+    SetPacketData( pckInBlock.sdiff    , sizeof( pckInBlock.sdiff     ),"", DATA_TYPE_LONG   );	// [long  ,    3] 시작등락율
+    SetPacketData( pckInBlock.ediff    , sizeof( pckInBlock.ediff     ),"", DATA_TYPE_LONG   );	// [long  ,    3] 종료등락율
+    SetPacketData( pckInBlock.jc_num   , sizeof( pckInBlock.jc_num    ),"", DATA_TYPE_LONG   );	// [long  ,   12] 대상제외
+    SetPacketData( pckInBlock.sprice   , sizeof( pckInBlock.sprice    ),"", DATA_TYPE_LONG   );	// [long  ,    8] 시작가격
+    SetPacketData( pckInBlock.eprice   , sizeof( pckInBlock.eprice    ),"", DATA_TYPE_LONG   );	// [long  ,    8] 종료가격
+    SetPacketData( pckInBlock.volume   , sizeof( pckInBlock.volume    ),"", DATA_TYPE_LONG   );	// [long  ,   12] 거래량
+    SetPacketData( pckInBlock.idx      , sizeof( pckInBlock.idx       ),"", DATA_TYPE_LONG   );	// [long  ,    4] IDX
+    result_1= xing::ETK_Request(szTrNo,  // TR 번호
+                &pckInBlock,    	// InBlock 데이터
+                sizeof( pckInBlock ), // InBlock 데이터 크기
+                bNext,  // 다음조회 여부
+                "", // 다음조회 Key
+                30 // Timeout(초) : 해당 시간(초)동안 데이터가 오지 않으면 Timeout에 발생한다. XM_TIMEOUT_DATA 메시지가 발생한다.
+             );
     return result_1;
 
 }
@@ -248,16 +247,34 @@ int xing::t1452_Request(BOOL bNext){
 bool xing::nativeEvent(const QByteArray & eventType, void * message, long * result)
 {
    char * wresult;
-   QString result_XM_LOGIN;
+   char * lresult;
+   char cresult;
+   char iresult;
+   QString results_str;
     MSG* msg = reinterpret_cast<MSG*>(message);
     switch (msg->message) {
     case WM_USER+XM_LOGIN:
         wresult = (char *)msg->wParam;
-        result_XM_LOGIN = QString::fromLocal8Bit(wresult);
-        qDebug()<<result_XM_LOGIN;
-        if(result_XM_LOGIN.compare("\"0000\"")){
+        results_str = QString::fromLocal8Bit(wresult);
+        qDebug()<<"XM_LOGIN"+results_str;
+        if(results_str.compare("\"0000\"")){
             qDebug()<<kor("접속되었습니다.");
 
+        }
+        break;
+     case WM_USER+XM_RECEIVE_DATA:
+        cresult = msg->wParam;
+        //results_str = QString::fromLocal8Bit(wresult);
+        if(cresult == 1){ //TR의Data를받았을때발생 RECV_PACKET 의Memory 주소
+
+        }else if(cresult == 2){ //Message를받았을때발생 MSG_PACKET 의Memory 주소
+            lresult = (char *)msg->lParam;
+            qDebug()<<QString("XM_RECEIVE_DATA case 2 lParam = %1").arg(lresult);
+        }else if(cresult == 3){ //Error가발생 MSG_PACKET 의Memory 주소
+
+        }else if(cresult == 4){ //TR이끝났을때발생 정수로Request ID를의미
+            iresult = msg->lParam;
+            qDebug()<<QString("XM_RECEIVE_DATA case 4 lParam = %1").arg(iresult);
         }
         break;
     default:
