@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include <QLibrary>
 #include <QDebug>
+#include "./Packet/t1452.h"
 #define kor(str) QString::fromLocal8Bit(str)
 //------------------------------------------------------------------------------
 // 메시지 정의
@@ -37,6 +38,7 @@ public:
     int serverport;
     bool ETK_Connect(int type);
     bool ETK_Login(QByteArray Qid,QByteArray Qpasswd,QByteArray Qauthpasswd);
+    int ETK_Request(QByteArray QpszCode,void *lpData,int nDataSize,BOOL bNext,QByteArray QpszNextKey,int nTimeOut);
 
 
 
@@ -50,7 +52,7 @@ public:
     typedef int		(*FP_GETLASTERROR			) ( );
     typedef int		(*FP_GETERRORMESSAGE			) ( int, char *, int );
 
-    typedef int		(*FP_REQUEST					) ( HWND, char *, long *, int, BOOL, char *, int );
+    typedef int		(*FP_REQUEST					) ( HWND, char *, void *, int, BOOL, char *, int );
     typedef void	(*FP_RELEASEREQUESTDATA		) ( int );
     typedef void	(*FP_RELEASEMESSAGEDATA		) ( char * );
 

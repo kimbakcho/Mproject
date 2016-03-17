@@ -1,8 +1,10 @@
-#include "mainwindow.h"
 #include "loginwiget.h"
 #include "gherder.h"
+
 #include <QApplication>
+
 xing *x1;
+mainframe *mf;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -17,8 +19,15 @@ int main(int argc, char *argv[])
     }else{
          qDebug()<<kor("초기화 실패");
     }
+
     Loginwiget w1;
+
+    mf = new mainframe();
+
     w1.show();
+
+
+
 
     return a.exec();
 }

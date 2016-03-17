@@ -50,15 +50,17 @@ HWND xing::get_windid(){
 bool xing::ETK_Connect(int type) {
     //type 1 is hts.ebestsec.co.kr connect 실투자
     //type 0 is demo.ebestsec.co.kr connect 모의투자
-    if(type){
-        serverip = htsip.toLocal8Bit();
-    }else{
-        serverip = demoip.toLocal8Bit();
-    }
-    char * serveripch = serverip.data();
+//    if(type){
+//        serverip = htsip.toLocal8Bit();
+//    }else{
+//        serverip = demoip.toLocal8Bit();
+//    }
+//    char * serveripch = serverip.data();
+    char * serveripch = "demo.ebestsec.co.kr";
     bool result_1 = m_fpConnect(get_windid(),serveripch,serverport,WM_USER,10000,-1);
     return result_1;
 }
+// this funtion is login
 bool xing::ETK_Login(QByteArray Qid,QByteArray Qpasswd,QByteArray Qauthpasswd){
     char *id = Qid.data();
     char *pw = Qpasswd.data();
@@ -66,7 +68,20 @@ bool xing::ETK_Login(QByteArray Qid,QByteArray Qpasswd,QByteArray Qauthpasswd){
     bool result_1 = m_fpLogin(get_windid(),id,pw,aupw,0,0);
     return result_1;
 }
+// this funtion is request
+int xing::ETK_Request(QByteArray QpszCode,void *lpData,int nDataSize,BOOL bNext,QByteArray QpszNextKey,int nTimeOut){
+    char * pszCode = QpszCode.data();
+    char * pszNextKey = QpszNextKey.data();
+    int result_1;
+    result_1 = m_fpRequest(get_windid(),pszCode,lpData,nDataSize,bNext,pszNextKey,nTimeOut);
+    return result_1;
+}
+//int xing::t1452_Request(bool bNext){
+//    t1452InBlock pckInBlock;
+//    char *
 
+
+//}
 // it is furntion for Message handler
 bool xing::nativeEvent(const QByteArray & eventType, void * message, long * result)
 {
@@ -80,11 +95,11 @@ bool xing::nativeEvent(const QByteArray & eventType, void * message, long * resu
         qDebug()<<result_XM_LOGIN;
         if(result_XM_LOGIN.compare("\"0000\"")){
             qDebug()<<kor("접속되었습니다.");
+
         }
         break;
     default:
         break;
     }
     return false;
-
 }

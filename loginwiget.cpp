@@ -1,5 +1,6 @@
 #include "loginwiget.h"
 
+
 Loginwiget::Loginwiget(QWidget *parent) : QWidget(parent)
 {
 
@@ -22,11 +23,30 @@ Loginwiget::Loginwiget(QWidget *parent) : QWidget(parent)
     leaupw->setEchoMode(QLineEdit::Password);
     connect(pbjoin,SIGNAL(clicked(bool)),this,SLOT(loginfuntion()));
     setLayout(glay_1);
+    //read setting-----------------------------------------
+     QSettings settings("config.ini",QSettings::IniFormat);
+    settings.beginGroup("setlogin");
+    leid->setText(settings.value("id").toByteArray());
+    lepw->setText(settings.value("pw").toByteArray());
+    leaupw->setText(settings.value("aupw").toByteArray());
+    settings.endGroup();
+    //-----------------------------------------------------
+
 }
 void Loginwiget::loginfuntion(){
     bool result_1 = x1->ETK_Login(leid->text().toLocal8Bit(),lepw->text().toLocal8Bit(),leaupw->text().toLocal8Bit());
     if(result_1){
+        //write setting--------------------------------------------
+        QSettings settings("config.ini",QSettings::IniFormat);
+        settings.beginGroup("setlogin");
+        settings.setValue("id",leid->text().toLocal8Bit());
+        settings.setValue("pw",lepw->text().toLocal8Bit());
+        settings.setValue("aupw",leaupw->text().toLocal8Bit());
+        settings.endGroup();
+        //---------------------------------------------------------
         qDebug()<<"join";
+        mf->show();
+        close();
     }else {
         qDebug()<<"false join";
     }
