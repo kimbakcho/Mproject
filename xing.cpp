@@ -221,7 +221,7 @@ int xing::t1452_Request(BOOL bNext){
     char szTrNo[] = "t1452";
     memset(&pckInBlock,' ',sizeof(pckInBlock));
     char *test = "0";
-    SetPacketData(&pckInBlock.gubun, sizeof(pckInBlock.gubun),test, DATA_TYPE_STRING,0 );	// [string,    1] 구분
+    SetPacketData(pckInBlock.gubun, sizeof(pckInBlock.gubun),test, DATA_TYPE_STRING,0 );	// [string,    1] 구분
 //    SetPacketData( pckInBlock.jnilgubun, sizeof( pckInBlock.jnilgubun ),"0", DATA_TYPE_STRING );	// [string,    1] 전일구분
 //    SetPacketData( pckInBlock.sdiff    , sizeof( pckInBlock.sdiff     ),"0", DATA_TYPE_LONG   );	// [long  ,    3] 시작등락율
 //    SetPacketData( pckInBlock.ediff    , sizeof( pckInBlock.ediff     ),"0", DATA_TYPE_LONG   );	// [long  ,    3] 종료등락율
