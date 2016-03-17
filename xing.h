@@ -25,6 +25,14 @@
 #define		SYSTEM_ERROR_DATA		3
 #define		RELEASE_DATA			4
 //------------------------------------------------------------------------------
+
+enum
+{
+    DATA_TYPE_STRING = 0,		// 문자열
+    DATA_TYPE_LONG,				// 정수
+    DATA_TYPE_FLOAT,			// 실수
+    DATA_TYPE_FLOAT_DOT,		// 실수( 소숫점을 가지고 있음 )
+};
 class xing : public QWidget
 {
     Q_OBJECT
@@ -38,7 +46,10 @@ public:
     int serverport;
     bool ETK_Connect(int type);
     bool ETK_Login(QByteArray Qid,QByteArray Qpasswd,QByteArray Qauthpasswd);
-    int ETK_Request(QByteArray QpszCode,void *lpData,int nDataSize,BOOL bNext,QByteArray QpszNextKey,int nTimeOut);
+    int ETK_Request(char * pszCode,void *lpData,int nDataSize,BOOL bNext,char * pszNextKey,int nTimeOut);
+    void SetPacketData( char * psData, int nSize, char * pszSrc, int nType, int nDotPos);
+    int t1452_Request(BOOL bNext);
+
 
 
 
