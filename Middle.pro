@@ -16,7 +16,8 @@ SOURCES += main.cpp\
     loginwiget.cpp \
     xing.cpp \
     mainframe.cpp \
-    recvprocess.cpp
+    recvprocess.cpp \
+    xingcom.cpp
 
 HEADERS  += \
     loginwiget.h \
@@ -189,4 +190,5 @@ HEADERS  += \
     packet/YOC.h \
     packet/YS3.h \
     resource.h \
-    recvprocess.h
+    recvprocess.h \
+    xingcom.h

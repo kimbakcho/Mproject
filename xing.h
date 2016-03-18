@@ -96,9 +96,6 @@ public:
     void SetPacketData( char * psData, int nSize, char * pszSrc, int nType, int nDotPos = 0);
     int t1452_Request(BOOL bNext);
 
-
-
-
     QLibrary lib;
     //-------------------------library from Xingapi typedef---------------------------------
     typedef BOOL	(*FP_CONNECT					) ( HWND,char *, int, int, int, int );

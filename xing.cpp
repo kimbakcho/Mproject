@@ -36,6 +36,7 @@ bool xing::init()
         return false;
       }
     }
+
     //set handler
     set_windid((HWND)winId());
 
@@ -255,8 +256,6 @@ int xing::t1452_Request(BOOL bNext){
 }
 
 
-
-
 // it is furntion for Message handler
 bool xing::nativeEvent(const QByteArray & eventType, void * message, long * result)
 {
@@ -281,19 +280,15 @@ bool xing::nativeEvent(const QByteArray & eventType, void * message, long * resu
         //results_str = QString::fromLocal8Bit(wresult);
         if(cresult == REQUEST_DATA){ //TR의Data를받았을때발생 RECV_PACKET 의Memory 주소
             LPRECV_PACKET pRpData = (LPRECV_PACKET)msg->lParam;
-            //bug config memory----------------------------------------
-//            unsigned int src = (unsigned int)&(pRpData->lpData)-1;
-//            unsigned int dst = (unsigned int)&(pRpData->lpData);
-//            memmove((void *)dst,(void *)src,4);
-            //---------------------------------------------------------
-
             if(strcmp(pRpData->szBlockName,NAME_t1452OutBlock)==0){
                unsigned char * pRplpdata = pRpData->lpData;
                LPt1452OutBlock pOutBlock = (LPt1452OutBlock)pRplpdata;
             }else if( strcmp( pRpData->szBlockName, NAME_t1452OutBlock1 ) == 0 ){
+             //xing api bug config memory----------------------------------------
                 unsigned char * pRplpdata ;
                 unsigned int src = (unsigned int)&(pRpData->lpData)-1;
                 memcpy(&pRplpdata,(void *)src,4);
+             //------------------------------------------------------------------
                 LPt1452OutBlock1 pOutBlock = (LPt1452OutBlock1)pRplpdata;
                 int	nCount = pRpData->nDataLength / sizeof( t1452OutBlock1 );		// Block Mode 시엔 전체크기 / 하나의 Record 크기 로 갯수를 구한다.
                 for( int i=0; i<nCount; i++ )

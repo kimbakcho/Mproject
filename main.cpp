@@ -1,6 +1,6 @@
 #include "loginwiget.h"
 #include "gherder.h"
-
+#include "xingcom.h"
 #include <QApplication>
 
 xing *x1;
@@ -21,6 +21,9 @@ int main(int argc, char *argv[])
     }
 
     Loginwiget w1;
+
+    xingcom xcom;
+
 
     mf = new mainframe();
 
