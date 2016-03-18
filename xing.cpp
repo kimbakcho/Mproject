@@ -30,6 +30,7 @@ bool xing::init()
       m_fpGetClientIP = (FP_GETCLIENTIP)lib.resolve("ETK_GetClientIP");
       m_fpGetServerName = (FP_GETSERVERNAME)lib.resolve("ETK_GetServerName");
       m_fpSetHeaderInfo = (FP_SETHEADERINFO)lib.resolve("ETK_SetHeaderInfo");
+      m_fpReleaseMessageData = (FP_RELEASEMESSAGEDATA)lib.resolve("ETK_ReleaseMessageData");
       if (!lib.isLoaded()) {
         qDebug() << lib.errorString();
         return false;
@@ -73,6 +74,18 @@ int xing::ETK_Request(char * pszCode,void *lpData,int nDataSize,BOOL bNext,char 
     result_1 = m_fpRequest(get_windid(),pszCode,lpData,nDataSize,bNext,pszNextKey,nTimeOut);
     return result_1;
 }
+
+void xing::ETK_ReleaseMessageData(LPARAM lp){
+    m_fpReleaseMessageData(lp);
+    return ;
+}
+void xing::ETK_ReleaseRequestData(int nRequestID){
+
+    m_fpReleaseRequestData(nRequestID);
+    return ;
+}
+
+
 void xing::SetPacketData( char * psData, int nSize, char * pszSrc, int nType, int nDotPos ){
 
     //-----------------------------------------------------------------------
@@ -215,13 +228,15 @@ void xing::SetPacketData( char * psData, int nSize, char * pszSrc, int nType, in
 }
 
 
+
+
 int xing::t1452_Request(BOOL bNext){
     t1452InBlock pckInBlock;
     int result_1;
     char szTrNo[] = "t1452";
     memset(&pckInBlock,' ',sizeof(pckInBlock));
     SetPacketData( pckInBlock.gubun    , sizeof( pckInBlock.gubun     ),"0", DATA_TYPE_STRING );	// [string,    1] 구분
-    SetPacketData( pckInBlock.jnilgubun, sizeof( pckInBlock.jnilgubun ),"0", DATA_TYPE_STRING );	// [string,    1] 전일구분
+    SetPacketData( pckInBlock.jnilgubun, sizeof( pckInBlock.jnilgubun ),"1", DATA_TYPE_STRING );	// [string,    1] 전일구분
     SetPacketData( pckInBlock.sdiff    , sizeof( pckInBlock.sdiff     ),"", DATA_TYPE_LONG   );	// [long  ,    3] 시작등락율
     SetPacketData( pckInBlock.ediff    , sizeof( pckInBlock.ediff     ),"", DATA_TYPE_LONG   );	// [long  ,    3] 종료등락율
     SetPacketData( pckInBlock.jc_num   , sizeof( pckInBlock.jc_num    ),"", DATA_TYPE_LONG   );	// [long  ,   12] 대상제외
@@ -237,7 +252,6 @@ int xing::t1452_Request(BOOL bNext){
                 30 // Timeout(초) : 해당 시간(초)동안 데이터가 오지 않으면 Timeout에 발생한다. XM_TIMEOUT_DATA 메시지가 발생한다.
              );
     return result_1;
-
 }
 
 
@@ -265,16 +279,49 @@ bool xing::nativeEvent(const QByteArray & eventType, void * message, long * resu
      case WM_USER+XM_RECEIVE_DATA:
         cresult = msg->wParam;
         //results_str = QString::fromLocal8Bit(wresult);
-        if(cresult == 1){ //TR의Data를받았을때발생 RECV_PACKET 의Memory 주소
+        if(cresult == REQUEST_DATA){ //TR의Data를받았을때발생 RECV_PACKET 의Memory 주소
+            LPRECV_PACKET pRpData = (LPRECV_PACKET)msg->lParam;
+            //bug config memory----------------------------------------
+//            unsigned int src = (unsigned int)&(pRpData->lpData)-1;
+//            unsigned int dst = (unsigned int)&(pRpData->lpData);
+//            memmove((void *)dst,(void *)src,4);
+            //---------------------------------------------------------
 
-        }else if(cresult == 2){ //Message를받았을때발생 MSG_PACKET 의Memory 주소
-            lresult = (char *)msg->lParam;
-            qDebug()<<QString("XM_RECEIVE_DATA case 2 lParam = %1").arg(lresult);
-        }else if(cresult == 3){ //Error가발생 MSG_PACKET 의Memory 주소
+            if(strcmp(pRpData->szBlockName,NAME_t1452OutBlock)==0){
+               unsigned char * pRplpdata = pRpData->lpData;
+               LPt1452OutBlock pOutBlock = (LPt1452OutBlock)pRplpdata;
+            }else if( strcmp( pRpData->szBlockName, NAME_t1452OutBlock1 ) == 0 ){
+                unsigned char * pRplpdata ;
+                unsigned int src = (unsigned int)&(pRpData->lpData)-1;
+                memcpy(&pRplpdata,(void *)src,4);
+                LPt1452OutBlock1 pOutBlock = (LPt1452OutBlock1)pRplpdata;
+                int	nCount = pRpData->nDataLength / sizeof( t1452OutBlock1 );		// Block Mode 시엔 전체크기 / 하나의 Record 크기 로 갯수를 구한다.
+                for( int i=0; i<nCount; i++ )
+                {
+                    //데이터 처리
+                    QString hname = QString::fromLocal8Bit(pOutBlock[i].hname,20);
+                    QString hprice = QString::fromLocal8Bit(pOutBlock[i].price,8);
+                    qDebug()<<kor("결과 %1: %2 , %3").arg(i).arg(hname).arg(hprice);
+                }
+            }
+        }else if(cresult == MESSAGE_DATA){ //Message를받았을때발생 MSG_PACKET 의Memory 주소
+            LPMSG_PACKET pMsg = (LPMSG_PACKET)msg->lParam;
+            //bug config memory----------------------------------------
+//            unsigned int src = (unsigned int)&(pMsg->nMsgLength)-2;
+//            unsigned int dst = (unsigned int)&(pMsg->nMsgLength);
+//            memmove((void *)dst,(void *)src,8);
+            //---------------------------------------------------------
+            //qDebug()<<QString("XM_RECEIVE_DATA case 2 lParam = %1").arg(lresult);
+            ETK_ReleaseMessageData(msg->lParam);
 
-        }else if(cresult == 4){ //TR이끝났을때발생 정수로Request ID를의미
-            iresult = msg->lParam;
-            qDebug()<<QString("XM_RECEIVE_DATA case 4 lParam = %1").arg(iresult);
+        }else if(cresult == SYSTEM_ERROR_DATA){ //Error가발생 MSG_PACKET 의Memory 주소
+            LPMSG_PACKET pMsg = (LPMSG_PACKET)msg->lParam;
+
+            ETK_ReleaseMessageData(msg->lParam);
+        }else if(cresult == RELEASE_DATA){ //TR이끝났을때발생 정수로Request ID를의미
+            //iresult = msg->lParam;
+            ETK_ReleaseRequestData((int)msg->lParam);
+            //qDebug()<<QString("XM_RECEIVE_DATA case 4 lParam = %1").arg(iresult);
         }
         break;
     default:

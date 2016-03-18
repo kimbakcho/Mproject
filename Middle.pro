@@ -15,7 +15,8 @@ TEMPLATE = app
 SOURCES += main.cpp\
     loginwiget.cpp \
     xing.cpp \
-    mainframe.cpp
+    mainframe.cpp \
+    recvprocess.cpp
 
 HEADERS  += \
     loginwiget.h \
@@ -187,4 +188,5 @@ HEADERS  += \
     packet/YK3.h \
     packet/YOC.h \
     packet/YS3.h \
-    resource.h
+    resource.h \
+    recvprocess.h
