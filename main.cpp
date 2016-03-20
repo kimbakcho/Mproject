@@ -4,6 +4,7 @@
 #include <QApplication>
 
 xing *x1;
+xingcom *xcom;
 mainframe *mf;
 int main(int argc, char *argv[])
 {
@@ -22,7 +23,7 @@ int main(int argc, char *argv[])
 
     Loginwiget w1;
 
-    xingcom xcom;
+    xcom = new xingcom();
 
 
     mf = new mainframe();

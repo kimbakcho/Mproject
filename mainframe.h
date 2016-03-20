@@ -4,14 +4,18 @@
 #include <xing.h>
 #include <QMainWindow>
 #include <QPushButton>
+#include "xingcom.h"
+#include <QHBoxLayout>
 extern xing *x1;
-
-class mainframe : public QMainWindow
+extern xingcom *xcom;
+class mainframe : public QWidget
 {
     Q_OBJECT
 public:
     explicit mainframe(QWidget *parent = 0);
     QPushButton *btn1;
+    QPushButton *btn2;
+    QHBoxLayout hbox;
     void init();
 signals:
 

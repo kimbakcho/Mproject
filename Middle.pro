@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui axcontainer
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,7 +17,9 @@ SOURCES += main.cpp\
     xing.cpp \
     mainframe.cpp \
     recvprocess.cpp \
-    xingcom.cpp
+    xingcom.cpp \
+    xa_sessionlib.cpp \
+    com1_axobj.cpp
 
 HEADERS  += \
     loginwiget.h \
@@ -191,4 +193,6 @@ HEADERS  += \
     packet/YS3.h \
     resource.h \
     recvprocess.h \
-    xingcom.h
+    xingcom.h \
+    xa_sessionlib.h \
+    com1_axobj.h
