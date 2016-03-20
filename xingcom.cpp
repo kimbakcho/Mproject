@@ -60,8 +60,8 @@ int xingcom::com_1833_result(){
     QString change;
     QString diff;
     QString volume;
-
-
+    QString choice_shcode;
+    QString choice_hname;
     for(int i=0;i<result_int;i++){
         shcode = XA_DataSet->dynamicCall("GetFieldData(char *,char *,int)","t1833OutBlock1","shcode",i).toString();
         hname = XA_DataSet->dynamicCall("GetFieldData(char *,char *,int)","t1833OutBlock1","hname",i).toString();
