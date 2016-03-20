@@ -1,5 +1,4 @@
 #include "xing.h"
-#include <QChar>
 
 xing::xing(QWidget *parent) : QWidget(parent)
 {
@@ -66,8 +65,13 @@ bool xing::ETK_Login(QByteArray Qid,QByteArray Qpasswd,QByteArray Qauthpasswd){
     char *id = Qid.data();
     char *pw = Qpasswd.data();
     char *aupw = Qauthpasswd.data();
-    bool result_1 = m_fpLogin(get_windid(),id,pw,aupw,0,0);
-    return result_1;
+    bool result_in = m_fpLogin(get_windid(),id,pw,aupw,0,0);
+    if(result_in){
+        qDebug()<<"COM login";
+    }else {
+        qDebug()<<"COM can't login";
+    }
+    return result_in;
 }
 // this funtion is request
 int xing::ETK_Request(char * pszCode,void *lpData,int nDataSize,BOOL bNext,char * pszNextKey,int nTimeOut){
@@ -132,19 +136,15 @@ void xing::SetPacketData( char * psData, int nSize, char * pszSrc, int nType, in
                 CopyMemory( psData, pszSrc, nSize );
             }
         }
-
         //-----------------------------------------------------------------------
         // 실수 : 소숫점을 찍지 않는다.
         else if( nType == DATA_TYPE_FLOAT )
         {
             // 소숫점 위치를 기준으로 정렬
             // 소숫점을 찍지 않으며 정수부의 빈자리와 소수부의 빈자리는 0으로 채움
-
             int nSrcLen = strlen( pszSrc );
-
             // 먼저 0 으로 채우고
             FillMemory( psData, nSize, '0' );
-
             // 원데이터에서 소숫점의 위치를 찾아서
             // 원데이터의 정수부의 길이와 소수부의 길이를 구한다.
             int nSrcIntLen;
@@ -160,7 +160,6 @@ void xing::SetPacketData( char * psData, int nSize, char * pszSrc, int nType, in
                 nSrcIntLen = psz - pszSrc;
                 nSrcDotLen = strlen( pszSrc ) - nSrcIntLen - 1;
             }
-
             // 정수부를 넣는다.
             if( nSize-nDotPos >= nSrcIntLen )
             {
@@ -177,7 +176,6 @@ void xing::SetPacketData( char * psData, int nSize, char * pszSrc, int nType, in
             Q_ASSERT( nDotPos >= nSrcDotLen );
             CopyMemory( psData+nSize-nDotPos, pszSrc + strlen( pszSrc ) - nSrcDotLen, min( nDotPos, nSrcDotLen ) );
         }
-
         //-----------------------------------------------------------------------
         // 실수 : 소숫점을 포함
         else if( nType == DATA_TYPE_FLOAT_DOT )
@@ -220,7 +218,6 @@ void xing::SetPacketData( char * psData, int nSize, char * pszSrc, int nType, in
 
             // 소숫점을 찍는다.
             psData[nSize-nDotPos-1] = '.';
-
             // 소수부를 넣는데 원데이터의 소수부 길이가 더 긴 경우 소수부의 뒷자리는 삭제된다.
             Q_ASSERT( nDotPos >= nSrcDotLen );
             CopyMemory( psData+nSize-nDotPos, pszSrc + strlen( pszSrc ) - nSrcDotLen, min( nDotPos, nSrcDotLen ) );

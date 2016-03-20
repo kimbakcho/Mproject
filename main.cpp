@@ -2,7 +2,6 @@
 #include "gherder.h"
 #include "xingcom.h"
 #include <QApplication>
-
 xing *x1;
 xingcom *xcom;
 mainframe *mf;

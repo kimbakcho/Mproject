@@ -9,10 +9,14 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <QDebug>
-#include <gherder.h>
 #include <mainframe.h>
 #include <QSettings>
+#include "xing.h"
+#include "xingcom.h"
 #define kor(str) QString::fromLocal8Bit(str)
+extern xing *x1;
+extern mainframe *mf;
+extern xingcom *xcom;
 class Loginwiget : public QWidget
 {
     Q_OBJECT

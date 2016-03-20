@@ -25,14 +25,25 @@ public:
     com1_axobj *obj;
     com1_axobj *obj1;
     com1_axobj *obj2;
-    void com_clicked();
+    com1_axobj *XA_Session;
+    com1_axobj *XA_DataSet;
+    QString htsip;
+    QString demoip;
+    int serverport;
+    bool result_1;
 
+    bool com_connect(int type);
+    bool com_login(QByteArray Qid,QByteArray Qpasswd,QByteArray Qauthpasswd);
+
+private :
+    QByteArray serverip;
 
 signals:
 
 public slots:
     void XASession_Login_Login(QString str);
-    void com_clicked1();
+    int com_1833_result();
+    bool com_1833_request();
 
 };
 

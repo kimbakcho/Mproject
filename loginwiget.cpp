@@ -34,7 +34,10 @@ Loginwiget::Loginwiget(QWidget *parent) : QWidget(parent)
 
 }
 void Loginwiget::loginfuntion(){
+    //dll login
     bool result_1 = x1->ETK_Login(leid->text().toLocal8Bit(),lepw->text().toLocal8Bit(),leaupw->text().toLocal8Bit());
+    //com login
+    xcom->com_login(leid->text().toLocal8Bit(),lepw->text().toLocal8Bit(),leaupw->text().toLocal8Bit());
     if(result_1){
         //write setting--------------------------------------------
         QSettings settings("config.ini",QSettings::IniFormat);
