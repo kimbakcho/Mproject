@@ -11,6 +11,7 @@
 #include <QAxObject>
 #include "com1_axobj.h"
 
+
 class xingcom : public QObject
 {
     Q_OBJECT

@@ -22,10 +22,13 @@ int main(int argc, char *argv[])
 
     Loginwiget w1;
 
+
+
     xcom = new xingcom();
 
-
     mf = new mainframe();
+
+
 
     w1.show();
 

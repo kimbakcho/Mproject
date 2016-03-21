@@ -6,6 +6,8 @@
 #include <QPushButton>
 #include "xingcom.h"
 #include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QLabel>
 extern xing *x1;
 extern xingcom *xcom;
 class mainframe : public QWidget
@@ -15,7 +17,11 @@ public:
     explicit mainframe(QWidget *parent = 0);
     QPushButton *btn1;
     QPushButton *btn2;
-    QHBoxLayout hbox;
+    QHBoxLayout *hbox1;
+    QHBoxLayout *hbox2;
+    QVBoxLayout *vbox1;
+    QLabel *label1;
+    void setlabel1(QString str);
     void init();
 signals:
 
