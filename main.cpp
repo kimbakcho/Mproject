@@ -1,7 +1,6 @@
 #include "loginwiget.h"
 #include "gherder.h"
 #include "xingcom.h"
-#include "tsearch_push.h"
 #include <QApplication>
 xing *x1;
 xingcom *xcom;
@@ -28,6 +27,8 @@ int main(int argc, char *argv[])
     xcom = new xingcom();
 
     mf = new mainframe();
+
+
 
     w1.show();
 

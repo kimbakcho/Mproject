@@ -1,17 +1,15 @@
 #ifndef MAINFRAME_H
 #define MAINFRAME_H
 
-
+#include <xing.h>
 #include <QMainWindow>
 #include <QPushButton>
-
+#include "xingcom.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
-#include "tsearch_push.h"
-#include "tsearch_res.h"
-
-
+extern xing *x1;
+extern xingcom *xcom;
 class mainframe : public QWidget
 {
     Q_OBJECT
@@ -23,15 +21,14 @@ public:
     QHBoxLayout *hbox2;
     QVBoxLayout *vbox1;
     QLabel *label1;
-    Tsearch_push *tpush;
-    Tsearch_res *trecv;
+    void setlabel1(QString str);
     void init();
 signals:
 
 
 
 public slots:
-    void t1833_request();
+    void testfuntion();
 };
 
 #endif // MAINFRAME_H
