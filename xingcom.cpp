@@ -44,6 +44,7 @@ bool xingcom::com_1833_request(){
     int result_int;
     result_in = XA_DataSet->dynamicCall("LoadFromResFile(char *)","\Res\\t1833.res").toBool();
     result_int = XA_DataSet->dynamicCall("RequestService(char *,char *)","t1833","C:\\ConditionToApi.ADF").toInt();
+    qDebug()<<"com_1833_request";
     return result_in;
 }
 
@@ -76,7 +77,7 @@ int xingcom::com_1833_result(){
         diff =  XA_DataSet->dynamicCall("GetFieldData(char *,char *,int)","t1833OutBlock1","diff",i).toString();
         change = XA_DataSet->dynamicCall("GetFieldData(char *,char *,int)","t1833OutBlock1","change",i).toString();
         volume =XA_DataSet->dynamicCall("GetFieldData(char *,char *,int)","t1833OutBlock1","volume",i).toString();
-        //qDebug()<<QString("1833_info hname = %1,diff = %2,volume = %3,price=%4").arg(hname).arg(diff).arg(volume).arg(close);
+        qDebug()<<QString("1833_info hname = %1,diff = %2,volume = %3,price=%4").arg(hname).arg(diff).arg(volume).arg(close);
         if(volume_temp<volume.toInt()){
             choice_hname = hname;
             choice_diff = diff;
@@ -86,7 +87,7 @@ int xingcom::com_1833_result(){
     }
     QString result_str = QString("1833_reuslt hname = %1,diff = %2,volume = %3,price=%4").arg(choice_hname).arg(choice_diff).arg(volume_temp).arg(choice_close);
     qDebug()<<result_str;
-    mf->setlabel1(result_str);
+    //mf->setlabel1(result_str);
     return result_int;
 }
 

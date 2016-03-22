@@ -19,7 +19,9 @@ SOURCES += main.cpp\
     recvprocess.cpp \
     xingcom.cpp \
     xa_sessionlib.cpp \
-    com1_axobj.cpp
+    com1_axobj.cpp \
+    tsearch_push.cpp \
+    tsearch_res.cpp
 
 HEADERS  += \
     loginwiget.h \
@@ -195,4 +197,6 @@ HEADERS  += \
     recvprocess.h \
     xingcom.h \
     xa_sessionlib.h \
-    com1_axobj.h
+    com1_axobj.h \
+    tsearch_push.h \
+    tsearch_res.h
