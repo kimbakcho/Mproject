@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QTime>
 #include "./Packet/t1452.h"
+#include "./packet/CSPAT00600.h"
 #define kor(str) QString::fromLocal8Bit(str)
 //------------------------------------------------------------------------------
 // 메시지 정의
@@ -108,7 +109,18 @@ typedef struct _t1833OutBlock1
 #define NAME_t1833OutBlock1     "t1833OutBlock1"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
+typedef struct _CSPAT00600data{
+    char    *strAcntNo              ;    // [string,   20] 계좌번호                        StartPos 5, Length 20
+    char    *strInptPwd             ;    // [string,    8] 입력비밀번호                    StartPos 25, Length 8
+    char    *strIsuNo               ;    // [string,   12] 종목번호                        StartPos 33, Length 12
+    char    *strOrdQty              ;    // [long  ,   16] 주문수량                        StartPos 45, Length 16
+    char    *strOrdPrc              ;    // [double, 13.2] 주문가                          StartPos 61, Length 13
+    char    *strBnsTpCode           ;    // [string,    1] 매매구분                        StartPos 74, Length 1
+    char    *strOrdprcPtnCode       ;    // [string,    2] 호가유형코드                    StartPos 75, Length 2
+    char    *strMgntrnCode          ;    // [string,    3] 신용거래코드                    StartPos 83, Length 3
+    char    *strLoanDt              ;    // [string,    8] 대출일                          StartPos 86, Length 8
+    char    *strOrdCndiTpCode       ;    // [string,    1] 주문조건구분                    StartPos 97, Length 1
+}CSPAT00600data;
 
 //------------------------------------------------------------------------------
 
@@ -138,6 +150,8 @@ public:
 
     void func_t1833outblock(LPRECV_PACKET pRpData);
     void func_t1833outblock1(LPRECV_PACKET pRpData);
+
+    void CSPAT00600_Request(BOOL nNext,CSPAT00600data data);
 
     QLibrary lib;
     //-------------------------library from Xingapi typedef---------------------------------

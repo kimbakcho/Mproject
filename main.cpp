@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
 
 
-    xcom = new xingcom();
+    //xcom = new xingcom();
 
     mf = new mainframe();
 
