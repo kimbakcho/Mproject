@@ -30,6 +30,7 @@ bool xing::init()
       m_fpGetServerName = (FP_GETSERVERNAME)lib.resolve("ETK_GetServerName");
       m_fpSetHeaderInfo = (FP_SETHEADERINFO)lib.resolve("ETK_SetHeaderInfo");
       m_fpReleaseMessageData = (FP_RELEASEMESSAGEDATA)lib.resolve("ETK_ReleaseMessageData");
+      m_fpRequestService = (FP_REQUESTSERVICE)lib.resolve("ETK_RequestService" );
       if (!lib.isLoaded()) {
         qDebug() << lib.errorString();
         return false;
@@ -77,6 +78,11 @@ bool xing::ETK_Login(QByteArray Qid,QByteArray Qpasswd,QByteArray Qauthpasswd){
 int xing::ETK_Request(char * pszCode,void *lpData,int nDataSize,BOOL bNext,char * pszNextKey,int nTimeOut){
     int result_1;
     result_1 = m_fpRequest(get_windid(),pszCode,lpData,nDataSize,bNext,pszNextKey,nTimeOut);
+    return result_1;
+}
+int xing::ETK_RequestService(char * pszCode, char *pszData){
+    int result_1;
+    result_1 = m_fpRequestService(get_windid(),pszCode,pszData);
     return result_1;
 }
 
@@ -215,18 +221,13 @@ void xing::SetPacketData( char * psData, int nSize, char * pszSrc, int nType, in
                 Q_ASSERT( FALSE );
                 CopyMemory( psData, pszSrc, nSize-nDotPos-1 );
             }
-
             // 소숫점을 찍는다.
             psData[nSize-nDotPos-1] = '.';
             // 소수부를 넣는데 원데이터의 소수부 길이가 더 긴 경우 소수부의 뒷자리는 삭제된다.
             Q_ASSERT( nDotPos >= nSrcDotLen );
             CopyMemory( psData+nSize-nDotPos, pszSrc + strlen( pszSrc ) - nSrcDotLen, min( nDotPos, nSrcDotLen ) );
         }
-
 }
-
-
-
 
 int xing::t1452_Request(BOOL bNext){
     t1452InBlock pckInBlock;
@@ -278,23 +279,13 @@ bool xing::nativeEvent(const QByteArray & eventType, void * message, long * resu
         if(cresult == REQUEST_DATA){ //TR의Data를받았을때발생 RECV_PACKET 의Memory 주소
             LPRECV_PACKET pRpData = (LPRECV_PACKET)msg->lParam;
             if(strcmp(pRpData->szBlockName,NAME_t1452OutBlock)==0){
-               unsigned char * pRplpdata = pRpData->lpData;
-               LPt1452OutBlock pOutBlock = (LPt1452OutBlock)pRplpdata;
+                func_t1452outblock(pRpData);
             }else if( strcmp( pRpData->szBlockName, NAME_t1452OutBlock1 ) == 0 ){
-             //xing api bug config memory----------------------------------------
-                unsigned char * pRplpdata ;
-                unsigned int src = (unsigned int)&(pRpData->lpData)-1;
-                memcpy(&pRplpdata,(void *)src,4);
-             //------------------------------------------------------------------
-                LPt1452OutBlock1 pOutBlock = (LPt1452OutBlock1)pRplpdata;
-                int	nCount = pRpData->nDataLength / sizeof( t1452OutBlock1 );		// Block Mode 시엔 전체크기 / 하나의 Record 크기 로 갯수를 구한다.
-                for( int i=0; i<nCount; i++ )
-                {
-                    //데이터 처리
-                    QString hname = QString::fromLocal8Bit(pOutBlock[i].hname,20);
-                    QString hprice = QString::fromLocal8Bit(pOutBlock[i].price,8);
-                    qDebug()<<kor("결과 %1: %2 , %3").arg(i).arg(hname).arg(hprice);
-                }
+                func_t1452outblock1(pRpData);
+            }else if(strcmp( pRpData->szBlockName, NAME_t1833OutBlock)==0){
+                func_t1833outblock(pRpData);
+            }else if(strcmp( pRpData->szBlockName, NAME_t1833OutBlock1)==0){
+                func_t1833outblock1(pRpData);
             }
         }else if(cresult == MESSAGE_DATA){ //Message를받았을때발생 MSG_PACKET 의Memory 주소
             LPMSG_PACKET pMsg = (LPMSG_PACKET)msg->lParam;
@@ -320,4 +311,54 @@ bool xing::nativeEvent(const QByteArray & eventType, void * message, long * resu
         break;
     }
     return false;
+}
+void xing::func_t1452outblock(LPRECV_PACKET pRpData){
+    unsigned char * pRplpdata = pRpData->lpData;
+    LPt1452OutBlock pOutBlock = (LPt1452OutBlock)pRplpdata;
+}
+void xing::func_t1452outblock1(LPRECV_PACKET pRpData){
+    //xing api bug config memory----------------------------------------
+       unsigned char * pRplpdata ;
+       unsigned int src = (unsigned int)&(pRpData->lpData)-1;
+       memcpy(&pRplpdata,(void *)src,4);
+    //------------------------------------------------------------------
+       LPt1452OutBlock1 pOutBlock = (LPt1452OutBlock1)pRplpdata;
+       int	nCount = pRpData->nDataLength / sizeof( t1452OutBlock1 );		// Block Mode 시엔 전체크기 / 하나의 Record 크기 로 갯수를 구한다.
+       for( int i=0; i<nCount; i++ )
+       {
+           //데이터 처리
+           QString hname = QString::fromLocal8Bit(pOutBlock[i].hname,20);
+           QString hprice = QString::fromLocal8Bit(pOutBlock[i].price,8);
+           qDebug()<<kor("결과 %1: %2 , %3").arg(i).arg(hname).arg(hprice);
+       }
+}
+void xing::func_t1833outblock(LPRECV_PACKET pRpData){
+    //xing api bug config memory----------------------------------------
+       unsigned char * pRplpdata ;
+       unsigned int src = (unsigned int)&(pRpData->lpData)-1;
+       memcpy(&pRplpdata,(void *)src,4);
+    //------------------------------------------------------------------
+
+}
+void xing::func_t1833outblock1(LPRECV_PACKET pRpData){
+    //xing api bug config memory----------------------------------------
+       unsigned char * pRplpdata ;
+       unsigned int src = (unsigned int)&(pRpData->lpData)-1;
+       memcpy(&pRplpdata,(void *)src,4);
+    //------------------------------------------------------------------
+       LPt1833OutBlock1 pOutBlock = (LPt1833OutBlock1)pRplpdata;
+       int	nCount = pRpData->nDataLength / sizeof( t1833OutBlock1 );		// Block Mode 시엔 전체크기 / 하나의 Record 크기 로 갯수를 구한다.
+       qDebug()<<QString("t1833 time = %1").arg(QTime::currentTime().toString("hh:mm:ss"));
+       for( int i=0; i<nCount; i++ )
+       {
+           //데이터 처리
+           QString shcode = QString::fromLocal8Bit(pOutBlock[i].shcode,6);
+           QString hname = QString::fromLocal8Bit(pOutBlock[i].hname,20);
+           QString volume = QString::fromLocal8Bit(pOutBlock[i].volume,10);
+           QString price = QString::fromLocal8Bit(pOutBlock[i].close,9);
+           QString diff = QString::fromLocal8Bit(pOutBlock[i].diff,6);
+
+           qDebug()<<kor("t1833 결과 (%1): shcode = %2 , hname = %3,price = %4,volume = %5,diff =%6 ")
+                     .arg(i).arg(shcode).arg(hname).arg(price).arg(volume).arg(diff);
+       }
 }
