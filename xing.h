@@ -8,6 +8,8 @@
 #include <QTime>
 #include "./Packet/t1452.h"
 #include "./packet/CSPAT00600.h"
+#include <QVector>
+#include "data_1833.h"
 #define kor(str) QString::fromLocal8Bit(str)
 //------------------------------------------------------------------------------
 // 메시지 정의
@@ -137,6 +139,9 @@ public:
     QString htsip;
     QString demoip;
     int serverport;
+    data_1833 *d_1833;
+    QVector<data_1833 *> vector;
+
     bool ETK_Connect(int type);
     bool ETK_Login(QByteArray Qid,QByteArray Qpasswd,QByteArray Qauthpasswd);
     int ETK_Request(char * pszCode,void *lpData,int nDataSize,BOOL bNext,char * pszNextKey,int nTimeOut);
