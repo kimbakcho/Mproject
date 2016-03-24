@@ -263,16 +263,22 @@ void xing::CSPAT00600_Request(BOOL nNext,CSPAT00600data data){
     memset(&pckInBlock,' ',sizeof(pckInBlock));
 
 
-//    SetPacketData( pckInBlock.AcntNo       , sizeof( pckInBlock.AcntNo        ), data.strAcntNo       , DATA_TYPE_STRING );		// 계좌번호
+    SetPacketData( pckInBlock.AcntNo       , sizeof( pckInBlock.AcntNo        ), data.strAcntNo       , DATA_TYPE_STRING );		// 계좌번호
     SetPacketData( pckInBlock.InptPwd      , sizeof( pckInBlock.InptPwd       ), data.strInptPwd      , DATA_TYPE_STRING );		// 입력비밀번호
     SetPacketData( pckInBlock.IsuNo        , sizeof( pckInBlock.IsuNo         ), data.strIsuNo        , DATA_TYPE_STRING );		// 종목번호
-//    SetPacketData( pckInBlock.OrdQty       , sizeof( pckInBlock.OrdQty        ), data.strOrdQty       , DATA_TYPE_LONG   );		// 주문수량
-//    SetPacketData( pckInBlock.OrdPrc       , sizeof( pckInBlock.OrdPrc        ), data.strOrdPrc       , DATA_TYPE_FLOAT_DOT, 2 );	// 주문가, Header Type이 B 인 경우 Data Type이 실수면 소수점을 포함해야 한다.
-//    SetPacketData( pckInBlock.BnsTpCode    , sizeof( pckInBlock.BnsTpCode     ), data.strBnsTpCode    , DATA_TYPE_STRING );		// 매매구분
-//    SetPacketData( pckInBlock.OrdprcPtnCode, sizeof( pckInBlock.OrdprcPtnCode ), data.strOrdprcPtnCode, DATA_TYPE_STRING );		// 호가유형코드
-//    SetPacketData( pckInBlock.MgntrnCode   , sizeof( pckInBlock.MgntrnCode    ), data.strMgntrnCode   , DATA_TYPE_STRING );		// 신용거래코드
-//    SetPacketData( pckInBlock.LoanDt       , sizeof( pckInBlock.LoanDt        ), ""       , DATA_TYPE_STRING );		// 대출일
-//    SetPacketData( pckInBlock.OrdCndiTpCode, sizeof( pckInBlock.OrdCndiTpCode ), data.strOrdCndiTpCode, DATA_TYPE_STRING ); 		// 주문조건구분
+    SetPacketData( pckInBlock.OrdQty       , sizeof( pckInBlock.OrdQty        ), data.strOrdQty       , DATA_TYPE_LONG   );		// 주문수량
+    SetPacketData( pckInBlock.OrdPrc       , sizeof( pckInBlock.OrdPrc        ), data.strOrdPrc       , DATA_TYPE_FLOAT_DOT, 2 );	// 주문가, Header Type이 B 인 경우 Data Type이 실수면 소수점을 포함해야 한다.
+    SetPacketData( pckInBlock.BnsTpCode    , sizeof( pckInBlock.BnsTpCode     ), data.strBnsTpCode    , DATA_TYPE_STRING );		// 매매구분
+    SetPacketData( pckInBlock.OrdprcPtnCode, sizeof( pckInBlock.OrdprcPtnCode ), data.strOrdprcPtnCode, DATA_TYPE_STRING );		// 호가유형코드
+    SetPacketData( pckInBlock.MgntrnCode   , sizeof( pckInBlock.MgntrnCode    ), data.strMgntrnCode   , DATA_TYPE_STRING );		// 신용거래코드
+    SetPacketData( pckInBlock.LoanDt       , sizeof( pckInBlock.LoanDt        ), data.strLoanDt       , DATA_TYPE_STRING );		// 대출일
+    SetPacketData( pckInBlock.OrdCndiTpCode, sizeof( pckInBlock.OrdCndiTpCode ), data.strOrdCndiTpCode, DATA_TYPE_STRING ); 		// 주문조건구분
+
+    int nRqID = ETK_Request(szTrNo,&pckInBlock,sizeof(pckInBlock),nNext,szNextKey,30);
+
+    if(nRqID<0){
+        qDebug()<<"CSPAT00600_Request 실패";
+    }
 
 }
 
@@ -390,7 +396,11 @@ void xing::func_t1833outblock1(LPRECV_PACKET pRpData){
        int real_price;
        int real_money;
        int total_ordqty;
-
+       QString tpcode = "2";
+       QString prcptncode = "00";
+       QString mgntrncode = "000";
+       QString loandt ="";
+       QString ordcnditpcode="0";
        int	nCount = pRpData->nDataLength / sizeof( t1833OutBlock1 );		// Block Mode 시엔 전체크기 / 하나의 Record 크기 로 갯수를 구한다.
        qDebug()<<QString("t1833 time = %1").arg(QTime::currentTime().toString("hh:mm:ss"));
        for( int i=0; i<nCount; i++ )
@@ -419,6 +429,31 @@ void xing::func_t1833outblock1(LPRECV_PACKET pRpData){
            qb_temp[3] = ju_count.toLocal8Bit();
            data.strOrdQty = qb_temp[3].data();
 
+           //price
+           qb_temp[4] = price.toLocal8Bit();
+           data.strOrdPrc = qb_temp[4].data();
+
+           //BnsTpCode
+           qb_temp[5] = tpcode.toLocal8Bit();
+           data.strBnsTpCode = qb_temp[5].data();
+
+            //OrdprcPtnCode
+           qb_temp[6] = prcptncode.toLocal8Bit();
+           data.strBnsTpCode = qb_temp[6].data();
+
+            //MgntrnCode
+           qb_temp[7] = mgntrncode.toLocal8Bit();
+           data.strMgntrnCode = qb_temp[7].data();
+
+           //LoanDt
+           qb_temp[8] = loandt.toLocal8Bit();
+           data.strLoanDt = qb_temp[8].data();
+
+            //OrdCndiTpCode
+           qb_temp[9] = ordcnditpcode.toLocal8Bit();
+           data.strOrdCndiTpCode = qb_temp[9].data();
+
+
 
 
 //            //shcode
@@ -445,8 +480,9 @@ void xing::func_t1833outblock1(LPRECV_PACKET pRpData){
 
 
 
-
-           CSPAT00600_Request(true,data);
+           if(i == 0){
+            CSPAT00600_Request(true,data);
+           }
            qDebug()<<kor("t1833 결과 (%1): shcode = %2 , hname = %3,price = %4,volume = %5,diff =%6 ")
                      .arg(i).arg(shcode).arg(hname).arg(price).arg(volume).arg(diff);
 
