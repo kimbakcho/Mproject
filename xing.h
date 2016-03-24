@@ -9,6 +9,7 @@
 #include "./Packet/t1452.h"
 #include "./packet/CSPAT00600.h"
 #include "./packet/cspaq13700.h"
+#include "./packet/cspaq12300.h"
 #include <QVector>
 #include "data_1833.h"
 #define kor(str) QString::fromLocal8Bit(str)
@@ -125,6 +126,13 @@ typedef struct _CSPAT00600data{
     char    *strOrdCndiTpCode       ;    // [string,    1] 주문조건구분                    StartPos 97, Length 1
 }CSPAT00600data;
 
+typedef struct{
+            CSPAQ12300OutBlock1	outBlock1;
+            CSPAQ12300OutBlock2	outBlock2;
+            char				sCountOutBlock3[5];
+            CSPAQ12300OutBlock3	outBlock3[1];
+} CSPAQ12300AllOutBlock, *LPCSPAQ12300AllOutBlock;
+
 //------------------------------------------------------------------------------
 
 
@@ -160,8 +168,11 @@ public:
 
     void func_CSPAT00600OutBlock2(LPRECV_PACKET pRpData);
 
+    void func_CSPAT12300OutBlock3(LPRECV_PACKET pRpData);
+
     int CSPAT00600_Request(BOOL nNext,CSPAT00600data data);
     int CSPAQ13700_Request(BOOL nNext,CSPAQ13700InBlock1data data);
+    int CSPAQ12300_Request(BOOL nNext,CSPAQ12300InBlock1data data);
 
     QLibrary lib;
     //-------------------------library from Xingapi typedef---------------------------------

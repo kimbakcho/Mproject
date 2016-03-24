@@ -203,4 +203,5 @@ HEADERS  += \
     tsearch_res.h \
     data_1833.h \
     tsellfrom1833.h \
-    packet/cspaq13700.h
+    packet/cspaq13700.h \
+    packet/cspaq12300.h

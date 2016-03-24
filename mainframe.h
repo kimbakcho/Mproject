@@ -13,6 +13,7 @@
 #include <QSettings>
 #include "tsearch_push.h"
 #include "tsearch_res.h"
+#include "tsellfrom1833.h"
 #include <QCheckBox>
 
 
@@ -65,7 +66,7 @@ public:
     QPushButton *functiontestbtn1;
 
 
-
+    TSellfrom1833 *tsf1833;
 
 
     void init();

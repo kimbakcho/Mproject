@@ -314,6 +314,26 @@ int xing::CSPAQ13700_Request(BOOL nNext,CSPAQ13700InBlock1data data){
 
 };
 
+ int xing::CSPAQ12300_Request(BOOL nNext,CSPAQ12300InBlock1data data){
+     CSPAQ12300InBlock1	pckInBlock;
+     char			szTrNo[]		= "CSPAQ12300";
+     char			szNextKey[]		= "";
+
+     memset(&pckInBlock,' ',sizeof(pckInBlock));
+
+     SetPacketData( pckInBlock.RecCnt        , sizeof( pckInBlock.RecCnt         ), "1"              , DATA_TYPE_LONG         );    // [long  ,    5] 레코드갯수
+     SetPacketData( pckInBlock.AcntNo        , sizeof( pckInBlock.AcntNo         ), data.AcntNo        , DATA_TYPE_STRING       );    // [string,   20] 계좌번호
+     SetPacketData( pckInBlock.Pwd           , sizeof( pckInBlock.Pwd            ), data.Pwd           , DATA_TYPE_STRING       );    // [string,    8] 비밀번호
+     SetPacketData( pckInBlock.BalCreTp      , sizeof( pckInBlock.BalCreTp       ), data.BalCreTp      , DATA_TYPE_STRING       );    // [string,    1] 잔고생성구분
+     SetPacketData( pckInBlock.CmsnAppTpCode , sizeof( pckInBlock.CmsnAppTpCode  ), data.CmsnAppTpCode , DATA_TYPE_STRING       );    // [string,    1] 수수료적용구분
+     SetPacketData( pckInBlock.D2balBaseQryTp, sizeof( pckInBlock.D2balBaseQryTp ), data.D2balBaseQryTp, DATA_TYPE_STRING       );    // [string,    1] D2잔고기준조회구분
+     SetPacketData( pckInBlock.UprcTpCode    , sizeof( pckInBlock.UprcTpCode     ), data.UprcTpCode    , DATA_TYPE_STRING       );    // [string,    1] 단가구분
+
+     int nRqID = ETK_Request(szTrNo,&pckInBlock,sizeof(pckInBlock),nNext,szNextKey,30);
+
+     return nRqID;
+ }
+
 // it is furntion for Message handler
 bool xing::nativeEvent(const QByteArray & eventType, void * message, long * result)
 {
@@ -348,6 +368,10 @@ bool xing::nativeEvent(const QByteArray & eventType, void * message, long * resu
                 func_t1833outblock1(pRpData);
             }else if(strcmp( pRpData->szBlockName, NAME_CSPAT00600OutBlock2)==0){
                 func_CSPAT00600OutBlock2(pRpData);
+            }else if(strcmp(pRpData->szTrCode,"CSPAQ12300") == 0){
+
+
+                func_CSPAT12300OutBlock3(pRpData);
             }
         }else if(cresult == MESSAGE_DATA){ //Message를받았을때발생 MSG_PACKET 의Memory 주소
             LPMSG_PACKET pMsg = (LPMSG_PACKET)msg->lParam;
@@ -400,12 +424,11 @@ void xing::func_t1833outblock(LPRECV_PACKET pRpData){
        unsigned int src = (unsigned int)&(pRpData->lpData)-1;
        memcpy(&pRplpdata,(void *)src,4);
     //------------------------------------------------------------------
-
 }
 void xing::func_t1833outblock1(LPRECV_PACKET pRpData){
     //xing api bug config memory----------------------------------------
        unsigned char * pRplpdata ;
-       unsigned int src = (unsigned int)&(pRpData->lpData)-1;
+       unsigned int src = (unsigned int)&(pRpData->lpData);
        memcpy(&pRplpdata,(void *)src,4);
     //------------------------------------------------------------------
 
@@ -446,8 +469,6 @@ void xing::func_t1833outblock1(LPRECV_PACKET pRpData){
            QString volume = QString::fromLocal8Bit(pOutBlock[i].volume,10);
            QString price = QString::fromLocal8Bit(pOutBlock[i].close,9);
            QString diff = QString::fromLocal8Bit(pOutBlock[i].diff,6);
-
-
 
 
            qDebug()<<kor("t1833 결과 (%1): shcode = %2 , hname = %3,price = %4,volume = %5,diff =%6 ")
@@ -527,12 +548,28 @@ void xing::func_CSPAT00600OutBlock2(LPRECV_PACKET pRpData){
      LPCSPAT00600OutBlock2 pOutBlock = (LPCSPAT00600OutBlock2)pRplpdata;
 //     int	nCount = pRpData->nDataLength / sizeof( CSPAT00600OutBlock2 );		// Block Mode 시엔 전체크기 / 하나의 Record 크기 로 갯수를 구한다.
      qDebug()<<QString("CSPAT00600OutBlock2");
-     //데이터 처리
-     QString OrdNo = QString::fromLocal8Bit(pOutBlock->OrdNo,10);
-     vector_1833.last()->OrdNo = OrdNo;
-     vector_1833.last()->OrdNo_flag = true;
-
 }
+void xing::func_CSPAT12300OutBlock3(LPRECV_PACKET pRpData){
+    //xing api bug config memory----------------------------------------
+       unsigned char * pRplpdata ;
+       unsigned int src = (unsigned int)&(pRpData->lpData);
+       memcpy(&pRplpdata,(void *)src,4);
+    //------------------------------------------------------------------
+       int	nDataLength  = pRpData->nDataLength;
+       LPCSPAQ12300AllOutBlock pAllOutBlock = (LPCSPAQ12300AllOutBlock)pRpData->lpData;
+       char szCount[6] = { 0 };
+       int nCount;
 
+       nDataLength -= sizeof( CSPAQ12300OutBlock1 );
+       nDataLength -= sizeof( CSPAQ12300OutBlock2 );
+       nDataLength -= 5;
+       CopyMemory( szCount, pAllOutBlock->sCountOutBlock3, 5 );
+       nCount = atoi( szCount );
+       for( int i=0; i<nCount; i++ )
+       {
+           QString IsuNo = QString::fromLocal8Bit(pAllOutBlock->outBlock3[i].IsuNo,sizeof(pAllOutBlock->outBlock3[i].IsuNo));
+           qDebug()<<QString("func_CSPAT12300OutBlock3 IsuNo = %1").arg(IsuNo);
+       }
+}
 
 
