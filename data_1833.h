@@ -14,6 +14,8 @@ public:
     QString volume;
     QString price;
     QString diff;
+    QString OrdNo;
+    bool OrdNo_flag;
 
 
 private:

@@ -7,8 +7,8 @@ extern xing *x1;
 Tsearch_push::Tsearch_push(Tsearch_res *recvth_temp)
 {
     m_stopflag = PLAY;
-    play_time.setHMS(9,0,0);
-    play_end_time.setHMS(9,1,0);
+    play_time.setHMS(9,0,20);
+    play_end_time.setHMS(9,1,20);
     play_time_sec = QTime(0,0,0).secsTo(play_time);
     play_end_time_sec = QTime(0,0,0).secsTo(play_end_time);
     playtime_flag = PLAY;
@@ -24,7 +24,8 @@ void Tsearch_push::run(){
             play_time_sec++;
             qDebug()<<"Tserch_push time : "<<time.toString("hh:mm:s");
             //xcom->com_1833_request();
-            x1->ETK_RequestService("t1833","C:\\ConditionToApi.ADF");
+
+            x1->ETK_RequestService((char *)"t1833",(char *)"C:\\ConditionToApi.ADF");
             //recvth->resume();
             playtime_flag = STOP;
         }else{

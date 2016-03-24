@@ -20,7 +20,6 @@ void Tsearch_res::run(){
                 }
                 msleep(100);
             }
-
         m_mutex.unlock();
     }
 }

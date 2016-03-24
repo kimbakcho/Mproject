@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     com1_axobj.cpp \
     tsearch_push.cpp \
     tsearch_res.cpp \
-    data_1833.cpp
+    data_1833.cpp \
+    tsellfrom1833.cpp
 
 HEADERS  += \
     loginwiget.h \
@@ -200,4 +201,6 @@ HEADERS  += \
     com1_axobj.h \
     tsearch_push.h \
     tsearch_res.h \
-    data_1833.h
+    data_1833.h \
+    tsellfrom1833.h \
+    packet/cspaq13700.h

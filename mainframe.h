@@ -13,6 +13,7 @@
 #include <QSettings>
 #include "tsearch_push.h"
 #include "tsearch_res.h"
+#include <QCheckBox>
 
 
 class mainframe : public QWidget
@@ -58,6 +59,8 @@ public:
     QHBoxLayout *QHOrdCndiTpCode;
     QLabel *Qaccount;
     QLineEdit *QLaccount;
+    QCheckBox *Qusebuy;
+    QLabel *QLusebuy;
 
 
 
@@ -73,6 +76,7 @@ public slots:
     void QLLQAcntNo_change(QString str);
     void QLInptPwd_change(QString str);
     void QLaccount_change(QString str);
+    void Qusebuy_change(bool data);
 };
 
 #endif // MAINFRAME_H

@@ -289,7 +289,7 @@ int xing::CSPAT00600_Request(BOOL nNext,CSPAT00600data data){
 
 }
 
-int xing::CAPAQ13700_Request(BOOL nNext){
+int xing::CAPAQ13700_Request(BOOL nNext,){
 
 }
 

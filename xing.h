@@ -8,6 +8,7 @@
 #include <QTime>
 #include "./Packet/t1452.h"
 #include "./packet/CSPAT00600.h"
+#include "./packet/cspaq13700.h"
 #include <QVector>
 #include "data_1833.h"
 #define kor(str) QString::fromLocal8Bit(str)
@@ -140,7 +141,8 @@ public:
     QString demoip;
     int serverport;
     data_1833 *d_1833;
-    QVector<data_1833 *> vector;
+    QVector<data_1833 *> vector_1833;
+    bool buy_flag;
 
     bool ETK_Connect(int type);
     bool ETK_Login(QByteArray Qid,QByteArray Qpasswd,QByteArray Qauthpasswd);
@@ -156,7 +158,9 @@ public:
     void func_t1833outblock(LPRECV_PACKET pRpData);
     void func_t1833outblock1(LPRECV_PACKET pRpData);
 
-    void CSPAT00600_Request(BOOL nNext,CSPAT00600data data);
+    void func_CSPAT00600OutBlock2(LPRECV_PACKET pRpData);
+
+    int CSPAT00600_Request(BOOL nNext,CSPAT00600data data);
 
     QLibrary lib;
     //-------------------------library from Xingapi typedef---------------------------------

@@ -39,12 +39,16 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     Qaccount = new QLabel(kor("account price"));
     QLaccount = new QLineEdit();
 
+    Qusebuy = new QCheckBox();
+    QLusebuy = new QLabel(kor("auto use buy"));
+
 //--read---
     QSettings settings1("config.ini",QSettings::IniFormat);
     settings1.beginGroup("ancnt");
     QLLQAcntNo->setText(settings1.value("AcntNo").toByteArray());
     QLInptPwd->setText(settings1.value("InptPwd").toByteArray());
     QLaccount->setText(settings1.value("price").toByteArray());
+    Qusebuy->setChecked(settings1.value("usebuy").toBool());
     settings1.endGroup();
 //---------
     gbox1->addWidget(QAcntNo,0,0);
@@ -54,6 +58,8 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     gbox1->addWidget(QLInptPwd,1,1);
     gbox1->addWidget(Qaccount,2,0);
     gbox1->addWidget(QLaccount,2,1);
+    gbox1->addWidget(QLusebuy,3,0);
+    gbox1->addWidget(Qusebuy,3,1);
 
 
 //    gbox1->addWidget(QIsuNo,2,0);
@@ -94,13 +100,15 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     connect(QLLQAcntNo,SIGNAL(textEdited(QString)),this,SLOT(QLLQAcntNo_change(QString)));
     connect(QLInptPwd,SIGNAL(textEdited(QString)),this,SLOT(QLInptPwd_change(QString)));
     connect(QLaccount,SIGNAL(textEdited(QString)),this,SLOT(QLaccount_change(QString)));
+    connect(Qusebuy,SIGNAL(toggled(bool)),this,SLOT(Qusebuy_change(bool)));
+
     //connect(btn2,SIGNAL(clicked(bool)),x1,SLOT(com_1833_result()));
     //time play to com_1833_request
     tpush->start();
     setLayout(vbox1);
 }
 void mainframe::t1833_request(){
-    x1->ETK_RequestService("t1833","C:\\ConditionToApi.ADF");
+    x1->ETK_RequestService((char *)"t1833",(char *)"C:\\ConditionToApi.ADF");
 }
 
 void mainframe::init(){
@@ -129,4 +137,13 @@ void mainframe::QLaccount_change(QString str){
     settings2.setValue("price",str.toLocal8Bit());
     settings2.endGroup();
     //---------------------------------------------------------
+}
+void mainframe::Qusebuy_change(bool data){
+    //write setting--------------------------------------------
+    QSettings settings2("config.ini",QSettings::IniFormat);
+    settings2.beginGroup("ancnt");
+    settings2.setValue("usebuy",data);
+    settings2.endGroup();
+    //---------------------------------------------------------
+
 }
