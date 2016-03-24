@@ -289,9 +289,30 @@ int xing::CSPAT00600_Request(BOOL nNext,CSPAT00600data data){
 
 }
 
-int xing::CAPAQ13700_Request(BOOL nNext){
+int xing::CSPAQ13700_Request(BOOL nNext,CSPAQ13700InBlock1data data){
+    CSPAQ13700InBlock1	pckInBlock;
+    char			szTrNo[]		= "CSPAQ13700";
+    char			szNextKey[]		= "";
 
-}
+    memset(&pckInBlock,' ',sizeof(pckInBlock));
+
+    SetPacketData( pckInBlock.RecCnt     , sizeof( pckInBlock.RecCnt      ), "1"           , DATA_TYPE_LONG   );    // [long  ,    5] 레코드갯수
+    SetPacketData( pckInBlock.AcntNo     , sizeof( pckInBlock.AcntNo      ), data.AcntNo     , DATA_TYPE_STRING );    // [string,   20] 계좌번호
+    SetPacketData( pckInBlock.InptPwd    , sizeof( pckInBlock.InptPwd     ), data.InptPwd    , DATA_TYPE_STRING );    // [string,    8] 입력비밀번호
+    SetPacketData( pckInBlock.OrdMktCode , sizeof( pckInBlock.OrdMktCode  ), data.OrdMktCode , DATA_TYPE_STRING );    // [string,    2] 주문시장코드
+    SetPacketData( pckInBlock.BnsTpCode  , sizeof( pckInBlock.BnsTpCode   ), data.BnsTpCode  , DATA_TYPE_STRING );    // [string,    1] 매매구분
+    SetPacketData( pckInBlock.IsuNo      , sizeof( pckInBlock.IsuNo       ), data.IsuNo      , DATA_TYPE_STRING );    // [string,   12] 종목번호
+    SetPacketData( pckInBlock.ExecYn     , sizeof( pckInBlock.ExecYn      ), data.ExecYn     , DATA_TYPE_STRING );    // [string,    1] 체결여부
+    SetPacketData( pckInBlock.OrdDt      , sizeof( pckInBlock.OrdDt       ), data.OrdDt      , DATA_TYPE_STRING );    // [string,    8] 주문일
+    SetPacketData( pckInBlock.SrtOrdNo2  , sizeof( pckInBlock.SrtOrdNo2   ), data.SrtOrdNo2  , DATA_TYPE_LONG   );    // [long  ,   10] 시작주문번호2
+    SetPacketData( pckInBlock.BkseqTpCode, sizeof( pckInBlock.BkseqTpCode ), data.BkseqTpCode, DATA_TYPE_STRING );    // [string,    1] 역순구분
+    SetPacketData( pckInBlock.OrdPtnCode , sizeof( pckInBlock.OrdPtnCode  ), data.OrdPtnCode , DATA_TYPE_STRING );    // [string,    2] 주문유형코드
+
+    int nRqID = ETK_Request(szTrNo,&pckInBlock,sizeof(pckInBlock),nNext,szNextKey,30);
+
+    return nRqID;
+
+};
 
 // it is furntion for Message handler
 bool xing::nativeEvent(const QByteArray & eventType, void * message, long * result)
@@ -512,4 +533,6 @@ void xing::func_CSPAT00600OutBlock2(LPRECV_PACKET pRpData){
      vector_1833.last()->OrdNo_flag = true;
 
 }
+
+
 

@@ -161,6 +161,7 @@ public:
     void func_CSPAT00600OutBlock2(LPRECV_PACKET pRpData);
 
     int CSPAT00600_Request(BOOL nNext,CSPAT00600data data);
+    int CSPAQ13700_Request(BOOL nNext,CSPAQ13700InBlock1data data);
 
     QLibrary lib;
     //-------------------------library from Xingapi typedef---------------------------------

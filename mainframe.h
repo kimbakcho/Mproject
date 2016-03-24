@@ -62,6 +62,8 @@ public:
     QCheckBox *Qusebuy;
     QLabel *QLusebuy;
 
+    QPushButton *functiontestbtn1;
+
 
 
 
@@ -77,6 +79,7 @@ public slots:
     void QLInptPwd_change(QString str);
     void QLaccount_change(QString str);
     void Qusebuy_change(bool data);
+    void functiontestbtn1_push();
 };
 
 #endif // MAINFRAME_H
