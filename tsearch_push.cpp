@@ -7,8 +7,8 @@ extern xing *x1;
 Tsearch_push::Tsearch_push(Tsearch_res *recvth_temp)
 {
     m_stopflag = PLAY;
-    play_time.setHMS(9,0,20);
-    play_end_time.setHMS(9,1,20);
+    play_time.setHMS(9,29,58);
+    play_end_time.setHMS(13,30,00);
     play_time_sec = QTime(0,0,0).secsTo(play_time);
     play_end_time_sec = QTime(0,0,0).secsTo(play_end_time);
     playtime_flag = PLAY;

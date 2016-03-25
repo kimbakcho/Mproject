@@ -12,6 +12,7 @@
 #include "./packet/cspaq12300.h"
 #include <QVector>
 #include "data_1833.h"
+#include <QMap>
 #define kor(str) QString::fromLocal8Bit(str)
 //------------------------------------------------------------------------------
 // 메시지 정의
@@ -151,6 +152,8 @@ public:
     data_1833 *d_1833;
     QVector<data_1833 *> vector_1833;
     bool buy_flag;
+    QMap<QString ,data_1833 *> hight_value1833;
+    bool hight_value1833_flag;
 
     bool ETK_Connect(int type);
     bool ETK_Login(QByteArray Qid,QByteArray Qpasswd,QByteArray Qauthpasswd);

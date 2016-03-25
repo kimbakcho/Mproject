@@ -10,6 +10,7 @@ xing::xing(QWidget *parent) : QWidget(parent)
     demoip = "demo.ebestsec.co.kr";
     serverport = 20001;
     buy_flag = true;
+    hight_value1833_flag = true;
 }
 bool xing::init()
 {
@@ -459,7 +460,7 @@ void xing::func_t1833outblock1(LPRECV_PACKET pRpData){
        QString loandt ="";
        QString ordcnditpcode="0";
        int	nCount = pRpData->nDataLength / sizeof( t1833OutBlock1 );		// Block Mode 시엔 전체크기 / 하나의 Record 크기 로 갯수를 구한다.
-       qDebug()<<QString("t1833 time = %1").arg(QTime::currentTime().toString("hh:mm:ss"));
+       //qDebug()<<QString("t1833 time = %1").arg(QTime::currentTime().toString("hh:mm:ss"));
 
        for( int i=0; i<nCount; i++ )
        {
@@ -469,69 +470,83 @@ void xing::func_t1833outblock1(LPRECV_PACKET pRpData){
            QString volume = QString::fromLocal8Bit(pOutBlock[i].volume,10);
            QString price = QString::fromLocal8Bit(pOutBlock[i].close,9);
            QString diff = QString::fromLocal8Bit(pOutBlock[i].diff,6);
+           if(hight_value1833_flag){
+               hight_value1833.insert(shcode,new data_1833());
 
+           }else {
+               bool newvalue = hight_value1833.contains(shcode);
 
-           qDebug()<<kor("t1833 결과 (%1): shcode = %2 , hname = %3,price = %4,volume = %5,diff =%6 ")
-                     .arg(i).arg(shcode).arg(hname).arg(price).arg(volume).arg(diff);
-           if(buy_flag&&(mf->Qusebuy->isChecked())){
-               real_volume = volume.toInt();
-               if(real_volume>100000){
+               if(!newvalue){
+                   qDebug()<<QString("t1833 time = %1").arg(QTime::currentTime().toString("hh:mm:ss"));
+                   hight_value1833.insert(shcode,new data_1833());
+                   qDebug()<<kor("t1833 결과 : shcode = %2 , hname = %3,price = %4,volume = %5,diff =%6 ")
+                                        .arg(shcode).arg(hname).arg(price).arg(volume).arg(diff);
 
-                   qb_temp[0] = shcode.toLocal8Bit();
-                   data.strIsuNo = qb_temp[0].data();
+                   if(buy_flag&&(mf->Qusebuy->isChecked())){
+                       real_volume = volume.toInt();
+                       if(real_volume>50000){
 
-                   qb_temp[1] = mf->QLInptPwd->text().toLocal8Bit();
-                   data.strInptPwd = qb_temp[1].data();
+                           qb_temp[0] = shcode.toLocal8Bit();
+                           data.strIsuNo = qb_temp[0].data();
 
-                   qb_temp[2] = mf->QLLQAcntNo->text().toLocal8Bit();
-                   data.strAcntNo = qb_temp[2].data();
+                           qb_temp[1] = mf->QLInptPwd->text().toLocal8Bit();
+                           data.strInptPwd = qb_temp[1].data();
 
-                   //price qty
-                   real_price = price.toInt();
-                   real_money = mf->QLaccount->text().toInt();
-                   total_ordqty = real_money/real_price;
-                   ju_count.sprintf("%d",total_ordqty);
-                   qb_temp[3] = ju_count.toLocal8Bit();
-                   data.strOrdQty = qb_temp[3].data();
+                           qb_temp[2] = mf->QLLQAcntNo->text().toLocal8Bit();
+                           data.strAcntNo = qb_temp[2].data();
 
-                   //price
-                   qb_temp[4] = price.toLocal8Bit();
-                   data.strOrdPrc = qb_temp[4].data();
+                           //price qty
+                           real_price = price.toInt();
+                           real_money = mf->QLaccount->text().toInt();
+                           total_ordqty = real_money/real_price;
+                           ju_count.sprintf("%d",total_ordqty);
+                           qb_temp[3] = ju_count.toLocal8Bit();
+                           data.strOrdQty = qb_temp[3].data();
 
-                   //BnsTpCode
-                   qb_temp[5] = tpcode.toLocal8Bit();
-                   data.strBnsTpCode = qb_temp[5].data();
+                           //price
+                           qb_temp[4] = price.toLocal8Bit();
+                           data.strOrdPrc = qb_temp[4].data();
 
-                    //OrdprcPtnCode
-                   qb_temp[6] = prcptncode.toLocal8Bit();
-                   data.strOrdprcPtnCode = qb_temp[6].data();
+                           //BnsTpCode
+                           qb_temp[5] = tpcode.toLocal8Bit();
+                           data.strBnsTpCode = qb_temp[5].data();
 
-                    //MgntrnCode
-                   qb_temp[7] = mgntrncode.toLocal8Bit();
-                   data.strMgntrnCode = qb_temp[7].data();
+                            //OrdprcPtnCode
+                           qb_temp[6] = prcptncode.toLocal8Bit();
+                           data.strOrdprcPtnCode = qb_temp[6].data();
 
-                   //LoanDt
-                   qb_temp[8] = loandt.toLocal8Bit();
-                   data.strLoanDt = qb_temp[8].data();
+                            //MgntrnCode
+                           qb_temp[7] = mgntrncode.toLocal8Bit();
+                           data.strMgntrnCode = qb_temp[7].data();
 
-                    //OrdCndiTpCode
-                   qb_temp[9] = ordcnditpcode.toLocal8Bit();
-                   data.strOrdCndiTpCode = qb_temp[9].data();
+                           //LoanDt
+                           qb_temp[8] = loandt.toLocal8Bit();
+                           data.strLoanDt = qb_temp[8].data();
 
-                   int result_3 = CSPAT00600_Request(true,data);
-                   if(result_3>0){
-                       d_1833 = new data_1833();
-                       d_1833->shcode = shcode;
-                       d_1833->hname = hname;
-                       d_1833->volume = volume;
-                       d_1833->price = price;
-                       d_1833->diff = diff;
-                       vector_1833.append(d_1833);
-                       buy_flag = false;
+                            //OrdCndiTpCode
+                           qb_temp[9] = ordcnditpcode.toLocal8Bit();
+                           data.strOrdCndiTpCode = qb_temp[9].data();
+
+                           int result_3 = CSPAT00600_Request(true,data);
+                           if(result_3>0){
+                               d_1833 = new data_1833();
+                               d_1833->shcode = shcode;
+                               d_1833->hname = hname;
+                               d_1833->volume = volume;
+                               d_1833->price = price;
+                               d_1833->diff = diff;
+                               vector_1833.append(d_1833);
+                               buy_flag = false;
+                           }
+                       }
                    }
                }
            }
+//           qDebug()<<kor("t1833 결과 (%1): shcode = %2 , hname = %3,price = %4,volume = %5,diff =%6 ")
+//                     .arg(i).arg(shcode).arg(hname).arg(price).arg(volume).arg(diff);
+
        }
+       hight_value1833_flag = false;
 
 //       for(int i=0;i<vector.size();i++){
 //           qDebug()<<QString("qvector shcode = %1").arg(vector.at(0)->shcode);
