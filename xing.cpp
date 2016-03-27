@@ -472,6 +472,10 @@ void xing::func_t1833outblock1(LPRECV_PACKET pRpData){
            QString diff = QString::fromLocal8Bit(pOutBlock[i].diff,6);
            if(hight_value1833_flag){
                hight_value1833.insert(shcode,new data_1833());
+               qDebug()<<QString("t1833 time = %1").arg(QTime::currentTime().toString("hh:mm:ss"));
+               hight_value1833.insert(shcode,new data_1833());
+               qDebug()<<kor("t1833  insert 결과 : shcode = %2 , hname = %3,price = %4,volume = %5,diff =%6 ")
+                                    .arg(shcode).arg(hname).arg(price).arg(volume).arg(diff);
 
            }else {
                bool newvalue = hight_value1833.contains(shcode);
@@ -479,8 +483,9 @@ void xing::func_t1833outblock1(LPRECV_PACKET pRpData){
                if(!newvalue){
                    qDebug()<<QString("t1833 time = %1").arg(QTime::currentTime().toString("hh:mm:ss"));
                    hight_value1833.insert(shcode,new data_1833());
-                   qDebug()<<kor("t1833 결과 : shcode = %2 , hname = %3,price = %4,volume = %5,diff =%6 ")
+                   qDebug()<<kor("t1833 retain insert 결과 : shcode = %2 , hname = %3,price = %4,volume = %5,diff =%6 ")
                                         .arg(shcode).arg(hname).arg(price).arg(volume).arg(diff);
+
 
                    if(buy_flag&&(mf->Qusebuy->isChecked())){
                        real_volume = volume.toInt();
