@@ -37,6 +37,7 @@ public:
     QTime get_time;
     QFile *file;
     QString filename;
+    QString initurl;
 
 signals:
 

@@ -1,4 +1,6 @@
 #include "webwiget.h"
+#include "mainframe.h"
+extern mainframe *mf;
 
 webwiget::webwiget()
 {
@@ -11,8 +13,7 @@ webwiget::webwiget()
     findstr3 =kor("1차목표");
     findstr4 =kor("대응");
 
-
-
+    initurl = "http://rich-stock.com/freer/?p_url=freer_1&B_Name=center&b_dir=talkclub&category=freer_1&b_url=contents&list_no=%1";
 
 
     file = new QFile();
@@ -29,7 +30,8 @@ webwiget::webwiget()
 
 }
 int webwiget::getparser(){
-    load(QUrl("http://rich-stock.com/freer/?p_url=freer_1&B_Name=center&b_dir=talkclub&category=freer_1&b_url=contents&list_no=11485"));
+    QString tempurl = initurl.arg(mf->rich_address->text());
+    load(QUrl(tempurl));
     setVisible(0);
     return 0;
 
@@ -70,11 +72,11 @@ void webwiget::finishedpage(bool flag){
                     get_time = QTime::currentTime();
                     qDebug()<<kor("not contain name : %1 price : %2 loos : %3 1ob : %4 shcode = %5 time = %6 ")
                               .arg(strlist_result.at(0)).arg(strlist_result.at(2)).arg(strlist_result.at(4)).arg(strlist_result.at(6)).arg(shcode_temp).arg(get_time.toString("hh:mm:ss"));
-
                     qDebug()<<kor("----------------------------------------");
                 }
         }
-        load(QUrl("http://rich-stock.com/freer/?p_url=freer_1&B_Name=center&b_dir=talkclub&category=freer_1&b_url=contents&list_no=11485"));
+        QString tempur2 = initurl.arg(mf->rich_address->text());
+        load(QUrl(tempur2));
         }
     }
 }
