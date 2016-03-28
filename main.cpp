@@ -3,9 +3,11 @@
 #include "xingcom.h"
 #include "tsearch_push.h"
 #include <QApplication>
+#include <webwiget.h>
 xing *x1;
 xingcom *xcom;
 mainframe *mf;
+webwiget *wk;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -30,6 +32,10 @@ int main(int argc, char *argv[])
     mf = new mainframe();
 
     w1.show();
+
+
+    wk = new webwiget();
+    wk->show();
 
 
 

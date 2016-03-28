@@ -1,9 +1,10 @@
 #include "mainframe.h"
 #include "xingcom.h"
 #include <xing.h>
-
+#include <webwiget.h>
 extern xingcom *xcom;
 extern xing *x1;
+extern webwiget *wk;
 mainframe::mainframe(QWidget *parent) : QWidget(parent)
 {
     btn1 = new QPushButton();
@@ -176,7 +177,8 @@ void mainframe::functiontestbtn1_push(){
 //    data.OrdPtnCode = qt_temp[9].data();
 //    x1->CSPAQ13700_Request(true,data);
 
-    tsf1833->start();
+    //tsf1833->start();
+    wk->getparser();
 
 
 }
