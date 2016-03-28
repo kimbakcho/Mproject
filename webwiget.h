@@ -11,6 +11,14 @@
 #include <QDebug>
 #include <QWebElementCollection>
 #include <QWebElement>
+#include <QMap>
+#include <rich_data.h>
+#include <QTime>
+#include <QFile>
+#include <QTextStream>
+
+#define kor(str) QString::fromLocal8Bit(str)
+
 class webwiget : public QWebView
 {
     Q_OBJECT
@@ -20,10 +28,20 @@ public:
     QWebElement document;
     int getparser();
     QStringList result_2;
+    QString findstr1;
+    QString findstr2;
+    QString findstr3;
+    QString findstr4;
+    QMap<QString,rich_data *> richdatamap;
+    QMap<QString,QString> shcodemap;
+    QTime get_time;
+    QFile *file;
+    QString filename;
 
 signals:
 
 public slots:
+    void finishedpage(bool flag);
 };
 
 #endif // WEBWIGET_H

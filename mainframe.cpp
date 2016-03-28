@@ -47,6 +47,9 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     functiontestbtn1 = new QPushButton("test");
     tsf1833 = new TSellfrom1833();
 
+    rich_address = new QLineEdit();
+    rich_label = new QLabel("rich_address");
+
 //--read---
     QSettings settings1("config.ini",QSettings::IniFormat);
     settings1.beginGroup("ancnt");
@@ -66,6 +69,8 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     gbox1->addWidget(QLusebuy,3,0);
     gbox1->addWidget(Qusebuy,3,1);
     gbox1->addWidget(functiontestbtn1,4,0);
+    gbox1->addWidget(rich_label,5,0);
+    gbox1->addWidget(rich_address,5,1);
 
 //    gbox1->addWidget(QIsuNo,2,0);
 //    gbox1->addWidget(QLIsuNo,2,1);
@@ -96,9 +101,9 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     vbox1->addLayout(gbox1);
 
 
-    trecv = new Tsearch_res();
-    trecv->start();
-    tpush = new Tsearch_push(trecv);
+    //trecv = new Tsearch_res();
+    //trecv->start();
+    //tpush = new Tsearch_push(trecv);
 
     connect(btn1,SIGNAL(clicked(bool)),this,SLOT(t1833_request()));
 
@@ -109,7 +114,7 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     connect(functiontestbtn1,SIGNAL(clicked(bool)),this,SLOT(functiontestbtn1_push()));
     //connect(btn2,SIGNAL(clicked(bool)),x1,SLOT(com_1833_result()));
     //time play to com_1833_request
-    tpush->start();
+    //tpush->start();
     setLayout(vbox1);
 }
 void mainframe::t1833_request(){

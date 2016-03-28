@@ -7,8 +7,8 @@ extern xing *x1;
 Tsearch_push::Tsearch_push(Tsearch_res *recvth_temp)
 {
     m_stopflag = PLAY;
-    play_time.setHMS(10,16,00);
-    play_end_time.setHMS(13,30,00);
+    play_time.setHMS(12,53,10);
+    play_end_time.setHMS(14,30,00);
     play_time_sec = QTime(0,0,0).secsTo(play_time);
     play_end_time_sec = QTime(0,0,0).secsTo(play_end_time);
     playtime_flag = PLAY;
@@ -21,6 +21,7 @@ void Tsearch_push::run(){
         //qDebug()<<"QTime : "<<time.toString("hh:mm:s");
         time_sec = QTime(0,0,0).secsTo(time);
         if((time_sec == play_time_sec)&&(time_sec<=play_end_time_sec)&&(playtime_flag)){
+            play_time_sec++;
             play_time_sec++;
             qDebug()<<"Tserch_push time : "<<time.toString("hh:mm:s");
             //xcom->com_1833_request();

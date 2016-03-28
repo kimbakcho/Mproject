@@ -68,6 +68,9 @@ public:
 
     TSellfrom1833 *tsf1833;
 
+    QLineEdit *rich_address;
+    QLabel *rich_label;
+
 
     void init();
 signals:

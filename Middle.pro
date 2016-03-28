@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui axcontainer webkitwidgets
+QT       += core gui axcontainer webkitwidgets xlsx
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     tsearch_res.cpp \
     data_1833.cpp \
     tsellfrom1833.cpp \
-    webwiget.cpp
+    webwiget.cpp \
+    rich_data.cpp
 
 HEADERS  += \
     loginwiget.h \
@@ -206,4 +207,5 @@ HEADERS  += \
     tsellfrom1833.h \
     packet/cspaq13700.h \
     packet/cspaq12300.h \
-    webwiget.h
+    webwiget.h \
+    rich_data.h
