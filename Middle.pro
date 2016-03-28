@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui axcontainer webkitwidgets xlsx
+QT       += core gui axcontainer webkitwidgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

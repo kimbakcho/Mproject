@@ -16,6 +16,8 @@
 #include <QTime>
 #include <QFile>
 #include <QTextStream>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
 
 #define kor(str) QString::fromLocal8Bit(str)
 

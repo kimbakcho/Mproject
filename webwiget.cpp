@@ -28,11 +28,18 @@ webwiget::webwiget()
         shcodemap.insert(shcode_result.at(0),shcode_result.at(1));
     }
 
+
 }
 int webwiget::getparser(){
-    QString tempurl = initurl.arg(mf->rich_address->text());
-    load(QUrl(tempurl));
-    setVisible(0);
+
+    QNetworkAccessManager *network = new QNetworkAccessManager();
+    QNetworkRequest requ;
+    requ.setUrl(QUrl("http://rich-stock.com/member/log_in_ok.asp"));
+    QByteArray postdata_2;
+    load(requ,QNetworkAccessManager::PostOperation,postdata_2);
+    //QString tempurl = initurl.arg(mf->rich_address->text());
+    //load(QUrl(tempurl));
+    //setVisible(0);
     return 0;
 
 }
