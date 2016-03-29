@@ -608,7 +608,14 @@ void xing::func_t1101outblock(LPRECV_PACKET pRpData){
        QString hname = QString::fromLocal8Bit(pOutBlock->hname,20);
        QString shcode = QString::fromLocal8Bit(pOutBlock->shcode,6);
        QString price = QString::fromLocal8Bit(pOutBlock->price,8);
-
+       rich_data *data_temp;
+       data_temp= wk->richdatamap.value(shcode);
+       int price_int = price.toInt();
+       int loss_int = data_temp->loss.toInt();
+       if(loss_int<=price_int){
+           //손절
+            data_temp->loss_flag=true;
+       }
        qDebug()<<kor("결과 t1101: shcode = %1,hanme = %2,price = %3").arg(shcode).arg(hname).arg(price);
 
 }
@@ -729,9 +736,23 @@ void xing::func_t0424OutBlock1(LPRECV_PACKET pRpData){
                qb_temp[9] = ordcnditpcode.toLocal8Bit();
                data.strOrdCndiTpCode = qb_temp[9].data();
 
-               int result_3 = CSPAT00600_Request(true,data);
-                qDebug()<<QString("func_t0424OutBlock1 to CSPAT00600_Request expcode = %1 hname = %2").arg(expcode).arg(hname);
+               if(!tempvalue->loss_flag){
+                    int result_3 = CSPAT00600_Request(true,data);
+                    qDebug()<<QString("func_t0424OutBlock1 to CSPAT00600_Request expcode = %1 hname = %2").arg(expcode).arg(hname);
+               }else{
+                   //손절
+                  //price
+                  qb_temp[4] = tempvalue->loss.toLocal8Bit();
+                  data.strOrdPrc = qb_temp[4].data();
 
+                  prcptncode = "03";
+                   //OrdprcPtnCode
+                  qb_temp[6] = prcptncode.toLocal8Bit();
+                  data.strOrdprcPtnCode = qb_temp[6].data();
+
+
+                  int result_3 = CSPAT00600_Request(true,data);
+               }
            }
        }
 }

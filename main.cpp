@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <webwiget.h>
 #include "tjango_th.h"
+#include "tpricemoniter.h"
 xing *x1;
 xingcom *xcom;
 mainframe *mf;
@@ -38,10 +39,9 @@ int main(int argc, char *argv[])
     jango_th = new tjango_th();
     jango_th->start();
 
-
-
-
-
+    tpricemoniter *pricemoniter_th;
+    pricemoniter_th = new tpricemoniter();
+    pricemoniter_th->start();
 
 
     return a.exec();
