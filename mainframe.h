@@ -15,6 +15,8 @@
 #include "tsearch_res.h"
 #include "tsellfrom1833.h"
 #include <QCheckBox>
+#include "trichquery_push.h"
+
 
 
 class mainframe : public QWidget
@@ -31,6 +33,8 @@ public:
     QLabel *label1;
     Tsearch_push *tpush;
     Tsearch_res *trecv;
+    trichquery_push *rich_th;
+
     QLabel *QAcntNo;
     QLabel *QInptPwd;
     QLabel *QIsuNo;
@@ -64,12 +68,18 @@ public:
     QLabel *QLusebuy;
 
     QPushButton *functiontestbtn1;
+    QPushButton *functiontestbtn2;
 
 
     TSellfrom1833 *tsf1833;
 
     QLineEdit *rich_address;
     QLabel *rich_label;
+
+    QLabel *QLuseautostep;
+    QCheckBox *Quseautostep;
+
+
 
 
     void init();
@@ -83,7 +93,10 @@ public slots:
     void QLInptPwd_change(QString str);
     void QLaccount_change(QString str);
     void Qusebuy_change(bool data);
+    void Quseautostep_change(bool data);
     void functiontestbtn1_push();
+    void functiontestbtn2_push();
+
 };
 
 #endif // MAINFRAME_H

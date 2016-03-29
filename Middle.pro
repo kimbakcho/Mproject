@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     data_1833.cpp \
     tsellfrom1833.cpp \
     webwiget.cpp \
-    rich_data.cpp
+    rich_data.cpp \
+    trichquery_push.cpp \
+    tjango_th.cpp
 
 HEADERS  += \
     loginwiget.h \
@@ -208,4 +210,7 @@ HEADERS  += \
     packet/cspaq13700.h \
     packet/cspaq12300.h \
     webwiget.h \
-    rich_data.h
+    rich_data.h \
+    trichquery_push.h \
+    packet/t0424.h \
+    tjango_th.h

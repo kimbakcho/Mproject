@@ -45,10 +45,14 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     QLusebuy = new QLabel(kor("auto use buy"));
 
     functiontestbtn1 = new QPushButton("test");
+    functiontestbtn2 = new QPushButton("test1");
     tsf1833 = new TSellfrom1833();
 
     rich_address = new QLineEdit();
     rich_label = new QLabel("rich_address");
+
+    QLuseautostep = new QLabel("auto step");
+    Quseautostep = new QCheckBox();
 
 //--read---
     QSettings settings1("config.ini",QSettings::IniFormat);
@@ -57,6 +61,7 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     QLInptPwd->setText(settings1.value("InptPwd").toByteArray());
     QLaccount->setText(settings1.value("price").toByteArray());
     Qusebuy->setChecked(settings1.value("usebuy").toBool());
+    Quseautostep->setChecked(settings1.value("useautostep").toBool());
     settings1.endGroup();
 //---------
     gbox1->addWidget(QAcntNo,0,0);
@@ -69,8 +74,11 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     gbox1->addWidget(QLusebuy,3,0);
     gbox1->addWidget(Qusebuy,3,1);
     gbox1->addWidget(functiontestbtn1,4,0);
-    gbox1->addWidget(rich_label,5,0);
-    gbox1->addWidget(rich_address,5,1);
+    gbox1->addWidget(functiontestbtn2,4,1);
+//    gbox1->addWidget(rich_label,5,0);
+//    gbox1->addWidget(rich_address,5,1);
+    gbox1->addWidget(QLuseautostep,5,0);
+    gbox1->addWidget(Quseautostep,5,1);
 
 //    gbox1->addWidget(QIsuNo,2,0);
 //    gbox1->addWidget(QLIsuNo,2,1);
@@ -111,10 +119,15 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     connect(QLInptPwd,SIGNAL(textEdited(QString)),this,SLOT(QLInptPwd_change(QString)));
     connect(QLaccount,SIGNAL(textEdited(QString)),this,SLOT(QLaccount_change(QString)));
     connect(Qusebuy,SIGNAL(toggled(bool)),this,SLOT(Qusebuy_change(bool)));
+    connect(Quseautostep,SIGNAL(toggled(bool)),this,SLOT(Quseautostep_change(bool)));
     connect(functiontestbtn1,SIGNAL(clicked(bool)),this,SLOT(functiontestbtn1_push()));
+    connect(functiontestbtn2,SIGNAL(clicked(bool)),this,SLOT(functiontestbtn2_push()));
     //connect(btn2,SIGNAL(clicked(bool)),x1,SLOT(com_1833_result()));
     //time play to com_1833_request
     //tpush->start();
+    rich_th = new trichquery_push();
+    rich_th->start();
+
     setLayout(vbox1);
 }
 void mainframe::t1833_request(){
@@ -155,8 +168,16 @@ void mainframe::Qusebuy_change(bool data){
     settings2.setValue("usebuy",data);
     settings2.endGroup();
     //---------------------------------------------------------
-
 }
+void mainframe::Quseautostep_change(bool data){
+    //write setting--------------------------------------------
+    QSettings settings2("config.ini",QSettings::IniFormat);
+    settings2.beginGroup("ancnt");
+    settings2.setValue("useautostep",data);
+    settings2.endGroup();
+    //---------------------------------------------------------
+}
+
 void mainframe::functiontestbtn1_push(){
 //    QByteArray qt_temp[10];
 //    CSPAQ13700InBlock1data data;
@@ -183,7 +204,38 @@ void mainframe::functiontestbtn1_push(){
 //    x1->CSPAQ13700_Request(true,data);
 
     //tsf1833->start();
+    //wk->getparser();
+    QByteArray qt_temp[10];
+    t0424InBlockdata data;
+    qt_temp[0] = QString("55501003267").toLocal8Bit();
+    data.accno = qt_temp[0].data();
+    qt_temp[1] = QString("0000").toLocal8Bit();
+    data.passwd = qt_temp[1].data();
+    qt_temp[2] = QString("").toLocal8Bit();
+    data.charge = qt_temp[2].data();
+    qt_temp[3] = QString("").toLocal8Bit();
+    data.cts_expcode = qt_temp[3].data();
+    qt_temp[4] = QString("").toLocal8Bit();
+    data.dangb = qt_temp[4].data();
+    qt_temp[5] = QString("").toLocal8Bit();
+    data.prcgb = qt_temp[5].data();
+    qt_temp[6] = QString("").toLocal8Bit();
+    data.chegb = qt_temp[6].data();
+
+    x1->t0424_Request(true,data);
+
+
+}
+
+
+void mainframe::functiontestbtn2_push(){
+
+
+
     wk->getparser();
 
 
 }
+
+
+

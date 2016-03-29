@@ -4,6 +4,7 @@
 #include "tsearch_push.h"
 #include <QApplication>
 #include <webwiget.h>
+#include "tjango_th.h"
 xing *x1;
 xingcom *xcom;
 mainframe *mf;
@@ -25,17 +26,20 @@ int main(int argc, char *argv[])
 
     Loginwiget w1;
 
-
-
+    wk = new webwiget();
     //xcom = new xingcom();
+   // wk->show();
 
     mf = new mainframe();
 
     w1.show();
 
+    tjango_th *jango_th;
+    jango_th = new tjango_th();
+    jango_th->start();
 
-    wk = new webwiget();
-    wk->show();
+
+
 
 
 

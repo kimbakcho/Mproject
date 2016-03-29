@@ -14,10 +14,13 @@
 #include <QMap>
 #include <rich_data.h>
 #include <QTime>
+#include <QDate>
 #include <QFile>
 #include <QTextStream>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
+#include "./packet/CSPAT00600.h"
+
 
 #define kor(str) QString::fromLocal8Bit(str)
 
@@ -29,6 +32,8 @@ public:
     QWebFrame *qwf;
     QWebElement document;
     int getparser();
+    void getparser1();
+
     QStringList result_2;
     QString findstr1;
     QString findstr2;
@@ -37,6 +42,7 @@ public:
     QMap<QString,rich_data *> richdatamap;
     QMap<QString,QString> shcodemap;
     QTime get_time;
+    QDate get_date;
     QFile *file;
     QString filename;
     QString initurl;
@@ -45,6 +51,8 @@ signals:
 
 public slots:
     void finishedpage(bool flag);
+    void autostep();
+
 };
 
 #endif // WEBWIGET_H

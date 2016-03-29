@@ -1,5 +1,8 @@
 #include "xing.h"
 #include "mainframe.h"
+#include "webwiget.h"
+
+extern webwiget *wk;
 
 extern mainframe *mf;
 
@@ -258,7 +261,26 @@ int xing::t1452_Request(BOOL bNext){
              );
     return result_1;
 }
+int xing::t0424_Request(BOOL nNext,t0424InBlockdata data){
+    t0424InBlock pckInBlock;
+    char			szTrNo[]		= "t0424";
+    char			szNextKey[]		= "";
+    memset(&pckInBlock,' ',sizeof(pckInBlock));
 
+    SetPacketData( pckInBlock.accno       , sizeof( pckInBlock.accno        ), data.accno       , DATA_TYPE_STRING );
+    SetPacketData( pckInBlock.passwd      , sizeof( pckInBlock.passwd       ), data.passwd      , DATA_TYPE_STRING );
+    SetPacketData( pckInBlock.prcgb       , sizeof( pckInBlock.prcgb        ), data.prcgb       , DATA_TYPE_STRING );
+    SetPacketData( pckInBlock.chegb       , sizeof( pckInBlock.chegb        ), data.chegb       , DATA_TYPE_STRING );
+    SetPacketData( pckInBlock.dangb       , sizeof( pckInBlock.dangb        ), data.dangb       , DATA_TYPE_STRING );
+    SetPacketData( pckInBlock.charge      , sizeof( pckInBlock.charge       ), data.charge      , DATA_TYPE_STRING );
+    SetPacketData( pckInBlock.cts_expcode , sizeof( pckInBlock.cts_expcode  ), data.cts_expcode , DATA_TYPE_STRING );
+
+    int nRqID = ETK_Request(szTrNo,&pckInBlock,sizeof(pckInBlock),nNext,szNextKey,30);
+    if(nRqID<0){
+        qDebug()<<"t0424_Request 실패";
+    }
+    return nRqID;
+}
 
 int xing::CSPAT00600_Request(BOOL nNext,CSPAT00600data data){
     CSPAT00600InBlock1	pckInBlock;
@@ -335,6 +357,7 @@ int xing::CSPAQ13700_Request(BOOL nNext,CSPAQ13700InBlock1data data){
      return nRqID;
  }
 
+
 // it is furntion for Message handler
 bool xing::nativeEvent(const QByteArray & eventType, void * message, long * result)
 {
@@ -373,7 +396,10 @@ bool xing::nativeEvent(const QByteArray & eventType, void * message, long * resu
 
 
                 func_CSPAT12300OutBlock3(pRpData);
+            }else if(strcmp(pRpData->szTrCode, "t0424") == 0){
+                func_t0424OutBlock1(pRpData);
             }
+
         }else if(cresult == MESSAGE_DATA){ //Message를받았을때발생 MSG_PACKET 의Memory 주소
             LPMSG_PACKET pMsg = (LPMSG_PACKET)msg->lParam;
             //bug config memory----------------------------------------
@@ -476,7 +502,6 @@ void xing::func_t1833outblock1(LPRECV_PACKET pRpData){
                hight_value1833.insert(shcode,new data_1833());
                qDebug()<<kor("t1833  insert 결과 : shcode = %2 , hname = %3,price = %4,volume = %5,diff =%6 ")
                                     .arg(shcode).arg(hname).arg(price).arg(volume).arg(diff);
-
            }else {
                bool newvalue = hight_value1833.contains(shcode);
 
@@ -559,6 +584,7 @@ void xing::func_t1833outblock1(LPRECV_PACKET pRpData){
 
 }
 
+
 void xing::func_CSPAT00600OutBlock2(LPRECV_PACKET pRpData){
     //xing api bug config memory----------------------------------------
        unsigned char * pRplpdata ;
@@ -589,6 +615,95 @@ void xing::func_CSPAT12300OutBlock3(LPRECV_PACKET pRpData){
        {
            QString IsuNo = QString::fromLocal8Bit(pAllOutBlock->outBlock3[i].IsuNo,sizeof(pAllOutBlock->outBlock3[i].IsuNo));
            qDebug()<<QString("func_CSPAT12300OutBlock3 IsuNo = %1").arg(IsuNo);
+       }
+}
+void xing::func_t0424OutBlock1(LPRECV_PACKET pRpData){
+    //xing api bug config memory----------------------------------------
+       unsigned char * pRplpdata ;
+       unsigned int src = (unsigned int)&(pRpData->lpData);
+       memcpy(&pRplpdata,(void *)src,4);
+    //------------------------------------------------------------------
+       int	nDataLength  = pRpData->nDataLength;
+       LPtt0424AllOutBlock pAllOutBlock = (LPtt0424AllOutBlock)pRpData->lpData;
+       char szCount[6] = { 0 };
+       int nCount;
+       nDataLength -= sizeof( t0424OutBlock );
+       nDataLength -= 5;
+       CopyMemory( szCount, pAllOutBlock->sCountOutBlock1, 5 );
+       nCount = atoi( szCount );
+       for( int i=0; i<nCount; i++ )
+       {
+           //데이터 처리
+           QString expcode = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].expcode,sizeof(pAllOutBlock->OutBlock1[i].expcode));
+           QString jangb = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].jangb,sizeof(pAllOutBlock->OutBlock1[i].jangb));
+           QString janqty = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].janqty,sizeof(pAllOutBlock->OutBlock1[i].janqty));
+           QString mdposqt = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].mdposqt,sizeof(pAllOutBlock->OutBlock1[i].mdposqt));
+           QString pamt = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].pamt,sizeof(pAllOutBlock->OutBlock1[i].pamt));
+           QString hname = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].hname,sizeof(pAllOutBlock->OutBlock1[i].hname));
+           mdposqt.replace(" ","");
+           expcode.replace(" ","");
+           hname.replace(" ","");
+           int mdposqt_int = mdposqt.toInt();
+
+
+           qDebug()<<QString("func_t0424OutBlock1 expcode = %1 hname = %2").arg(expcode).arg(hname);
+
+           if(wk->richdatamap.contains(expcode) && (mdposqt_int>0)){
+
+
+               QByteArray qb_temp[10];
+               CSPAT00600data data;
+               //QString price = tempdata->price;
+               QString tpcode = "1";
+               QString prcptncode = "00";
+               QString mgntrncode = "000";
+               QString loandt ="";
+               QString ordcnditpcode = "0";
+               rich_data *tempvalue;
+
+               tempvalue = wk->richdatamap.value(expcode);
+
+               qb_temp[0] = tempvalue->shcode.toLocal8Bit();
+               data.strIsuNo = qb_temp[0].data();
+
+               qb_temp[1] = mf->QLInptPwd->text().toLocal8Bit();
+               data.strInptPwd = qb_temp[1].data();
+
+               qb_temp[2] = mf->QLLQAcntNo->text().toLocal8Bit();
+               data.strAcntNo = qb_temp[2].data();
+
+               //price qty
+               qb_temp[3] = mdposqt.toLocal8Bit();
+               data.strOrdQty = qb_temp[3].data();
+
+               //price
+               qb_temp[4] = tempvalue->obj.toLocal8Bit();
+               data.strOrdPrc = qb_temp[4].data();
+
+               //BnsTpCode
+               qb_temp[5] = tpcode.toLocal8Bit();
+               data.strBnsTpCode = qb_temp[5].data();
+
+                //OrdprcPtnCode
+               qb_temp[6] = prcptncode.toLocal8Bit();
+               data.strOrdprcPtnCode = qb_temp[6].data();
+
+                //MgntrnCode
+               qb_temp[7] = mgntrncode.toLocal8Bit();
+               data.strMgntrnCode = qb_temp[7].data();
+
+               //LoanDt
+               qb_temp[8] = loandt.toLocal8Bit();
+               data.strLoanDt = qb_temp[8].data();
+
+                //OrdCndiTpCode
+               qb_temp[9] = ordcnditpcode.toLocal8Bit();
+               data.strOrdCndiTpCode = qb_temp[9].data();
+
+               int result_3 = CSPAT00600_Request(true,data);
+                qDebug()<<QString("func_t0424OutBlock1 to CSPAT00600_Request expcode = %1 hname = %2").arg(expcode).arg(hname);
+
+           }
        }
 }
 
