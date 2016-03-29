@@ -170,6 +170,11 @@ void webwiget::finishedpage(bool flag){
                         int result_3 = x1->CSPAT00600_Request(true,data);
                         if(result_3){
                             richdatamap.insert(tempdata->shcode,tempdata);
+                            QByteArray qt_temp_1;
+                            t1101InBlockdata data_1;
+                            qt_temp_1 = QString(tempdata->shcode).toLocal8Bit();
+                            data_1.shcode = qt_temp_1.data();
+                            x1->t1101_Request(true,data_1);
                         }
                     }
                 }

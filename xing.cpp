@@ -281,6 +281,19 @@ int xing::t0424_Request(BOOL nNext,t0424InBlockdata data){
     }
     return nRqID;
 }
+int xing::t1101_Request(BOOL nNext,t1101InBlockdata data){
+    t1101InBlock pckInBlock;
+    char			szTrNo[]		= "t1101";
+    char			szNextKey[]		= "";
+    memset(&pckInBlock,' ',sizeof(pckInBlock));
+    SetPacketData( pckInBlock.shcode       , sizeof( pckInBlock.shcode        ), data.shcode       , DATA_TYPE_STRING );
+    int nRqID = ETK_Request(szTrNo,&pckInBlock,sizeof(pckInBlock),nNext,szNextKey,30);
+    if(nRqID<0){
+        qDebug()<<"t0424_Request 실패";
+    }
+    return nRqID;
+
+}
 
 int xing::CSPAT00600_Request(BOOL nNext,CSPAT00600data data){
     CSPAT00600InBlock1	pckInBlock;
@@ -393,11 +406,11 @@ bool xing::nativeEvent(const QByteArray & eventType, void * message, long * resu
             }else if(strcmp( pRpData->szBlockName, NAME_CSPAT00600OutBlock2)==0){
                 func_CSPAT00600OutBlock2(pRpData);
             }else if(strcmp(pRpData->szTrCode,"CSPAQ12300") == 0){
-
-
                 func_CSPAT12300OutBlock3(pRpData);
             }else if(strcmp(pRpData->szTrCode, "t0424") == 0){
                 func_t0424OutBlock1(pRpData);
+            }else if(strcmp( pRpData->szBlockName, NAME_t1101OutBlock)==0){
+                func_t1101outblock(pRpData);
             }
 
         }else if(cresult == MESSAGE_DATA){ //Message를받았을때발생 MSG_PACKET 의Memory 주소
@@ -584,6 +597,22 @@ void xing::func_t1833outblock1(LPRECV_PACKET pRpData){
 
 }
 
+void xing::func_t1101outblock(LPRECV_PACKET pRpData){
+    //xing api bug config memory----------------------------------------
+       unsigned char * pRplpdata ;
+       unsigned int src = (unsigned int)&(pRpData->lpData);
+       memcpy(&pRplpdata,(void *)src,4);
+    //------------------------------------------------------------------
+       LPt1101OutBlock pOutBlock = (LPt1101OutBlock)pRplpdata;
+       int	nCount = pRpData->nDataLength / sizeof( t1101OutBlock );		// Block Mode 시엔 전체크기 / 하나의 Record 크기 로 갯수를 구한다.
+       QString hname = QString::fromLocal8Bit(pOutBlock->hname,20);
+       QString shcode = QString::fromLocal8Bit(pOutBlock->shcode,6);
+       QString price = QString::fromLocal8Bit(pOutBlock->price,8);
+
+       qDebug()<<kor("결과 t1101: shcode = %1,hanme = %2,price = %3").arg(shcode).arg(hname).arg(price);
+
+}
+
 
 void xing::func_CSPAT00600OutBlock2(LPRECV_PACKET pRpData){
     //xing api bug config memory----------------------------------------
@@ -646,7 +675,7 @@ void xing::func_t0424OutBlock1(LPRECV_PACKET pRpData){
            int mdposqt_int = mdposqt.toInt();
 
 
-           qDebug()<<QString("func_t0424OutBlock1 expcode = %1 hname = %2").arg(expcode).arg(hname);
+           //qDebug()<<QString("func_t0424OutBlock1 expcode = %1 hname = %2").arg(expcode).arg(hname);
 
            if(wk->richdatamap.contains(expcode) && (mdposqt_int>0)){
 

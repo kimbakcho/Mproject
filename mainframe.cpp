@@ -205,24 +205,31 @@ void mainframe::functiontestbtn1_push(){
 
     //tsf1833->start();
     //wk->getparser();
-    QByteArray qt_temp[10];
-    t0424InBlockdata data;
-    qt_temp[0] = QString("55501003267").toLocal8Bit();
-    data.accno = qt_temp[0].data();
-    qt_temp[1] = QString("0000").toLocal8Bit();
-    data.passwd = qt_temp[1].data();
-    qt_temp[2] = QString("").toLocal8Bit();
-    data.charge = qt_temp[2].data();
-    qt_temp[3] = QString("").toLocal8Bit();
-    data.cts_expcode = qt_temp[3].data();
-    qt_temp[4] = QString("").toLocal8Bit();
-    data.dangb = qt_temp[4].data();
-    qt_temp[5] = QString("").toLocal8Bit();
-    data.prcgb = qt_temp[5].data();
-    qt_temp[6] = QString("").toLocal8Bit();
-    data.chegb = qt_temp[6].data();
+//    QByteArray qt_temp[10];
+//    t0424InBlockdata data;
+//    qt_temp[0] = QString("55501003267").toLocal8Bit();
+//    data.accno = qt_temp[0].data();
+//    qt_temp[1] = QString("0000").toLocal8Bit();
+//    data.passwd = qt_temp[1].data();
+//    qt_temp[2] = QString("").toLocal8Bit();
+//    data.charge = qt_temp[2].data();
+//    qt_temp[3] = QString("").toLocal8Bit();
+//    data.cts_expcode = qt_temp[3].data();
+//    qt_temp[4] = QString("").toLocal8Bit();
+//    data.dangb = qt_temp[4].data();
+//    qt_temp[5] = QString("").toLocal8Bit();
+//    data.prcgb = qt_temp[5].data();
+//    qt_temp[6] = QString("").toLocal8Bit();
+//    data.chegb = qt_temp[6].data();
 
-    x1->t0424_Request(true,data);
+//    x1->t0424_Request(true,data);
+      QByteArray qt_temp;
+      t1101InBlockdata data;
+      qt_temp = QString("019570").toLocal8Bit();
+      data.shcode = qt_temp.data();
+      x1->t1101_Request(true,data);
+
+
 
 
 }

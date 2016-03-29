@@ -14,6 +14,8 @@ public:
      QString loss;
      QString obj;
      QString shcode;
+     bool loss_flag;
+
 signals:
 
 public slots:

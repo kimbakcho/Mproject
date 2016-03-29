@@ -14,6 +14,11 @@ typedef struct _t1101InBlock
 } t1101InBlock, *LPt1101InBlock;
 #define NAME_t1101InBlock     "t1101InBlock"
 
+typedef struct _t1101InBlockdata
+{
+    char    *shcode              ;    // [string,    6] 단축코드                       StartPos 0, Length 6
+} t1101InBlockdata;
+
 // 출력
 typedef struct _t1101OutBlock
 {
