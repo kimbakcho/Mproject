@@ -18,7 +18,7 @@ void tsitemoniter::run(){
         }else{
             tempsitecount=wk->siteplaycount;
         }
-        msleep(3000);
+        msleep(2000);
     }
 }
 

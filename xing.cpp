@@ -411,6 +411,26 @@ int xing::CSPAQ13700_Request(BOOL nNext,CSPAQ13700InBlock1data data){
      return nRqID;
  }
 
+// int xing::CSPAQ00800_Request(BOOL nNext,CSPAQ00800InBlock1data data){
+//     CSPAQ12300InBlock1	pckInBlock;
+//     char			szTrNo[]		= "CSPAQ12300";
+//     char			szNextKey[]		= "";
+
+//     memset(&pckInBlock,' ',sizeof(pckInBlock));
+
+//     SetPacketData( pckInBlock.RecCnt        , sizeof( pckInBlock.RecCnt         ), "1"              , DATA_TYPE_LONG         );    // [long  ,    5] 레코드갯수
+//     SetPacketData( pckInBlock.AcntNo        , sizeof( pckInBlock.AcntNo         ), data.AcntNo        , DATA_TYPE_STRING       );    // [string,   20] 계좌번호
+//     SetPacketData( pckInBlock.Pwd           , sizeof( pckInBlock.Pwd            ), data.Pwd           , DATA_TYPE_STRING       );    // [string,    8] 비밀번호
+//     SetPacketData( pckInBlock.BalCreTp      , sizeof( pckInBlock.BalCreTp       ), data.BalCreTp      , DATA_TYPE_STRING       );    // [string,    1] 잔고생성구분
+//     SetPacketData( pckInBlock.CmsnAppTpCode , sizeof( pckInBlock.CmsnAppTpCode  ), data.CmsnAppTpCode , DATA_TYPE_STRING       );    // [string,    1] 수수료적용구분
+//     SetPacketData( pckInBlock.D2balBaseQryTp, sizeof( pckInBlock.D2balBaseQryTp ), data.D2balBaseQryTp, DATA_TYPE_STRING       );    // [string,    1] D2잔고기준조회구분
+//     SetPacketData( pckInBlock.UprcTpCode    , sizeof( pckInBlock.UprcTpCode     ), data.UprcTpCode    , DATA_TYPE_STRING       );    // [string,    1] 단가구분
+
+//     int nRqID = ETK_Request(szTrNo,&pckInBlock,sizeof(pckInBlock),nNext,szNextKey,30);
+
+//     return nRqID;
+// }
+
 
 // it is furntion for Message handler
 bool xing::nativeEvent(const QByteArray & eventType, void * message, long * result)
@@ -680,6 +700,7 @@ void xing::func_CSPAT00600OutBlock2(LPRECV_PACKET pRpData){
 //     int	nCount = pRpData->nDataLength / sizeof( CSPAT00600OutBlock2 );		// Block Mode 시엔 전체크기 / 하나의 Record 크기 로 갯수를 구한다.
      qDebug()<<QString("CSPAT00600OutBlock2");
 }
+
 void xing::func_CSPAT12300OutBlock3(LPRECV_PACKET pRpData){
     //xing api bug config memory----------------------------------------
        unsigned char * pRplpdata ;
@@ -823,11 +844,16 @@ void xing::func_t0425OutBlock1(LPRECV_PACKET pRpData){
     nCount = atoi( szCount );
     for(int i=0;i<nCount;i++){
         QString expcode = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].expcode,sizeof(pAllOutBlock->OutBlock1[i].expcode));
+        QString orgordno = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].orgordno,sizeof(pAllOutBlock->OutBlock1[i].orgordno));
         expcode.replace(" ","");
         if(wk->richdatamap.contains(expcode)){
             rich_data *tempvalue;
             tempvalue = wk->richdatamap.value(expcode);
+            QString hname = tempvalue->hname;
+
+            //qDebug()<<QString("t0445 hname : %1").arg(hname);
             if(tempvalue->loss_flag){
+
 
             }
             if(tempvalue->obj_flag){

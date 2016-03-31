@@ -79,6 +79,9 @@ public:
     QLabel *QLuseautostep;
     QCheckBox *Quseautostep;
 
+    QLabel *Qsitepushlabel;
+    QPushButton *Qsitepushbutton;
+
 
 
 
@@ -96,6 +99,7 @@ public slots:
     void Quseautostep_change(bool data);
     void functiontestbtn1_push();
     void functiontestbtn2_push();
+    void sitepushbtnslot();
 
 };
 

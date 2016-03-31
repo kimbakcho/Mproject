@@ -54,6 +54,9 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     QLuseautostep = new QLabel("auto step");
     Quseautostep = new QCheckBox();
 
+    Qsitepushlabel = new QLabel("sitepush");
+    Qsitepushbutton = new QPushButton("go");
+
 //--read---
     QSettings settings1("config.ini",QSettings::IniFormat);
     settings1.beginGroup("ancnt");
@@ -79,6 +82,8 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
 //    gbox1->addWidget(rich_address,5,1);
     gbox1->addWidget(QLuseautostep,5,0);
     gbox1->addWidget(Quseautostep,5,1);
+    gbox1->addWidget(Qsitepushlabel,6,0);
+    gbox1->addWidget(Qsitepushbutton,6,1);
 
 //    gbox1->addWidget(QIsuNo,2,0);
 //    gbox1->addWidget(QLIsuNo,2,1);
@@ -122,6 +127,7 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     connect(Quseautostep,SIGNAL(toggled(bool)),this,SLOT(Quseautostep_change(bool)));
     connect(functiontestbtn1,SIGNAL(clicked(bool)),this,SLOT(functiontestbtn1_push()));
     connect(functiontestbtn2,SIGNAL(clicked(bool)),this,SLOT(functiontestbtn2_push()));
+    connect(Qsitepushbutton,SIGNAL(clicked(bool)),this,SLOT(sitepushbtnslot()));
     //connect(btn2,SIGNAL(clicked(bool)),x1,SLOT(com_1833_result()));
     //time play to com_1833_request
     //tpush->start();
@@ -223,11 +229,34 @@ void mainframe::functiontestbtn1_push(){
 //    data.chegb = qt_temp[6].data();
 
 //    x1->t0424_Request(true,data);
-      QByteArray qt_temp;
-      t1101InBlockdata data;
-      qt_temp = QString("019570").toLocal8Bit();
-      data.shcode = qt_temp.data();
-      x1->t1101_Request(true,data);
+//      QByteArray qt_temp;
+//      t1101InBlockdata data;
+//      qt_temp = QString("019570").toLocal8Bit();
+//      data.shcode = qt_temp.data();
+//      x1->t1101_Request(true,data);
+    QByteArray qt_temp[10];
+    t0425InBlockdata data;
+    qt_temp[0] = QString("55501003267").toLocal8Bit();
+    data.accno = qt_temp[0].data();
+    qt_temp[1] = QString("0000").toLocal8Bit();
+    data.passwd = qt_temp[1].data();
+    qt_temp[2] = QString("").toLocal8Bit();
+    data.expcode = qt_temp[2].data();
+    qt_temp[3] = QString("").toLocal8Bit();
+    data.expcode = qt_temp[3].data();
+    qt_temp[4] = QString("0").toLocal8Bit();
+    data.chegb = qt_temp[4].data();
+    qt_temp[5] = QString("0").toLocal8Bit();
+    data.chegb = qt_temp[5].data();
+    qt_temp[6] = QString("0").toLocal8Bit();
+    data.medosu = qt_temp[6].data();
+    qt_temp[7] = QString("2").toLocal8Bit();
+    data.sortgb = qt_temp[7].data();
+    qt_temp[8] = QString("").toLocal8Bit();
+    data.cts_ordno = qt_temp[8].data();
+
+    x1->t0425_Request(true,data);
+
 
 
 
@@ -238,11 +267,8 @@ void mainframe::functiontestbtn1_push(){
 void mainframe::functiontestbtn2_push(){
 
 
-
-    wk->getparser();
-
-
 }
-
-
+void mainframe::sitepushbtnslot(){
+    wk->getparser();
+}
 

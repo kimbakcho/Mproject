@@ -1,10 +1,6 @@
 #ifndef _CSPAT00800_H_
 #define _CSPAT00800_H_
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// 현물취소주문 (  )
-#pragma pack( push, 1 )
-
 #define NAME_CSPAT00800     "CSPAT00800"
 
 // In(*EMPTY*)                    
@@ -17,6 +13,16 @@ typedef struct _CSPAT00800InBlock1
     char    OrdQty              [  16];    // [long  ,   16] 주문수량                        StartPos 55, Length 16
 } CSPAT00800InBlock1, *LPCSPAT00800InBlock1;
 #define NAME_CSPAT00800InBlock1     "CSPAT00800InBlock1"
+
+typedef struct _CSPAT00800InBlock1data
+{
+    char    *OrgOrdNo            ;    // [long  ,   10] 원주문번호                      StartPos 5, Length 10
+    char    *AcntNo             ;    // [string,   20] 계좌번호                        StartPos 15, Length 20
+    char    *InptPwd             ;    // [string,    8] 입력비밀번호                    StartPos 35, Length 8
+    char    *IsuNo               ;    // [string,   12] 종목번호                        StartPos 43, Length 12
+    char    *OrdQty             ;    // [long  ,   16] 주문수량                        StartPos 55, Length 16
+} CSPAT00800InBlock1data;
+
 
 // In(*EMPTY*)                    
 typedef struct _CSPAT00800OutBlock1
@@ -65,7 +71,5 @@ typedef struct _CSPAT00800OutBlock2
 } CSPAT00800OutBlock2, *LPCSPAT00800OutBlock2;
 #define NAME_CSPAT00800OutBlock2     "CSPAT00800OutBlock2"
 
-#pragma pack( pop )
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endif // _CSPAT00800_H_
