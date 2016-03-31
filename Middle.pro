@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     rich_data.cpp \
     trichquery_push.cpp \
     tjango_th.cpp \
-    tpricemoniter.cpp
+    tpricemoniter.cpp \
+    tsitemoniter.cpp
 
 HEADERS  += \
     loginwiget.h \
@@ -215,4 +216,5 @@ HEADERS  += \
     trichquery_push.h \
     packet/t0424.h \
     tjango_th.h \
-    tpricemoniter.h
+    tpricemoniter.h \
+    tsitemoniter.h

@@ -736,7 +736,7 @@ void xing::func_t0424OutBlock1(LPRECV_PACKET pRpData){
                qb_temp[9] = ordcnditpcode.toLocal8Bit();
                data.strOrdCndiTpCode = qb_temp[9].data();
 
-               if(!tempvalue->loss_flag){
+               if(!tempvalue->loss_flag && mf->Qusebuy->isChecked()){
                     int result_3 = CSPAT00600_Request(true,data);
                     qDebug()<<QString("func_t0424OutBlock1 to CSPAT00600_Request expcode = %1 hname = %2").arg(expcode).arg(hname);
                }else{

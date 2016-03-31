@@ -6,6 +6,7 @@
 #include <webwiget.h>
 #include "tjango_th.h"
 #include "tpricemoniter.h"
+#include "tsitemoniter.h"
 xing *x1;
 xingcom *xcom;
 mainframe *mf;
@@ -43,6 +44,9 @@ int main(int argc, char *argv[])
     pricemoniter_th = new tpricemoniter();
     pricemoniter_th->start();
 
+    tsitemoniter *sitemoniter;
+    sitemoniter = new tsitemoniter();
+    sitemoniter->start();
 
     return a.exec();
 }

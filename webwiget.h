@@ -46,12 +46,16 @@ public:
     QFile *file;
     QString filename;
     QString initurl;
+    QString urllastsite;
+    int siteplaycount;
 
 signals:
 
 public slots:
     void finishedpage(bool flag);
     void autostep();
+    void loadprogressslot(int progress);
+    void tsitemoniterslot();
 
 };
 
