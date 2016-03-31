@@ -12,6 +12,7 @@
 #include "./packet/CSPAT00600.h"
 #include "./packet/cspaq13700.h"
 #include "./packet/cspaq12300.h"
+#include "./packet/t0425.h"
 #include <QVector>
 #include "data_1833.h"
 #include <QMap>
@@ -176,12 +177,14 @@ public:
 
     void func_CSPAT12300OutBlock3(LPRECV_PACKET pRpData);
     void func_t0424OutBlock1(LPRECV_PACKET pRpData);
+    void func_t0425OutBlock1(LPRECV_PACKET pRpData);
     void func_t1101outblock(LPRECV_PACKET pRpData);
 
     int CSPAT00600_Request(BOOL nNext,CSPAT00600data data);
     int CSPAQ13700_Request(BOOL nNext,CSPAQ13700InBlock1data data);
     int CSPAQ12300_Request(BOOL nNext,CSPAQ12300InBlock1data data);
     int t0424_Request(BOOL nNext,t0424InBlockdata data);
+    int t0425_Request(BOOL nNext, t0425InBlockdata data);
     int t1101_Request(BOOL nNext,t1101InBlockdata data);
 
     QLibrary lib;

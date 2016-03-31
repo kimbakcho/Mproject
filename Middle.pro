@@ -217,4 +217,5 @@ HEADERS  += \
     packet/t0424.h \
     tjango_th.h \
     tpricemoniter.h \
-    tsitemoniter.h
+    tsitemoniter.h \
+    packet/t0425.h

@@ -281,6 +281,27 @@ int xing::t0424_Request(BOOL nNext,t0424InBlockdata data){
     }
     return nRqID;
 }
+int xing::t0425_Request(BOOL nNext,t0425InBlockdata data){
+    t0425InBlock pckInBlock;
+    char			szTrNo[]		= "t0425";
+    char			szNextKey[]		= "";
+    memset(&pckInBlock,' ',sizeof(pckInBlock));
+
+    SetPacketData( pckInBlock.accno       , sizeof( pckInBlock.accno        ), data.accno       , DATA_TYPE_STRING );
+    SetPacketData( pckInBlock.passwd      , sizeof( pckInBlock.passwd       ), data.passwd      , DATA_TYPE_STRING );
+    SetPacketData( pckInBlock.expcode     , sizeof( pckInBlock.expcode      ), data.expcode     , DATA_TYPE_STRING );
+    SetPacketData( pckInBlock.chegb       , sizeof( pckInBlock.chegb        ), data.chegb       , DATA_TYPE_STRING );
+    SetPacketData( pckInBlock.medosu      , sizeof( pckInBlock.medosu       ), data.medosu      , DATA_TYPE_STRING );
+    SetPacketData( pckInBlock.sortgb      , sizeof( pckInBlock.sortgb       ), data.sortgb      , DATA_TYPE_STRING );
+    SetPacketData( pckInBlock.cts_ordno   , sizeof( pckInBlock.cts_ordno    ), data.cts_ordno   , DATA_TYPE_STRING );
+
+    int nRqID = ETK_Request(szTrNo,&pckInBlock,sizeof(pckInBlock),nNext,szNextKey,30);
+    if(nRqID<0){
+        qDebug()<<"t0424_Request 실패";
+    }
+    return nRqID;
+}
+
 int xing::t1101_Request(BOOL nNext,t1101InBlockdata data){
     t1101InBlock pckInBlock;
     char			szTrNo[]		= "t1101";
@@ -411,6 +432,8 @@ bool xing::nativeEvent(const QByteArray & eventType, void * message, long * resu
                 func_t0424OutBlock1(pRpData);
             }else if(strcmp( pRpData->szBlockName, NAME_t1101OutBlock)==0){
                 func_t1101outblock(pRpData);
+            }else if(strcmp(pRpData->szTrCode, "t0425") == 0){
+                func_t0425OutBlock1(pRpData);
             }
 
         }else if(cresult == MESSAGE_DATA){ //Message를받았을때발생 MSG_PACKET 의Memory 주소
@@ -756,5 +779,20 @@ void xing::func_t0424OutBlock1(LPRECV_PACKET pRpData){
            }
        }
 }
+void xing::func_t0425OutBlock1(LPRECV_PACKET pRpData){
+    //xing api bug config memory----------------------------------------
+       unsigned char * pRplpdata ;
+       unsigned int src = (unsigned int)&(pRpData->lpData);
+       memcpy(&pRplpdata,(void *)src,4);
+    //------------------------------------------------------------------
+    int	nDataLength  = pRpData->nDataLength;
+    LPtt0425AllOutBlock pAllOutBlock = (LPtt0425AllOutBlock)pRpData->lpData;
+    char szCount[6] = { 0 };
+    int nCount;
+    nDataLength -= sizeof( t0425OutBlock );
+    nDataLength -= 5;
+    CopyMemory( szCount, pAllOutBlock->sCountOutBlock1, 5 );
+    nCount = atoi( szCount );
 
+}
 
