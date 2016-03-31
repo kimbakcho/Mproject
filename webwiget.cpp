@@ -62,7 +62,7 @@ void webwiget::finishedpage(bool flag){
     int str_result_1 = str.indexOf("&b_url=list&category=freer_1");
     int str_result_2 = str.indexOf("index.asp");
 
-
+    qDebug()<<kor("site = %1").arg(str);
 
     if(flag && (str_result!= -1) && mf->Quseautostep->isChecked()){
         document = qwf->documentElement();

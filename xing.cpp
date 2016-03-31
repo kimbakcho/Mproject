@@ -612,7 +612,7 @@ void xing::func_t1101outblock(LPRECV_PACKET pRpData){
        data_temp= wk->richdatamap.value(shcode);
        int price_int = price.toInt();
        int loss_int = data_temp->loss.toInt();
-       if(loss_int<=price_int){
+       if(loss_int>=price_int){
            //¼ÕÀý
             data_temp->loss_flag=true;
        }

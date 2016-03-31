@@ -14,7 +14,7 @@ public:
      QString loss;
      QString obj;
      QString shcode;
-     bool loss_flag = false;
+     bool loss_flag;
 
 signals:
 

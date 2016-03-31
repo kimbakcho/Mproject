@@ -2,6 +2,6 @@
 
 rich_data::rich_data()
 {
-
+    loss_flag = false;
 }
 

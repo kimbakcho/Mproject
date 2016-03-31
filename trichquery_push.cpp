@@ -4,7 +4,7 @@ extern webwiget *wk;
 trichquery_push::trichquery_push()
 {
     m_stopflag = true;
-    play_time.setHMS(8,59,10);
+    play_time.setHMS(8,55,10);
     play_end_time.setHMS(15,30,00);
     play_time_sec = QTime(0,0,0).secsTo(play_time);
     play_end_time_sec = QTime(0,0,0).secsTo(play_end_time);

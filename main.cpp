@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
     wk = new webwiget();
     //xcom = new xingcom();
-   // wk->show();
+    wk->show();
 
     mf = new mainframe();
 
