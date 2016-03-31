@@ -320,8 +320,28 @@ int xing::CSPAT00600_Request(BOOL nNext,CSPAT00600data data){
     CSPAT00600InBlock1	pckInBlock;
     char			szTrNo[]		= "CSPAT00600";
     char			szNextKey[]		= "";
-
+    QString price = QString::fromLocal8Bit(data.strOrdPrc);
+    QString price1;
+    QByteArray qt_byte;
     memset(&pckInBlock,' ',sizeof(pckInBlock));
+
+    int price_int = price.toInt();
+    if(price_int<5000){
+        price_int = price_int/5;
+        price_int = price_int*5;
+    }else if(price_int>=5000&&price_int<10000){
+        price_int = price_int/10;
+        price_int = price_int*10;
+    }else if(price_int>=10000&&price_int<50000){
+        price_int = price_int/50;
+        price_int = price_int*50;
+    }else if(price_int>=50000&&price_int<100000){
+        price_int = price_int/100;
+        price_int = price_int*100;
+    }
+    price1 = QString("%1").arg(price_int);
+    qt_byte = price1.toLocal8Bit();
+    data.strOrdPrc = qt_byte.data();
 
 
     SetPacketData( pckInBlock.AcntNo       , sizeof( pckInBlock.AcntNo        ), data.strAcntNo       , DATA_TYPE_STRING );		// 계좌번호
@@ -635,11 +655,17 @@ void xing::func_t1101outblock(LPRECV_PACKET pRpData){
        data_temp= wk->richdatamap.value(shcode);
        int price_int = price.toInt();
        int loss_int = data_temp->loss.toInt();
+       int obj_int = data_temp->obj.toInt();
        if(loss_int>=price_int){
            //손절
             data_temp->loss_flag=true;
+            qDebug()<<kor("결과 loss t1101: shcode = %1,hanme = %2,price = %3").arg(shcode).arg(hname).arg(price);
        }
-       qDebug()<<kor("결과 t1101: shcode = %1,hanme = %2,price = %3").arg(shcode).arg(hname).arg(price);
+       if(obj_int<=price_int){
+           data_temp->obj_flag=true;
+           qDebug()<<kor("결과 obj t1101: shcode = %1,hanme = %2,price = %3").arg(shcode).arg(hname).arg(price);
+       }
+       //
 
 }
 
@@ -739,6 +765,8 @@ void xing::func_t0424OutBlock1(LPRECV_PACKET pRpData){
                qb_temp[4] = tempvalue->obj.toLocal8Bit();
                data.strOrdPrc = qb_temp[4].data();
 
+
+
                //BnsTpCode
                qb_temp[5] = tpcode.toLocal8Bit();
                data.strBnsTpCode = qb_temp[5].data();
@@ -793,6 +821,21 @@ void xing::func_t0425OutBlock1(LPRECV_PACKET pRpData){
     nDataLength -= 5;
     CopyMemory( szCount, pAllOutBlock->sCountOutBlock1, 5 );
     nCount = atoi( szCount );
+    for(int i=0;i<nCount;i++){
+        QString expcode = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].expcode,sizeof(pAllOutBlock->OutBlock1[i].expcode));
+        expcode.replace(" ","");
+        if(wk->richdatamap.contains(expcode)){
+            rich_data *tempvalue;
+            tempvalue = wk->richdatamap.value(expcode);
+            if(tempvalue->loss_flag){
+
+            }
+            if(tempvalue->obj_flag){
+
+            }
+        }
+    }
+
 
 }
 

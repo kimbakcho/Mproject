@@ -15,6 +15,7 @@ public:
      QString obj;
      QString shcode;
      bool loss_flag;
+     bool obj_flag;
 
 signals:
 

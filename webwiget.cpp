@@ -101,7 +101,10 @@ void webwiget::finishedpage(bool flag){
                 strlist_result =  str_result.split("\t");
                 QString hname_temp = strlist_result.at(0);
 
-                if(!richdatamap.contains(hname_temp)){
+                QString shcode_temp;
+                shcode_temp= shcodemap.value(hname_temp);
+
+                if(!richdatamap.contains(shcode_temp)){
                     rich_data *tempdata = new rich_data();
                     tempdata->hname = strlist_result.at(0);
                     pricetemp = strlist_result.at(2);
@@ -114,8 +117,6 @@ void webwiget::finishedpage(bool flag){
                     objpricesplit = objpricetemp.split(kor("¿ø"));
                     tempdata->obj = objpricesplit.at(0);
 
-                    QString shcode_temp;
-                    shcode_temp= shcodemap.value(tempdata->hname);
                     tempdata->shcode = shcode_temp;
 
 
