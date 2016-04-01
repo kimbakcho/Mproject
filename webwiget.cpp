@@ -8,18 +8,24 @@ extern xing *x1;
 webwiget::webwiget()
 {
 
-    load(QUrl("http://rich-stock.com/"));
+    if((mf->webserarchtxt.compare(RICH)==0)){
+        load(QUrl("http://rich-stock.com/"));
+    }else if((mf->webserarchtxt.compare(DAUM)==0)){
+        load(QUrl("https://logins.daum.net/accounts/loginform.do?mobilefull=1"));
+    }
     qwf = this->page()->mainFrame();
-    connect(this,SIGNAL(loadFinished(bool)),this,SLOT(finishedpage(bool)));
+
+        connect(this,SIGNAL(loadFinished(bool)),this,SLOT(finishedpage(bool)));
+
+        connect(this,SIGNAL(loadFinished(bool)),this,SLOT(finishedpagedaum(bool)));
+
  //   connect(this,SIGNAL(loadProgress(int)),this,SLOT(loadprogressslot(int)));
-    findstr1 =kor("매수가");
-    findstr2 =kor("손절가");
-    findstr3 =kor("1차목표");
-    findstr4 =kor("대응");
-
-    initurl = "http://rich-stock.com/freer/?p_url=freer_1&B_Name=center&b_dir=talkclub&category=freer_1&b_url=contents&list_no=%1";
-
-
+    if((mf->webserarchtxt.compare(RICH)==0)){
+        findstr1 =kor("매수가");
+        findstr2 =kor("손절가");
+        findstr3 =kor("1차목표");
+        findstr4 =kor("대응");
+    }
     file = new QFile();
     filename = "C:\\shcodedata.txt";
     file->setFileName(filename);
@@ -32,15 +38,17 @@ webwiget::webwiget()
         shcodemap.insert(shcode_result.at(0),shcode_result.at(1));
     }
     siteplaycount = 0;
-    urllastsite="http://rich-stock.com";
+    if((mf->webserarchtxt.compare(RICH)==0)){
+        urllastsite="http://rich-stock.com";
+    }
 
 }
 int webwiget::getparser(){
     QNetworkRequest requ;
-    requ.setUrl(QUrl("http://rich-stock.com/member/log_in_ok.asp"));
+    requ.setUrl(QUrl("https://logins.daum.net/accounts/mobile.do"));
     requ.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     QByteArray postdata_2;
-    postdata_2.append("M_ID=vngkgk624&M_Password=super624");
+    postdata_2.append("id=vngkgk624&pw=super624");
     load(requ,QNetworkAccessManager::PostOperation,postdata_2);
     return 0;
 }
@@ -60,6 +68,10 @@ void webwiget::getparser1(){
 }
 
 void webwiget::finishedpage(bool flag){
+
+    if(mf->webserarchtxt.compare(RICH)!=0){
+        return;
+    }
 
     QString str = this->url().toString();
     int str_result= str.indexOf("&b_url=contents&list_no=");
@@ -232,6 +244,12 @@ void webwiget::finishedpage(bool flag){
         load(QUrl(str));
     }
 }
+
+void webwiget::finishedpagedaum(bool flag){
+
+
+}
+
 void webwiget::loadprogressslot(int progress){
       qDebug()<<QString("load progress = %1").arg(progress);
       QString str = this->url().toString();

@@ -53,6 +53,7 @@ signals:
 
 public slots:
     void finishedpage(bool flag);
+    void finishedpagedaum(bool flag);
     void autostep();
     void loadprogressslot(int progress);
     void tsitemoniterslot();

@@ -1,6 +1,8 @@
 #ifndef MAINFRAME_H
 #define MAINFRAME_H
 
+#define RICH "rich"
+#define DAUM "daum"
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -16,6 +18,7 @@
 #include "tsellfrom1833.h"
 #include <QCheckBox>
 #include "trichquery_push.h"
+#include <QComboBox>
 
 
 
@@ -82,6 +85,14 @@ public:
     QLabel *Qsitepushlabel;
     QPushButton *Qsitepushbutton;
 
+    QLabel *Qsitecycletime;
+    QLineEdit *QLEsitecycletime;
+
+    QLabel *Qserarchsite;
+    QComboBox *QCserarchsite;
+
+    QString webserarchtxt;
+
 
 
 
@@ -100,6 +111,8 @@ public slots:
     void functiontestbtn1_push();
     void functiontestbtn2_push();
     void sitepushbtnslot();
+    void QLEcycletime_change(QString str);
+    void QCitem_change(int value);
 
 };
 
