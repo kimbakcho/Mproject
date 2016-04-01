@@ -66,6 +66,8 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     QCserarchsite->addItem("rich");
     QCserarchsite->addItem("daum");
 
+    Qdaumsite = new QLabel("daumsite");
+    QLEdaumsite = new QLineEdit();
 
 
 //--read---
@@ -77,7 +79,8 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     Qusebuy->setChecked(settings1.value("usebuy").toBool());
     Quseautostep->setChecked(settings1.value("useautostep").toBool());
     QLEsitecycletime->setText(settings1.value("QLEcycletime").toByteArray());
-    QCserarchsite->setCurrentIndex(settings1.value("QCitem").toInt());
+    QCserarchsite->setCurrentText(settings1.value("QCitem").toString());
+    QLEdaumsite->setText(settings1.value("daumsite").toString());
     settings1.endGroup();
 //---------
     gbox1->addWidget(QAcntNo,0,0);
@@ -101,6 +104,8 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     gbox1->addWidget(QLEsitecycletime,7,1);
     gbox1->addWidget(Qserarchsite,8,0);
     gbox1->addWidget(QCserarchsite,8,1);
+    gbox1->addWidget(Qdaumsite,9,0);
+    gbox1->addWidget(QLEdaumsite,9,1);
 
 //    gbox1->addWidget(QIsuNo,2,0);
 //    gbox1->addWidget(QLIsuNo,2,1);
@@ -130,7 +135,7 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     vbox1->addLayout(hbox2);
     vbox1->addLayout(gbox1);
 
-    webserarchtxt = QCserarchsite->currentText();
+
 
     //trecv = new Tsearch_res();
     //trecv->start();
@@ -147,7 +152,8 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     connect(functiontestbtn2,SIGNAL(clicked(bool)),this,SLOT(functiontestbtn2_push()));
     connect(Qsitepushbutton,SIGNAL(clicked(bool)),this,SLOT(sitepushbtnslot()));
     connect(QLEsitecycletime,SIGNAL(textEdited(QString)),this,SLOT(QLEcycletime_change(QString)));
-    connect(QCserarchsite,SIGNAL(currentIndexChanged(int)),this,SLOT(QCitem_change(int)));
+    connect(QCserarchsite,SIGNAL(currentTextChanged(QString)),this,SLOT(QCitem_change(QString)));
+    connect(QLEdaumsite,SIGNAL(textEdited(QString)),this,SLOT(QLEdaumsite_change(QString)));
     //connect(btn2,SIGNAL(clicked(bool)),x1,SLOT(com_1833_result()));
     //time play to com_1833_request
     //tpush->start();
@@ -212,15 +218,23 @@ void mainframe::QLEcycletime_change(QString str){
     //---------------------------------------------------------
 }
 
-void mainframe::QCitem_change(int value){
+void mainframe::QCitem_change(QString value){
     //write setting--------------------------------------------
     QSettings settings2("config.ini",QSettings::IniFormat);
     settings2.beginGroup("ancnt");
     settings2.setValue("QCitem",value);
     settings2.endGroup();
-    webserarchtxt = QCserarchsite->currentText();
+    wk->setsitetype = value;
     //---------------------------------------------------------
 
+}
+void mainframe::QLEdaumsite_change(QString value){
+    //write setting--------------------------------------------
+    QSettings settings2("config.ini",QSettings::IniFormat);
+    settings2.beginGroup("ancnt");
+    settings2.setValue("daumsite",value);
+    settings2.endGroup();
+    //---------------------------------------------------------
 }
 
 void mainframe::functiontestbtn1_push(){
@@ -273,41 +287,43 @@ void mainframe::functiontestbtn1_push(){
 //      qt_temp = QString("019570").toLocal8Bit();
 //      data.shcode = qt_temp.data();
 //      x1->t1101_Request(true,data);
-    QByteArray qt_temp[10];
-    t0425InBlockdata data;
-    qt_temp[0] = QString("55501003267").toLocal8Bit();
-    data.accno = qt_temp[0].data();
-    qt_temp[1] = QString("0000").toLocal8Bit();
-    data.passwd = qt_temp[1].data();
-    qt_temp[2] = QString("").toLocal8Bit();
-    data.expcode = qt_temp[2].data();
-    qt_temp[3] = QString("").toLocal8Bit();
-    data.expcode = qt_temp[3].data();
-    qt_temp[4] = QString("0").toLocal8Bit();
-    data.chegb = qt_temp[4].data();
-    qt_temp[5] = QString("0").toLocal8Bit();
-    data.chegb = qt_temp[5].data();
-    qt_temp[6] = QString("0").toLocal8Bit();
-    data.medosu = qt_temp[6].data();
-    qt_temp[7] = QString("2").toLocal8Bit();
-    data.sortgb = qt_temp[7].data();
-    qt_temp[8] = QString("").toLocal8Bit();
-    data.cts_ordno = qt_temp[8].data();
+//    QByteArray qt_temp[10];
+//    t0425InBlockdata data;
+//    qt_temp[0] = QString("55501003267").toLocal8Bit();
+//    data.accno = qt_temp[0].data();
+//    qt_temp[1] = QString("0000").toLocal8Bit();
+//    data.passwd = qt_temp[1].data();
+//    qt_temp[2] = QString("").toLocal8Bit();
+//    data.expcode = qt_temp[2].data();
+//    qt_temp[3] = QString("").toLocal8Bit();
+//    data.expcode = qt_temp[3].data();
+//    qt_temp[4] = QString("0").toLocal8Bit();
+//    data.chegb = qt_temp[4].data();
+//    qt_temp[5] = QString("0").toLocal8Bit();
+//    data.chegb = qt_temp[5].data();
+//    qt_temp[6] = QString("0").toLocal8Bit();
+//    data.medosu = qt_temp[6].data();
+//    qt_temp[7] = QString("2").toLocal8Bit();
+//    data.sortgb = qt_temp[7].data();
+//    qt_temp[8] = QString("").toLocal8Bit();
+//    data.cts_ordno = qt_temp[8].data();
 
-    x1->t0425_Request(true,data);
-
-
-
-
+//    x1->t0425_Request(true,data);
+    QWebSettings *qset = wk->settings();
+    qset->setAttribute(QWebSettings::JavascriptEnabled,false);
+    wk->load(QUrl("http://cafe.daum.net/_c21_/bbs_read?grpid=17uHu&fldid=GqjP&datanum=3052"));
 
 }
 
 
 void mainframe::functiontestbtn2_push(){
+              QString str = wk->qwf->toPlainText();
+              qDebug()<<str;
 
 
 }
 void mainframe::sitepushbtnslot(){
+
     wk->getparser();
 }
 

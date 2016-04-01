@@ -1,8 +1,7 @@
 #ifndef MAINFRAME_H
 #define MAINFRAME_H
 
-#define RICH "rich"
-#define DAUM "daum"
+
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -91,7 +90,9 @@ public:
     QLabel *Qserarchsite;
     QComboBox *QCserarchsite;
 
-    QString webserarchtxt;
+    QLabel *Qdaumsite;
+    QLineEdit *QLEdaumsite;
+
 
 
 
@@ -112,7 +113,9 @@ public slots:
     void functiontestbtn2_push();
     void sitepushbtnslot();
     void QLEcycletime_change(QString str);
-    void QCitem_change(int value);
+    void QCitem_change(QString value);
+    void QLEdaumsite_change(QString value);
+
 
 };
 

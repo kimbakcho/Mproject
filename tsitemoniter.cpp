@@ -16,7 +16,9 @@ tsitemoniter::tsitemoniter()
 void tsitemoniter::run(){
     while(m_stopflag){
         cycletime = mf->QLEsitecycletime->text();
+
         sleeptime = cycletime.toInt();
+         //qDebug()<<QString("cycle time = %1,%2").arg(cycletime).arg(sleeptime);
         if(tempsitecount == wk->siteplaycount){
             tempsitecount=wk->siteplaycount;
             emit loadurl();

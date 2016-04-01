@@ -11,6 +11,7 @@ xing *x1;
 xingcom *xcom;
 mainframe *mf;
 webwiget *wk;
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -29,11 +30,9 @@ int main(int argc, char *argv[])
     Loginwiget w1;
 
 
-    mf = new mainframe();
-
     wk = new webwiget();
 
-
+    mf = new mainframe();
     //xcom = new xingcom();
     wk->show();
 
@@ -49,9 +48,9 @@ int main(int argc, char *argv[])
     pricemoniter_th = new tpricemoniter();
     pricemoniter_th->start();
 
-//    tsitemoniter *sitemoniter;
-//    sitemoniter = new tsitemoniter();
-//    sitemoniter->start();
+    tsitemoniter *sitemoniter;
+    sitemoniter = new tsitemoniter();
+    sitemoniter->start();
 
     return a.exec();
 }

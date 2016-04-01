@@ -1,6 +1,7 @@
 #ifndef WEBWIGET_H
 #define WEBWIGET_H
-
+#define RICH "rich"
+#define DAUM "daum"
 #include <QWidget>
 #include <QWebView>
 #include <QtWebKit>
@@ -20,6 +21,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include "./packet/CSPAT00600.h"
+#include <QWebSettings>
 
 
 #define kor(str) QString::fromLocal8Bit(str)
@@ -48,6 +50,9 @@ public:
     QString initurl;
     QString urllastsite;
     int siteplaycount;
+    QString setsitetype;
+    bool daumgo_flag;
+
 
 signals:
 
@@ -57,6 +62,7 @@ public slots:
     void autostep();
     void loadprogressslot(int progress);
     void tsitemoniterslot();
+    void urlchageslot(QUrl str);
 
 };
 
