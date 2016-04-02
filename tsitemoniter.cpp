@@ -12,10 +12,14 @@ tsitemoniter::tsitemoniter()
 void tsitemoniter::run(){
     while(m_stopflag){
 <<<<<<< HEAD
+<<<<<<< HEAD
         cycletime = mf->QLEsitecycletime->text();
 
         sleeptime = cycletime.toInt();
          //qDebug()<<QString("cycle time = %1,%2").arg(cycletime).arg(sleeptime);
+=======
+
+>>>>>>> parent of be5b78d... 546456546
 =======
 
 >>>>>>> parent of be5b78d... 546456546

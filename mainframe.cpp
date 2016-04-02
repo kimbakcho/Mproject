@@ -58,6 +58,7 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     Qsitepushbutton = new QPushButton("go");
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     Qsitecycletime = new QLabel("cycletiem");
     QLEsitecycletime = new QLineEdit();
 
@@ -73,6 +74,8 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
 
 =======
 >>>>>>> parent of be5b78d... 546456546
+=======
+>>>>>>> parent of be5b78d... 546456546
 //--read---
     QSettings settings1("config.ini",QSettings::IniFormat);
     settings1.beginGroup("ancnt");
@@ -82,9 +85,12 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     Qusebuy->setChecked(settings1.value("usebuy").toBool());
     Quseautostep->setChecked(settings1.value("useautostep").toBool());
 <<<<<<< HEAD
+<<<<<<< HEAD
     QLEsitecycletime->setText(settings1.value("QLEcycletime").toByteArray());
     QCserarchsite->setCurrentText(settings1.value("QCitem").toString());
     QLEdaumsite->setText(settings1.value("daumsite").toString());
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
     settings1.endGroup();
@@ -107,12 +113,15 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     gbox1->addWidget(Qsitepushlabel,6,0);
     gbox1->addWidget(Qsitepushbutton,6,1);
 <<<<<<< HEAD
+<<<<<<< HEAD
     gbox1->addWidget(Qsitecycletime,7,0);
     gbox1->addWidget(QLEsitecycletime,7,1);
     gbox1->addWidget(Qserarchsite,8,0);
     gbox1->addWidget(QCserarchsite,8,1);
     gbox1->addWidget(Qdaumsite,9,0);
     gbox1->addWidget(QLEdaumsite,9,1);
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
 
@@ -145,7 +154,10 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     vbox1->addLayout(gbox1);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
 
@@ -164,9 +176,12 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     connect(functiontestbtn2,SIGNAL(clicked(bool)),this,SLOT(functiontestbtn2_push()));
     connect(Qsitepushbutton,SIGNAL(clicked(bool)),this,SLOT(sitepushbtnslot()));
 <<<<<<< HEAD
+<<<<<<< HEAD
     connect(QLEsitecycletime,SIGNAL(textEdited(QString)),this,SLOT(QLEcycletime_change(QString)));
     connect(QCserarchsite,SIGNAL(currentTextChanged(QString)),this,SLOT(QCitem_change(QString)));
     connect(QLEdaumsite,SIGNAL(textEdited(QString)),this,SLOT(QLEdaumsite_change(QString)));
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
     //connect(btn2,SIGNAL(clicked(bool)),x1,SLOT(com_1833_result()));
@@ -225,6 +240,7 @@ void mainframe::Quseautostep_change(bool data){
     //---------------------------------------------------------
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 void mainframe::QLEcycletime_change(QString str){
     //write setting--------------------------------------------
     QSettings settings2("config.ini",QSettings::IniFormat);
@@ -252,6 +268,8 @@ void mainframe::QLEdaumsite_change(QString value){
     settings2.endGroup();
     //---------------------------------------------------------
 }
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
 

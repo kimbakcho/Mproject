@@ -9,6 +9,7 @@ webwiget::webwiget()
 {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     QSettings settings1("config.ini",QSettings::IniFormat);
     settings1.beginGroup("ancnt");
     setsitetype = settings1.value("QCitem").toString();
@@ -20,6 +21,9 @@ webwiget::webwiget()
         load(QUrl("http://cafe.daum.net/redstock100"));
     }
 
+=======
+    load(QUrl("http://rich-stock.com/"));
+>>>>>>> parent of be5b78d... 546456546
 =======
     load(QUrl("http://rich-stock.com/"));
 >>>>>>> parent of be5b78d... 546456546
@@ -35,6 +39,7 @@ webwiget::webwiget()
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
          //connect(this,SIGNAL(loadProgress(int)),this,SLOT(loadprogressslot(int)));
         //connect(this,SIGNAL(urlChanged(QUrl)),this,SLOT(urlchageslot(QUrl)));
     if((setsitetype.compare(RICH)==0)){
@@ -46,6 +51,8 @@ webwiget::webwiget()
         findstr1 =kor("현재시간");
         findstr2 =kor("현재가");
     }
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
     file = new QFile();
@@ -60,6 +67,7 @@ webwiget::webwiget()
         shcodemap.insert(shcode_result.at(0),shcode_result.at(1));
     }
     siteplaycount = 0;
+<<<<<<< HEAD
 <<<<<<< HEAD
     if((setsitetype.compare(RICH)==0)){
         urllastsite="http://rich-stock.com";
@@ -88,6 +96,19 @@ int webwiget::getparser(){
 =======
     urllastsite="http://rich-stock.com";
 
+=======
+    urllastsite="http://rich-stock.com";
+
+}
+int webwiget::getparser(){
+    QNetworkRequest requ;
+    requ.setUrl(QUrl("http://rich-stock.com/member/log_in_ok.asp"));
+    requ.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
+    QByteArray postdata_2;
+    postdata_2.append("M_ID=vngkgk624&M_Password=super624");
+    load(requ,QNetworkAccessManager::PostOperation,postdata_2);
+    return 0;
+>>>>>>> parent of be5b78d... 546456546
 }
 int webwiget::getparser(){
     QNetworkRequest requ;
@@ -122,10 +143,13 @@ void webwiget::getparser1(){
 void webwiget::finishedpage(bool flag){
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     if(setsitetype.compare(RICH)!=0){
         return;
     }
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
     QString str = this->url().toString();
@@ -300,6 +324,7 @@ void webwiget::finishedpage(bool flag){
     }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 void webwiget::finishedpagedaum(bool flag){
     if(setsitetype.compare(DAUM)!=0){
@@ -362,6 +387,8 @@ void webwiget::finishedpagedaum(bool flag){
 
 }
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
 void webwiget::loadprogressslot(int progress){
