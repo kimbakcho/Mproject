@@ -57,6 +57,7 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     Qsitepushlabel = new QLabel("sitepush");
     Qsitepushbutton = new QPushButton("go");
 
+<<<<<<< HEAD
     Qsitecycletime = new QLabel("cycletiem");
     QLEsitecycletime = new QLineEdit();
 
@@ -70,6 +71,8 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     QLEdaumsite = new QLineEdit();
 
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 //--read---
     QSettings settings1("config.ini",QSettings::IniFormat);
     settings1.beginGroup("ancnt");
@@ -78,9 +81,12 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     QLaccount->setText(settings1.value("price").toByteArray());
     Qusebuy->setChecked(settings1.value("usebuy").toBool());
     Quseautostep->setChecked(settings1.value("useautostep").toBool());
+<<<<<<< HEAD
     QLEsitecycletime->setText(settings1.value("QLEcycletime").toByteArray());
     QCserarchsite->setCurrentText(settings1.value("QCitem").toString());
     QLEdaumsite->setText(settings1.value("daumsite").toString());
+=======
+>>>>>>> parent of be5b78d... 546456546
     settings1.endGroup();
 //---------
     gbox1->addWidget(QAcntNo,0,0);
@@ -100,12 +106,15 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     gbox1->addWidget(Quseautostep,5,1);
     gbox1->addWidget(Qsitepushlabel,6,0);
     gbox1->addWidget(Qsitepushbutton,6,1);
+<<<<<<< HEAD
     gbox1->addWidget(Qsitecycletime,7,0);
     gbox1->addWidget(QLEsitecycletime,7,1);
     gbox1->addWidget(Qserarchsite,8,0);
     gbox1->addWidget(QCserarchsite,8,1);
     gbox1->addWidget(Qdaumsite,9,0);
     gbox1->addWidget(QLEdaumsite,9,1);
+=======
+>>>>>>> parent of be5b78d... 546456546
 
 //    gbox1->addWidget(QIsuNo,2,0);
 //    gbox1->addWidget(QLIsuNo,2,1);
@@ -135,7 +144,10 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     vbox1->addLayout(hbox2);
     vbox1->addLayout(gbox1);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 
     //trecv = new Tsearch_res();
     //trecv->start();
@@ -151,9 +163,12 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     connect(functiontestbtn1,SIGNAL(clicked(bool)),this,SLOT(functiontestbtn1_push()));
     connect(functiontestbtn2,SIGNAL(clicked(bool)),this,SLOT(functiontestbtn2_push()));
     connect(Qsitepushbutton,SIGNAL(clicked(bool)),this,SLOT(sitepushbtnslot()));
+<<<<<<< HEAD
     connect(QLEsitecycletime,SIGNAL(textEdited(QString)),this,SLOT(QLEcycletime_change(QString)));
     connect(QCserarchsite,SIGNAL(currentTextChanged(QString)),this,SLOT(QCitem_change(QString)));
     connect(QLEdaumsite,SIGNAL(textEdited(QString)),this,SLOT(QLEdaumsite_change(QString)));
+=======
+>>>>>>> parent of be5b78d... 546456546
     //connect(btn2,SIGNAL(clicked(bool)),x1,SLOT(com_1833_result()));
     //time play to com_1833_request
     //tpush->start();
@@ -209,6 +224,7 @@ void mainframe::Quseautostep_change(bool data){
     settings2.endGroup();
     //---------------------------------------------------------
 }
+<<<<<<< HEAD
 void mainframe::QLEcycletime_change(QString str){
     //write setting--------------------------------------------
     QSettings settings2("config.ini",QSettings::IniFormat);
@@ -236,6 +252,8 @@ void mainframe::QLEdaumsite_change(QString value){
     settings2.endGroup();
     //---------------------------------------------------------
 }
+=======
+>>>>>>> parent of be5b78d... 546456546
 
 void mainframe::functiontestbtn1_push(){
 //    QByteArray qt_temp[10];

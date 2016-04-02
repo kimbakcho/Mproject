@@ -12,8 +12,6 @@ public:
     bool m_stopflag;
     QString urlsite;
     int tempsitecount;
-    int sleeptime;
-    QString cycletime;
 
 private:
     void run();

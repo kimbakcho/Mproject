@@ -29,14 +29,18 @@ int main(int argc, char *argv[])
 
     Loginwiget w1;
 
+<<<<<<< HEAD
 
     wk = new webwiget();
 
     mf = new mainframe();
+=======
+    wk = new webwiget();
+>>>>>>> parent of be5b78d... 546456546
     //xcom = new xingcom();
-    wk->show();
+  //  wk->show();
 
-
+    mf = new mainframe();
 
     w1.show();
 

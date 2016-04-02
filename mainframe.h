@@ -1,7 +1,10 @@
 #ifndef MAINFRAME_H
 #define MAINFRAME_H
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -17,7 +20,6 @@
 #include "tsellfrom1833.h"
 #include <QCheckBox>
 #include "trichquery_push.h"
-#include <QComboBox>
 
 
 
@@ -84,6 +86,7 @@ public:
     QLabel *Qsitepushlabel;
     QPushButton *Qsitepushbutton;
 
+<<<<<<< HEAD
     QLabel *Qsitecycletime;
     QLineEdit *QLEsitecycletime;
 
@@ -94,6 +97,8 @@ public:
     QLineEdit *QLEdaumsite;
 
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 
 
 
@@ -112,10 +117,13 @@ public slots:
     void functiontestbtn1_push();
     void functiontestbtn2_push();
     void sitepushbtnslot();
+<<<<<<< HEAD
     void QLEcycletime_change(QString str);
     void QCitem_change(QString value);
     void QLEdaumsite_change(QString value);
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 
 };
 

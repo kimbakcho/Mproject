@@ -411,23 +411,25 @@ int xing::CSPAQ13700_Request(BOOL nNext,CSPAQ13700InBlock1data data){
      return nRqID;
  }
 
- int xing::CSPAT00800_Request(BOOL nNext,CSPAT00800InBlock1data data){
-     CSPAT00800InBlock1	pckInBlock;
-     char			szTrNo[]		= "CSPAQ00800";
-     char			szNextKey[]		= "";
+// int xing::CSPAQ00800_Request(BOOL nNext,CSPAQ00800InBlock1data data){
+//     CSPAQ12300InBlock1	pckInBlock;
+//     char			szTrNo[]		= "CSPAQ12300";
+//     char			szNextKey[]		= "";
 
-     memset(&pckInBlock,' ',sizeof(pckInBlock));
+//     memset(&pckInBlock,' ',sizeof(pckInBlock));
 
-     SetPacketData( pckInBlock.OrgOrdNo      , sizeof( pckInBlock.OrgOrdNo       ), data.OrgOrdNo   , DATA_TYPE_STRING         );    // [long  ,    5] 레코드갯수
-     SetPacketData( pckInBlock.AcntNo        , sizeof( pckInBlock.AcntNo         ), data.AcntNo     , DATA_TYPE_STRING       );    // [string,   20] 계좌번호
-     SetPacketData( pckInBlock.InptPwd       , sizeof( pckInBlock.InptPwd        ), data.InptPwd    , DATA_TYPE_STRING       );    // [string,    8] 비밀번호
-     SetPacketData( pckInBlock.IsuNo         , sizeof( pckInBlock.IsuNo          ), data.IsuNo      , DATA_TYPE_STRING       );    // [string,    1] 잔고생성구분
-     SetPacketData( pckInBlock.OrdQty        , sizeof( pckInBlock.OrdQty         ), data.OrdQty     , DATA_TYPE_STRING       );    // [string,    1] 수수료적용구분
+//     SetPacketData( pckInBlock.RecCnt        , sizeof( pckInBlock.RecCnt         ), "1"              , DATA_TYPE_LONG         );    // [long  ,    5] 레코드갯수
+//     SetPacketData( pckInBlock.AcntNo        , sizeof( pckInBlock.AcntNo         ), data.AcntNo        , DATA_TYPE_STRING       );    // [string,   20] 계좌번호
+//     SetPacketData( pckInBlock.Pwd           , sizeof( pckInBlock.Pwd            ), data.Pwd           , DATA_TYPE_STRING       );    // [string,    8] 비밀번호
+//     SetPacketData( pckInBlock.BalCreTp      , sizeof( pckInBlock.BalCreTp       ), data.BalCreTp      , DATA_TYPE_STRING       );    // [string,    1] 잔고생성구분
+//     SetPacketData( pckInBlock.CmsnAppTpCode , sizeof( pckInBlock.CmsnAppTpCode  ), data.CmsnAppTpCode , DATA_TYPE_STRING       );    // [string,    1] 수수료적용구분
+//     SetPacketData( pckInBlock.D2balBaseQryTp, sizeof( pckInBlock.D2balBaseQryTp ), data.D2balBaseQryTp, DATA_TYPE_STRING       );    // [string,    1] D2잔고기준조회구분
+//     SetPacketData( pckInBlock.UprcTpCode    , sizeof( pckInBlock.UprcTpCode     ), data.UprcTpCode    , DATA_TYPE_STRING       );    // [string,    1] 단가구분
 
-     int nRqID = ETK_Request(szTrNo,&pckInBlock,sizeof(pckInBlock),nNext,szNextKey,30);
+//     int nRqID = ETK_Request(szTrNo,&pckInBlock,sizeof(pckInBlock),nNext,szNextKey,30);
 
-     return nRqID;
- }
+//     return nRqID;
+// }
 
 
 // it is furntion for Message handler

@@ -8,6 +8,7 @@ extern xing *x1;
 webwiget::webwiget()
 {
 
+<<<<<<< HEAD
     QSettings settings1("config.ini",QSettings::IniFormat);
     settings1.beginGroup("ancnt");
     setsitetype = settings1.value("QCitem").toString();
@@ -19,12 +20,21 @@ webwiget::webwiget()
         load(QUrl("http://cafe.daum.net/redstock100"));
     }
 
+=======
+    load(QUrl("http://rich-stock.com/"));
+>>>>>>> parent of be5b78d... 546456546
     qwf = this->page()->mainFrame();
+    connect(this,SIGNAL(loadFinished(bool)),this,SLOT(finishedpage(bool)));
+ //   connect(this,SIGNAL(loadProgress(int)),this,SLOT(loadprogressslot(int)));
+    findstr1 =kor("매수가");
+    findstr2 =kor("손절가");
+    findstr3 =kor("1차목표");
+    findstr4 =kor("대응");
 
-        connect(this,SIGNAL(loadFinished(bool)),this,SLOT(finishedpage(bool)));
+    initurl = "http://rich-stock.com/freer/?p_url=freer_1&B_Name=center&b_dir=talkclub&category=freer_1&b_url=contents&list_no=%1";
 
-        connect(this,SIGNAL(loadFinished(bool)),this,SLOT(finishedpagedaum(bool)));
 
+<<<<<<< HEAD
          //connect(this,SIGNAL(loadProgress(int)),this,SLOT(loadprogressslot(int)));
         //connect(this,SIGNAL(urlChanged(QUrl)),this,SLOT(urlchageslot(QUrl)));
     if((setsitetype.compare(RICH)==0)){
@@ -36,6 +46,8 @@ webwiget::webwiget()
         findstr1 =kor("현재시간");
         findstr2 =kor("현재가");
     }
+=======
+>>>>>>> parent of be5b78d... 546456546
     file = new QFile();
     filename = "C:\\shcodedata.txt";
     file->setFileName(filename);
@@ -48,6 +60,7 @@ webwiget::webwiget()
         shcodemap.insert(shcode_result.at(0),shcode_result.at(1));
     }
     siteplaycount = 0;
+<<<<<<< HEAD
     if((setsitetype.compare(RICH)==0)){
         urllastsite="http://rich-stock.com";
     }else if(setsitetype.compare(DAUM)==0){
@@ -72,6 +85,18 @@ int webwiget::getparser(){
         load(QUrl(mf->QLEdaumsite->text()));
     }
 
+=======
+    urllastsite="http://rich-stock.com";
+
+}
+int webwiget::getparser(){
+    QNetworkRequest requ;
+    requ.setUrl(QUrl("http://rich-stock.com/member/log_in_ok.asp"));
+    requ.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
+    QByteArray postdata_2;
+    postdata_2.append("M_ID=vngkgk624&M_Password=super624");
+    load(requ,QNetworkAccessManager::PostOperation,postdata_2);
+>>>>>>> parent of be5b78d... 546456546
     return 0;
 
 }
@@ -96,10 +121,13 @@ void webwiget::getparser1(){
 
 void webwiget::finishedpage(bool flag){
 
+<<<<<<< HEAD
     if(setsitetype.compare(RICH)!=0){
         return;
     }
 
+=======
+>>>>>>> parent of be5b78d... 546456546
     QString str = this->url().toString();
     int str_result= str.indexOf("&b_url=contents&list_no=");
     int str_result_1 = str.indexOf("&b_url=list&category=freer_1");
@@ -271,6 +299,7 @@ void webwiget::finishedpage(bool flag){
         load(QUrl(str));
     }
 }
+<<<<<<< HEAD
 
 void webwiget::finishedpagedaum(bool flag){
     if(setsitetype.compare(DAUM)!=0){
@@ -333,6 +362,8 @@ void webwiget::finishedpagedaum(bool flag){
 
 }
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 void webwiget::loadprogressslot(int progress){
 
 
