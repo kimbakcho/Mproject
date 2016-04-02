@@ -31,10 +31,14 @@ int main(int argc, char *argv[])
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     wk = new webwiget();
 
     mf = new mainframe();
+=======
+    wk = new webwiget();
+>>>>>>> parent of be5b78d... 546456546
 =======
     wk = new webwiget();
 >>>>>>> parent of be5b78d... 546456546

@@ -3,7 +3,10 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
 =======
@@ -91,6 +94,7 @@ public:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     QLabel *Qsitecycletime;
     QLineEdit *QLEsitecycletime;
 
@@ -101,6 +105,8 @@ public:
     QLineEdit *QLEdaumsite;
 
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
 =======
@@ -125,10 +131,13 @@ public slots:
     void sitepushbtnslot();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     void QLEcycletime_change(QString str);
     void QCitem_change(QString value);
     void QLEdaumsite_change(QString value);
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
 =======

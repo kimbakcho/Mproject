@@ -10,6 +10,7 @@ webwiget::webwiget()
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     QSettings settings1("config.ini",QSettings::IniFormat);
     settings1.beginGroup("ancnt");
     setsitetype = settings1.value("QCitem").toString();
@@ -21,6 +22,9 @@ webwiget::webwiget()
         load(QUrl("http://cafe.daum.net/redstock100"));
     }
 
+=======
+    load(QUrl("http://rich-stock.com/"));
+>>>>>>> parent of be5b78d... 546456546
 =======
     load(QUrl("http://rich-stock.com/"));
 >>>>>>> parent of be5b78d... 546456546
@@ -40,6 +44,7 @@ webwiget::webwiget()
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
          //connect(this,SIGNAL(loadProgress(int)),this,SLOT(loadprogressslot(int)));
         //connect(this,SIGNAL(urlChanged(QUrl)),this,SLOT(urlchageslot(QUrl)));
     if((setsitetype.compare(RICH)==0)){
@@ -51,6 +56,8 @@ webwiget::webwiget()
         findstr1 =kor("현재시간");
         findstr2 =kor("현재가");
     }
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
 =======
@@ -67,6 +74,7 @@ webwiget::webwiget()
         shcodemap.insert(shcode_result.at(0),shcode_result.at(1));
     }
     siteplaycount = 0;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     if((setsitetype.compare(RICH)==0)){
@@ -92,6 +100,9 @@ int webwiget::getparser(){
         qset->setAttribute(QWebSettings::JavascriptEnabled,false);
         load(QUrl(mf->QLEdaumsite->text()));
     }
+=======
+    urllastsite="http://rich-stock.com";
+>>>>>>> parent of be5b78d... 546456546
 
 =======
     urllastsite="http://rich-stock.com";
@@ -144,10 +155,13 @@ void webwiget::finishedpage(bool flag){
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     if(setsitetype.compare(RICH)!=0){
         return;
     }
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
 =======
@@ -325,6 +339,7 @@ void webwiget::finishedpage(bool flag){
 }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 void webwiget::finishedpagedaum(bool flag){
     if(setsitetype.compare(DAUM)!=0){
@@ -387,6 +402,8 @@ void webwiget::finishedpagedaum(bool flag){
 
 }
 
+=======
+>>>>>>> parent of be5b78d... 546456546
 =======
 >>>>>>> parent of be5b78d... 546456546
 =======
