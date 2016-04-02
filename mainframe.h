@@ -88,13 +88,6 @@ public:
     QLabel *Qsitecycletime;
     QLineEdit *QLEsitecycletime;
 
-    QLabel *Qserarchsite;
-    QComboBox *QCserarchsite;
-
-    QString webserarchtxt;
-
-
-
 
     void init();
 signals:
@@ -112,7 +105,6 @@ public slots:
     void functiontestbtn2_push();
     void sitepushbtnslot();
     void QLEcycletime_change(QString str);
-    void QCitem_change(int value);
 
 };
 

@@ -28,10 +28,10 @@ int main(int argc, char *argv[])
 
     Loginwiget w1;
 
+    wk = new webwiget();
 
     mf = new mainframe();
 
-    wk = new webwiget();
 
 
     //xcom = new xingcom();
@@ -49,9 +49,9 @@ int main(int argc, char *argv[])
     pricemoniter_th = new tpricemoniter();
     pricemoniter_th->start();
 
-//    tsitemoniter *sitemoniter;
-//    sitemoniter = new tsitemoniter();
-//    sitemoniter->start();
+    tsitemoniter *sitemoniter;
+    sitemoniter = new tsitemoniter();
+    sitemoniter->start();
 
     return a.exec();
 }

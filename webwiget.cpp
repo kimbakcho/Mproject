@@ -8,24 +8,18 @@ extern xing *x1;
 webwiget::webwiget()
 {
 
-    if((mf->webserarchtxt.compare(RICH)==0)){
-        load(QUrl("http://rich-stock.com/"));
-    }else if((mf->webserarchtxt.compare(DAUM)==0)){
-        load(QUrl("https://logins.daum.net/accounts/loginform.do?mobilefull=1"));
-    }
+   load(QUrl("http://rich-stock.com/"));
+
     qwf = this->page()->mainFrame();
 
-        connect(this,SIGNAL(loadFinished(bool)),this,SLOT(finishedpage(bool)));
-
-        connect(this,SIGNAL(loadFinished(bool)),this,SLOT(finishedpagedaum(bool)));
-
+    connect(this,SIGNAL(loadFinished(bool)),this,SLOT(finishedpage(bool)));
  //   connect(this,SIGNAL(loadProgress(int)),this,SLOT(loadprogressslot(int)));
-    if((mf->webserarchtxt.compare(RICH)==0)){
-        findstr1 =kor("매수가");
-        findstr2 =kor("손절가");
-        findstr3 =kor("1차목표");
-        findstr4 =kor("대응");
-    }
+
+    findstr1 =kor("매수가");
+    findstr2 =kor("손절가");
+    findstr3 =kor("1차목표");
+    findstr4 =kor("대응");
+
     file = new QFile();
     filename = "C:\\shcodedata.txt";
     file->setFileName(filename);
@@ -38,17 +32,16 @@ webwiget::webwiget()
         shcodemap.insert(shcode_result.at(0),shcode_result.at(1));
     }
     siteplaycount = 0;
-    if((mf->webserarchtxt.compare(RICH)==0)){
-        urllastsite="http://rich-stock.com";
-    }
+    urllastsite="http://rich-stock.com";
+
 
 }
 int webwiget::getparser(){
     QNetworkRequest requ;
-    requ.setUrl(QUrl("https://logins.daum.net/accounts/mobile.do"));
+    requ.setUrl(QUrl("http://rich-stock.com/member/log_in_ok.asp"));
     requ.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     QByteArray postdata_2;
-    postdata_2.append("id=vngkgk624&pw=super624");
+    postdata_2.append("M_ID=vngkgk624&M_Password=super624");
     load(requ,QNetworkAccessManager::PostOperation,postdata_2);
     return 0;
 }
@@ -69,9 +62,6 @@ void webwiget::getparser1(){
 
 void webwiget::finishedpage(bool flag){
 
-    if(mf->webserarchtxt.compare(RICH)!=0){
-        return;
-    }
 
     QString str = this->url().toString();
     int str_result= str.indexOf("&b_url=contents&list_no=");
@@ -136,7 +126,7 @@ void webwiget::finishedpage(bool flag){
                     qDebug()<<kor("not contain name : %1 price : %2 loos : %3 1ob : %4 shcode = %5 time = %6 ")
                               .arg(strlist_result.at(0)).arg(strlist_result.at(2)).arg(strlist_result.at(4)).arg(strlist_result.at(6)).arg(shcode_temp).arg(get_time.toString("hh:mm:ss"));
                     qDebug()<<kor("----------------------------------------");
-                    //매
+                    //매수
                     QByteArray qb_temp[10];
                     CSPAT00600data data;
                     QString price = tempdata->price;
@@ -245,10 +235,6 @@ void webwiget::finishedpage(bool flag){
     }
 }
 
-void webwiget::finishedpagedaum(bool flag){
-
-
-}
 
 void webwiget::loadprogressslot(int progress){
       qDebug()<<QString("load progress = %1").arg(progress);

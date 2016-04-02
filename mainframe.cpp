@@ -60,12 +60,6 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     Qsitecycletime = new QLabel("cycletiem");
     QLEsitecycletime = new QLineEdit();
 
-    Qserarchsite = new QLabel("serarchsite");
-    QCserarchsite = new QComboBox();
-
-    QCserarchsite->addItem("rich");
-    QCserarchsite->addItem("daum");
-
 
 
 //--read---
@@ -77,7 +71,6 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     Qusebuy->setChecked(settings1.value("usebuy").toBool());
     Quseautostep->setChecked(settings1.value("useautostep").toBool());
     QLEsitecycletime->setText(settings1.value("QLEcycletime").toByteArray());
-    QCserarchsite->setCurrentIndex(settings1.value("QCitem").toInt());
     settings1.endGroup();
 //---------
     gbox1->addWidget(QAcntNo,0,0);
@@ -99,8 +92,6 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     gbox1->addWidget(Qsitepushbutton,6,1);
     gbox1->addWidget(Qsitecycletime,7,0);
     gbox1->addWidget(QLEsitecycletime,7,1);
-    gbox1->addWidget(Qserarchsite,8,0);
-    gbox1->addWidget(QCserarchsite,8,1);
 
 //    gbox1->addWidget(QIsuNo,2,0);
 //    gbox1->addWidget(QLIsuNo,2,1);
@@ -130,7 +121,6 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     vbox1->addLayout(hbox2);
     vbox1->addLayout(gbox1);
 
-    webserarchtxt = QCserarchsite->currentText();
 
     //trecv = new Tsearch_res();
     //trecv->start();
@@ -147,7 +137,6 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     connect(functiontestbtn2,SIGNAL(clicked(bool)),this,SLOT(functiontestbtn2_push()));
     connect(Qsitepushbutton,SIGNAL(clicked(bool)),this,SLOT(sitepushbtnslot()));
     connect(QLEsitecycletime,SIGNAL(textEdited(QString)),this,SLOT(QLEcycletime_change(QString)));
-    connect(QCserarchsite,SIGNAL(currentIndexChanged(int)),this,SLOT(QCitem_change(int)));
     //connect(btn2,SIGNAL(clicked(bool)),x1,SLOT(com_1833_result()));
     //time play to com_1833_request
     //tpush->start();
@@ -212,16 +201,6 @@ void mainframe::QLEcycletime_change(QString str){
     //---------------------------------------------------------
 }
 
-void mainframe::QCitem_change(int value){
-    //write setting--------------------------------------------
-    QSettings settings2("config.ini",QSettings::IniFormat);
-    settings2.beginGroup("ancnt");
-    settings2.setValue("QCitem",value);
-    settings2.endGroup();
-    webserarchtxt = QCserarchsite->currentText();
-    //---------------------------------------------------------
-
-}
 
 void mainframe::functiontestbtn1_push(){
 //    QByteArray qt_temp[10];
@@ -295,10 +274,6 @@ void mainframe::functiontestbtn1_push(){
     data.cts_ordno = qt_temp[8].data();
 
     x1->t0425_Request(true,data);
-
-
-
-
 
 }
 

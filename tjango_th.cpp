@@ -43,6 +43,26 @@ void tjango_th::run(){
             //qDebug()<<"tjango_th run";
             x1->t0424_Request(true,data);
            }
+        if((time_sec >= play_time_sec) && (time_sec<play_end_time_sec)&&playtime_flag ){
+            QByteArray qt_temp_0425[10];
+            t0425InBlockdata data_0425;
+            qt_temp_0425[0] =  mf->QLLQAcntNo->text().toLocal8Bit();
+            data_0425.accno = qt_temp_0425[0].data();
+            qt_temp_0425[1] = mf->QLInptPwd->text().toLocal8Bit();
+            data_0425.passwd = qt_temp_0425[1].data();
+            qt_temp_0425[2] = QString("").toLocal8Bit();
+            data_0425.expcode = qt_temp_0425[2].data();
+            qt_temp_0425[3] = QString("2").toLocal8Bit();
+            data_0425.chegb = qt_temp_0425[3].data();
+            qt_temp_0425[4] = QString("0").toLocal8Bit();
+            data_0425.medosu = qt_temp_0425[4].data();
+            qt_temp_0425[5] = QString("1").toLocal8Bit();
+            data_0425.sortgb = qt_temp_0425[5].data();
+            qt_temp_0425[6] = QString(" ").toLocal8Bit();
+            data_0425.cts_ordno = qt_temp_0425[6].data();
+            //qDebug()<<"tjango_th run";
+            x1->t0425_Request(true,data_0425);
+           }
            msleep(1500);
         }
 }

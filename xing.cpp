@@ -809,12 +809,12 @@ void xing::func_t0424OutBlock1(LPRECV_PACKET pRpData){
                if(!tempvalue->loss_flag && mf->Qusebuy->isChecked()){
                     int result_3 = CSPAT00600_Request(true,data);
                     qDebug()<<QString("func_t0424OutBlock1 to CSPAT00600_Request expcode = %1 hname = %2").arg(expcode).arg(hname);
-               }else{
+               }else if (tempvalue->loss_flag && mf->Qusebuy->isChecked()){
                    //손절
                   //price
                   qb_temp[4] = tempvalue->loss.toLocal8Bit();
                   data.strOrdPrc = qb_temp[4].data();
-
+                  //시장가 매도
                   prcptncode = "03";
                    //OrdprcPtnCode
                   qb_temp[6] = prcptncode.toLocal8Bit();
@@ -843,7 +843,10 @@ void xing::func_t0425OutBlock1(LPRECV_PACKET pRpData){
     for(int i=0;i<nCount;i++){
         QString expcode = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].expcode,sizeof(pAllOutBlock->OutBlock1[i].expcode));
         QString orgordno = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].orgordno,sizeof(pAllOutBlock->OutBlock1[i].orgordno));
+        QString ordrem = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].ordrem,sizeof(pAllOutBlock->OutBlock1[i].ordrem));
         expcode.replace(" ","");
+        orgordno.replace(" ","");
+        ordrem.replace(" ","");
         if(wk->richdatamap.contains(expcode)){
             rich_data *tempvalue;
             tempvalue = wk->richdatamap.value(expcode);
@@ -851,15 +854,51 @@ void xing::func_t0425OutBlock1(LPRECV_PACKET pRpData){
 
             //qDebug()<<QString("t0445 hname : %1").arg(hname);
             if(tempvalue->loss_flag){
+                //매도 취소 주문
+                QByteArray qb_temp_loss[10];
+                CSPAT00800InBlock1data data_loss;
 
+                qb_temp_loss[0] = orgordno.toLocal8Bit();
+                data_loss.OrgOrdNo = qb_temp_loss[0].data();
+
+                qb_temp_loss[1] = mf->QLLQAcntNo->text().toLocal8Bit();
+                data_loss.AcntNo = qb_temp_loss[1].data();
+
+                qb_temp_loss[2] = mf->QLInptPwd->text().toLocal8Bit();
+                data_loss.InptPwd = qb_temp_loss[2].data();
+
+                qb_temp_loss[3] = expcode.toLocal8Bit();
+                data_loss.IsuNo = qb_temp_loss[3].data();
+
+                qb_temp_loss[4] = ordrem.toLocal8Bit();
+                data_loss.OrdQty = qb_temp_loss[4].data();
+
+                CSPAT00800_Request(true,data_loss);
 
             }
             if(tempvalue->obj_flag){
+                //매수 취소 주문
+                QByteArray qb_temp_obj[10];
+                CSPAT00800InBlock1data data_obj;
 
+                qb_temp_obj[0] = orgordno.toLocal8Bit();
+                data_obj.OrgOrdNo = qb_temp_obj[0].data();
+
+                qb_temp_obj[1] = mf->QLLQAcntNo->text().toLocal8Bit();
+                data_obj.AcntNo = qb_temp_obj[1].data();
+
+                qb_temp_obj[2] = mf->QLInptPwd->text().toLocal8Bit();
+                data_obj.InptPwd = qb_temp_obj[2].data();
+
+                qb_temp_obj[3] = expcode.toLocal8Bit();
+                data_obj.IsuNo = qb_temp_obj[3].data();
+
+                qb_temp_obj[4] = ordrem.toLocal8Bit();
+                data_obj.OrdQty = qb_temp_obj[4].data();
+
+                CSPAT00800_Request(true,data_obj);
             }
         }
     }
-
-
 }
 

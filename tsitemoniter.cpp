@@ -17,6 +17,9 @@ void tsitemoniter::run(){
     while(m_stopflag){
         cycletime = mf->QLEsitecycletime->text();
         sleeptime = cycletime.toInt();
+        if(sleeptime == 0){
+            sleeptime = 3000;
+        }
         if(tempsitecount == wk->siteplaycount){
             tempsitecount=wk->siteplaycount;
             emit loadurl();
