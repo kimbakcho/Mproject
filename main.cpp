@@ -11,7 +11,6 @@ xing *x1;
 xingcom *xcom;
 mainframe *mf;
 webwiget *wk;
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -29,26 +28,16 @@ int main(int argc, char *argv[])
 
     Loginwiget w1;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-    wk = new webwiget();
 
     mf = new mainframe();
-=======
+
     wk = new webwiget();
->>>>>>> parent of be5b78d... 546456546
-=======
-    wk = new webwiget();
->>>>>>> parent of be5b78d... 546456546
-=======
-    wk = new webwiget();
->>>>>>> parent of be5b78d... 546456546
+
+
     //xcom = new xingcom();
-  //  wk->show();
+    wk->show();
 
-    mf = new mainframe();
+
 
     w1.show();
 
@@ -60,9 +49,9 @@ int main(int argc, char *argv[])
     pricemoniter_th = new tpricemoniter();
     pricemoniter_th->start();
 
-    tsitemoniter *sitemoniter;
-    sitemoniter = new tsitemoniter();
-    sitemoniter->start();
+//    tsitemoniter *sitemoniter;
+//    sitemoniter = new tsitemoniter();
+//    sitemoniter->start();
 
     return a.exec();
 }

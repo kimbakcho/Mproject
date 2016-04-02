@@ -1,16 +1,8 @@
 #ifndef MAINFRAME_H
 #define MAINFRAME_H
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of be5b78d... 546456546
-=======
->>>>>>> parent of be5b78d... 546456546
-=======
->>>>>>> parent of be5b78d... 546456546
+#define RICH "rich"
+#define DAUM "daum"
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -26,6 +18,7 @@
 #include "tsellfrom1833.h"
 #include <QCheckBox>
 #include "trichquery_push.h"
+#include <QComboBox>
 
 
 
@@ -92,25 +85,14 @@ public:
     QLabel *Qsitepushlabel;
     QPushButton *Qsitepushbutton;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     QLabel *Qsitecycletime;
     QLineEdit *QLEsitecycletime;
 
     QLabel *Qserarchsite;
     QComboBox *QCserarchsite;
 
-    QLabel *Qdaumsite;
-    QLineEdit *QLEdaumsite;
+    QString webserarchtxt;
 
-
-=======
->>>>>>> parent of be5b78d... 546456546
-=======
->>>>>>> parent of be5b78d... 546456546
-=======
->>>>>>> parent of be5b78d... 546456546
 
 
 
@@ -129,19 +111,8 @@ public slots:
     void functiontestbtn1_push();
     void functiontestbtn2_push();
     void sitepushbtnslot();
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     void QLEcycletime_change(QString str);
-    void QCitem_change(QString value);
-    void QLEdaumsite_change(QString value);
-
-=======
->>>>>>> parent of be5b78d... 546456546
-=======
->>>>>>> parent of be5b78d... 546456546
-=======
->>>>>>> parent of be5b78d... 546456546
+    void QCitem_change(int value);
 
 };
 
