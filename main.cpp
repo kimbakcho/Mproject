@@ -30,6 +30,8 @@ int main(int argc, char *argv[])
 
     wk = new webwiget();
 
+    x1->wk=wk;
+
     mf = new mainframe();
 
 

@@ -88,6 +88,11 @@ public:
     QLabel *Qsitecycletime;
     QLineEdit *QLEsitecycletime;
 
+    QLabel *Qsitevip;
+    QCheckBox *Qsitevipcheck;
+
+
+
 
     void init();
 signals:
@@ -105,6 +110,7 @@ public slots:
     void functiontestbtn2_push();
     void sitepushbtnslot();
     void QLEcycletime_change(QString str);
+    void Qvipcheck_change(bool data);
 
 };
 

@@ -33,6 +33,7 @@ public:
     QWebElement document;
     int getparser();
     void getparser1();
+    bool vipcheck;
 
     QStringList result_2;
     QString findstr1;

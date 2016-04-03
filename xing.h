@@ -6,6 +6,7 @@
 #include <QLibrary>
 #include <QDebug>
 #include <QTime>
+#include "webwiget.h"
 #include "./Packet/t1452.h"
 #include "./Packet/t0424.h"
 #include "./Packet/t1101.h"
@@ -158,6 +159,7 @@ public:
     bool buy_flag;
     QMap<QString ,data_1833 *> hight_value1833;
     bool hight_value1833_flag;
+    webwiget *wk;
 
     bool ETK_Connect(int type);
     bool ETK_Login(QByteArray Qid,QByteArray Qpasswd,QByteArray Qauthpasswd);

@@ -1,8 +1,6 @@
 #include "xing.h"
 #include "mainframe.h"
-#include "webwiget.h"
 
-extern webwiget *wk;
 
 extern mainframe *mf;
 
@@ -669,18 +667,22 @@ void xing::func_t1101outblock(LPRECV_PACKET pRpData){
        QString hname = QString::fromLocal8Bit(pOutBlock->hname,20);
        QString shcode = QString::fromLocal8Bit(pOutBlock->shcode,6);
        QString price = QString::fromLocal8Bit(pOutBlock->price,8);
-       rich_data *data_temp;
-       data_temp= wk->richdatamap.value(shcode);
+       rich_data *data_temp1;
        int price_int = price.toInt();
-       int loss_int = data_temp->loss.toInt();
-       int obj_int = data_temp->obj.toInt();
+       int loss_int;
+       int obj_int;
+       int testvalue;
+       testvalue = wk->richdatamap.size();
+        data_temp1= wk->richdatamap.value(shcode);
+        loss_int = data_temp1->loss.toInt();
+        obj_int = data_temp1->obj.toInt();
        if(loss_int>=price_int){
            //손절
-            data_temp->loss_flag=true;
+            data_temp1->loss_flag=true;
             qDebug()<<kor("결과 loss t1101: shcode = %1,hanme = %2,price = %3").arg(shcode).arg(hname).arg(price);
        }
        if(obj_int<=price_int){
-           data_temp->obj_flag=true;
+           data_temp1->obj_flag=true;
            qDebug()<<kor("결과 obj t1101: shcode = %1,hanme = %2,price = %3").arg(shcode).arg(hname).arg(price);
        }
        //

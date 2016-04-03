@@ -60,6 +60,9 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     Qsitecycletime = new QLabel("cycletiem");
     QLEsitecycletime = new QLineEdit();
 
+    Qsitevip = new QLabel("vipcheck");
+    Qsitevipcheck = new QCheckBox();
+
 
 
 //--read---
@@ -71,6 +74,8 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     Qusebuy->setChecked(settings1.value("usebuy").toBool());
     Quseautostep->setChecked(settings1.value("useautostep").toBool());
     QLEsitecycletime->setText(settings1.value("QLEcycletime").toByteArray());
+    Qsitevipcheck->setChecked(settings1.value("vipcheck").toBool());
+
     settings1.endGroup();
 //---------
     gbox1->addWidget(QAcntNo,0,0);
@@ -92,6 +97,8 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     gbox1->addWidget(Qsitepushbutton,6,1);
     gbox1->addWidget(Qsitecycletime,7,0);
     gbox1->addWidget(QLEsitecycletime,7,1);
+    gbox1->addWidget(Qsitevip,8,0);
+    gbox1->addWidget(Qsitevipcheck,8,1);
 
 //    gbox1->addWidget(QIsuNo,2,0);
 //    gbox1->addWidget(QLIsuNo,2,1);
@@ -137,6 +144,7 @@ mainframe::mainframe(QWidget *parent) : QWidget(parent)
     connect(functiontestbtn2,SIGNAL(clicked(bool)),this,SLOT(functiontestbtn2_push()));
     connect(Qsitepushbutton,SIGNAL(clicked(bool)),this,SLOT(sitepushbtnslot()));
     connect(QLEsitecycletime,SIGNAL(textEdited(QString)),this,SLOT(QLEcycletime_change(QString)));
+    connect(Qsitevipcheck,SIGNAL(toggled(bool)),this,SLOT(Qvipcheck_change(bool)));
     //connect(btn2,SIGNAL(clicked(bool)),x1,SLOT(com_1833_result()));
     //time play to com_1833_request
     //tpush->start();
@@ -200,7 +208,15 @@ void mainframe::QLEcycletime_change(QString str){
     settings2.endGroup();
     //---------------------------------------------------------
 }
+void mainframe::Qvipcheck_change(bool data){
+    //write setting--------------------------------------------
+    QSettings settings2("config.ini",QSettings::IniFormat);
+    settings2.beginGroup("ancnt");
+    settings2.setValue("vipcheck",data);
+    settings2.endGroup();
+    //---------------------------------------------------------
 
+}
 
 void mainframe::functiontestbtn1_push(){
 //    QByteArray qt_temp[10];
@@ -282,6 +298,8 @@ void mainframe::functiontestbtn2_push(){
 
 
 }
+
+
 void mainframe::sitepushbtnslot(){
     wk->getparser();
 }
