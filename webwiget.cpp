@@ -87,8 +87,11 @@ void webwiget::finishedpage(bool flag){
     if(flag && (str_result!= -1) && mf->Quseautostep->isChecked()){
         document = qwf->documentElement();
         QWebElementCollection result_1;
+        QWebElementCollection time_result_1;
         QWebElement result_2;
+        QWebElement time_result_2;
         QString str_result;
+        QString time_str_result;
         QStringList strlist_result;
         int reusult_4[4];
         QStringList pricesplit;
@@ -100,9 +103,12 @@ void webwiget::finishedpage(bool flag){
         result_1 = document.findAll(".re_comment dl dd TEXTAREA");
 
 
+
         for(int i=0;i<result_1.count();i++){
             result_2 = result_1.at(i);
+
             str_result= result_2.toPlainText();
+
             reusult_4[0] =str_result.indexOf(findstr1);
             reusult_4[1] =str_result.indexOf(findstr2);
             reusult_4[2] =str_result.indexOf(findstr3);
@@ -113,6 +119,22 @@ void webwiget::finishedpage(bool flag){
                 }else {
                     strlist_result =  str_result.split("\t");
                 }
+                time_result_1 = document.findAll(".re_comment dl dt");
+                time_result_2 = time_result_1.at(i);
+                time_str_result = time_result_2.toPlainText();
+                QStringList time_result_3 = time_str_result.split(" ");
+
+                QString time_result_4 = time_result_3.at(2);
+                QString time_result_5 = time_result_4.mid(0,5);
+                QStringList time_result_6 = time_result_5.split(":");
+                QString reply_timeh = time_result_6.at(0);
+                QString reply_timem = time_result_6.at(1);
+
+                QTime reply_time;
+                reply_time.setHMS(reply_timeh.toInt(),reply_timem.toInt()+1,3);
+
+                int i_reply_time = QTime(0,0,0).secsTo(reply_time);
+
 
                 QString hname_temp;
                 if(vipcheck){
@@ -160,6 +182,7 @@ void webwiget::finishedpage(bool flag){
 
 
                     get_time = QTime::currentTime();
+
                     if(vipcheck){
                         qDebug()<<kor("not contain name : %1 price : %2 loos : %3 1ob : %4 shcode = %5 time = %6 ")
                                   .arg(tempdata->hname).arg(tempdata->price).arg(tempdata->loss).arg(tempdata->obj).arg(tempdata->shcode).arg(get_time.toString("hh:mm:ss"));
@@ -223,7 +246,10 @@ void webwiget::finishedpage(bool flag){
                     qb_temp[9] = ordcnditpcode.toLocal8Bit();
                     data.strOrdCndiTpCode = qb_temp[9].data();
                     if(mf->Qusebuy->isChecked()){
-                        int result_3 = x1->CSPAT00600_Request(true,data);
+                        int result_3 = 0;
+                        if(i_reply_time>=QTime(0,0,0).secsTo(get_time)){
+                            result_3 = x1->CSPAT00600_Request(true,data);
+                        }
                         if(result_3){
                             richdatamap.insert(tempdata->shcode,tempdata);
                             QByteArray qt_temp_1;
@@ -260,7 +286,7 @@ void webwiget::finishedpage(bool flag){
         get_date = QDate::currentDate();
         daycompare[0] =2000+((QString)index_result_4.at(0)).toInt();
         daycompare[1] =((QString)index_result_4.at(1)).toInt();
-        daycompare[2] =((QString)index_result_4.at(2)).toInt()+2;
+        daycompare[2] =((QString)index_result_4.at(2)).toInt();
         QString link_url = index_result_1.at(1).attribute("href");
         QString link_go = QString("http://rich-stock.com/freer/%1").arg(link_url);
 
@@ -292,8 +318,8 @@ void webwiget::finishedpage(bool flag){
         get_date = QDate::currentDate();
         daycompare[0] =2000+((QString)index_result_4.at(0)).toInt();
         daycompare[1] =((QString)index_result_4.at(1)).toInt();
-        daycompare[2] =((QString)index_result_4.at(2)).toInt()+2;
-        QString link_url = index_result_1.at(1).attribute("href");
+        daycompare[2] =((QString)index_result_4.at(2)).toInt();
+        QString link_url = index_result_1.at(0).attribute("href");
         QStringList link_url_value = link_url.split("&");
         QString result_link_url = link_url_value.at(5);
         QString link_go = QString("http://rich-stock.com/freer/?dir_in=&p_url=freer_1&B_Name=center&b_dir=talkclub&category=freer_1&search=&searchstring=&b_url=contents&%1").arg(result_link_url);

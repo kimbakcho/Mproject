@@ -411,7 +411,7 @@ int xing::CSPAQ13700_Request(BOOL nNext,CSPAQ13700InBlock1data data){
 
  int xing::CSPAT00800_Request(BOOL nNext,CSPAT00800InBlock1data data){
      CSPAT00800InBlock1	pckInBlock;
-     char			szTrNo[]		= "CSPAQ00800";
+     char			szTrNo[]		= "CSPAT00800";
      char			szNextKey[]		= "";
 
      memset(&pckInBlock,' ',sizeof(pckInBlock));
@@ -845,7 +845,9 @@ void xing::func_t0425OutBlock1(LPRECV_PACKET pRpData){
     for(int i=0;i<nCount;i++){
         QString expcode = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].expcode,sizeof(pAllOutBlock->OutBlock1[i].expcode));
         QString orgordno = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].orgordno,sizeof(pAllOutBlock->OutBlock1[i].orgordno));
+        QString ordno = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].ordno,sizeof(pAllOutBlock->OutBlock1[i].ordno));
         QString ordrem = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].ordrem,sizeof(pAllOutBlock->OutBlock1[i].ordrem));
+        QString hogagb = QString::fromLocal8Bit(pAllOutBlock->OutBlock1[i].hogagb,sizeof(pAllOutBlock->OutBlock1[i].hogagb));
         expcode.replace(" ","");
         orgordno.replace(" ","");
         ordrem.replace(" ","");
@@ -855,12 +857,12 @@ void xing::func_t0425OutBlock1(LPRECV_PACKET pRpData){
             QString hname = tempvalue->hname;
 
             //qDebug()<<QString("t0445 hname : %1").arg(hname);
-            if(tempvalue->loss_flag){
+            if(tempvalue->loss_flag && (hogagb.compare("03")!=0)){
                 //매도 취소 주문
                 QByteArray qb_temp_loss[10];
                 CSPAT00800InBlock1data data_loss;
 
-                qb_temp_loss[0] = orgordno.toLocal8Bit();
+                qb_temp_loss[0] = ordno.toLocal8Bit();
                 data_loss.OrgOrdNo = qb_temp_loss[0].data();
 
                 qb_temp_loss[1] = mf->QLLQAcntNo->text().toLocal8Bit();
@@ -875,6 +877,7 @@ void xing::func_t0425OutBlock1(LPRECV_PACKET pRpData){
                 qb_temp_loss[4] = ordrem.toLocal8Bit();
                 data_loss.OrdQty = qb_temp_loss[4].data();
 
+
                 CSPAT00800_Request(true,data_loss);
 
             }
@@ -883,7 +886,7 @@ void xing::func_t0425OutBlock1(LPRECV_PACKET pRpData){
                 QByteArray qb_temp_obj[10];
                 CSPAT00800InBlock1data data_obj;
 
-                qb_temp_obj[0] = orgordno.toLocal8Bit();
+                qb_temp_obj[0] = ordno.toLocal8Bit();
                 data_obj.OrgOrdNo = qb_temp_obj[0].data();
 
                 qb_temp_obj[1] = mf->QLLQAcntNo->text().toLocal8Bit();
